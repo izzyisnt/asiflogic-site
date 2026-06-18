@@ -1,0 +1,19 @@
+# Cloudflare Workers static-assets deploy for asiflogic.net.
+# Preview: https://<version>-saladfleet.9jjs2byrwz.workers.dev
+# Production custom domains are bound in the dashboard (asiflogic.net, www).
+name = "saladfleet"
+compatibility_date = "2026-06-01"
+account_id = "77ba8a9e88f4a4097cf747021de3fa06"
+
+[assets]
+directory = "./public"
+not_found_handling = "404-page"
+
+# Bind the production hostnames (uncomment once the zone is active in this account):
+# [[routes]]
+# pattern = "asiflogic.net"
+# custom_domain = true
+#
+# [[routes]]
+# pattern = "www.asiflogic.net"
+# custom_domain = true

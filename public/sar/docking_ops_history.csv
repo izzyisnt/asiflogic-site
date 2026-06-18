@@ -1,0 +1,4 @@
+completed_at,panel_id,best_candidate,best_affinity_kcal,run_summary_path
+2026-04-25T08:17:07.475771+00:00,jty_pbcnet_tail_cleanup_r1,JTY027_aniline_diF_2Me_benzamide,-11.459513333333,/workspace/jldos_outputs/shared_runs/jty_pbcnet_tail_cleanup_r1_20260425T081636Z/run_summary.json
+2026-04-25T23:15:31.726363+00:00,jty_pbcnet_tail_cleanup_r1,JTY027_aniline_diF_2Me_benzamide,-11.459513333333,/workspace/jldos_outputs/shared_runs/jty_pbcnet_tail_cleanup_r1_20260425T210734Z/run_summary.json
+2026-04-27T20:07:10.173154+00:00,jty_pbcnet_cycle2_winner_family_with_tail_probes,JTY027_aniline_diF_2Me_benzamide,-11.459867777778,/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json

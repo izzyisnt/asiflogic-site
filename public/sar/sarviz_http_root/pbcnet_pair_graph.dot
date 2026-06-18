@@ -1,0 +1,4 @@
+digraph pbcnet_sar {
+  rankdir=LR;
+  node [shape=box, style="rounded"];
+}

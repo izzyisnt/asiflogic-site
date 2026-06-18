@@ -1,0 +1,374 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1480" height="1100" viewBox="0 0 1480 1100">
+<style>text{font-family:Arial,sans-serif;font-size:11px;fill:#1f1f1f}.title{font-size:18px}.note{fill:#666;font-size:12px}.head{font-size:10px;text-transform:uppercase;letter-spacing:.04em;fill:#555}.rule{stroke:#dad7d0;stroke-width:1}.axis{stroke:#d7d2c8;stroke-width:1}.risk{fill:#b42318}.ok{fill:#155e75}.muted{fill:#777}</style>
+<rect width="100%" height="100%" fill="#fffffb"/>
+<text class="title" x="28" y="30">Candidate evidence matrix</text>
+<text class="note" x="28" y="52">Each row is a candidate; thin bars are observed/mechanistic support, not a combined score. The action column is the safest next analysis implied by missing evidence.</text>
+<text class="head" x="34" y="78">candidate</text>
+<text class="head" x="410" y="78">paired-model support</text>
+<text class="head" x="555" y="78">gate/vault</text>
+<text class="head" x="665" y="78">tail bridge</text>
+<text class="head" x="775" y="78">solvent ledge</text>
+<text class="head" x="890" y="78">loop/edges</text>
+<text class="head" x="1000" y="78">static contact</text>
+<text class="head" x="1115" y="78">water</text>
+<text class="head" x="1210" y="78">next</text>
+<line class="rule" x1="28" y1="86" x2="1454" y2="86"/>
+<text x="34" y="96">26diMe_benzamide</text>
+<text class="muted" x="284" y="96">#1</text>
+<line class="axis" x1="410" y1="92" x2="512" y2="92"/><line stroke="#111" stroke-width="3.6" x1="410" y1="92" x2="512.0" y2="92"/><circle fill="#111" cx="512.0" cy="92" r="3"/>
+<line class="axis" x1="555" y1="92" x2="627" y2="92"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="92" x2="625.6" y2="92"/><circle fill="#8a3ffc" cx="625.6" cy="92" r="3"/>
+<line class="axis" x1="665" y1="92" x2="737" y2="92"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="92" x2="673.6" y2="92"/><circle fill="#0f766e" cx="673.6" cy="92" r="3"/>
+<line class="axis" x1="775" y1="92" x2="847" y2="92"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="92" x2="782.2" y2="92"/><circle fill="#b45309" cx="782.2" cy="92" r="3"/>
+<text x="890" y="96">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="96">not evaluated</text>
+<text class="muted" x="1115" y="96">no waters</text>
+<text x="1210" y="96">queue RBFE or shared cl...</text>
+<rect x="28" y="105" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="122">JTY027_aniline_diF_2Et_benzamide</text>
+<text class="muted" x="284" y="122">#2</text>
+<line class="axis" x1="410" y1="118" x2="512" y2="118"/><line stroke="#111" stroke-width="3.6" x1="410" y1="118" x2="510.3" y2="118"/><circle fill="#111" cx="510.3" cy="118" r="3"/>
+<line class="axis" x1="555" y1="118" x2="627" y2="118"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="118" x2="625.6" y2="118"/><circle fill="#8a3ffc" cx="625.6" cy="118" r="3"/>
+<line class="axis" x1="665" y1="118" x2="737" y2="118"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="118" x2="673.6" y2="118"/><circle fill="#0f766e" cx="673.6" cy="118" r="3"/>
+<line class="axis" x1="775" y1="118" x2="847" y2="118"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="118" x2="782.2" y2="118"/><circle fill="#b45309" cx="782.2" cy="118" r="3"/>
+<text x="890" y="122">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="122">not evaluated</text>
+<text class="muted" x="1115" y="122">no waters</text>
+<text x="1210" y="122">queue RBFE or shared cl...</text>
+<text x="34" y="148">JTY027_aniline_diF</text>
+<text class="muted" x="284" y="148">#3</text>
+<line class="axis" x1="410" y1="144" x2="512" y2="144"/><line stroke="#111" stroke-width="3.6" x1="410" y1="144" x2="508.0" y2="144"/><circle fill="#111" cx="508.0" cy="144" r="3"/>
+<line class="axis" x1="555" y1="144" x2="627" y2="144"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="144" x2="609.7" y2="144"/><circle fill="#8a3ffc" cx="609.7" cy="144" r="3"/>
+<line class="axis" x1="665" y1="144" x2="737" y2="144"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="144" x2="685.2" y2="144"/><circle fill="#0f766e" cx="685.2" cy="144" r="3"/>
+<line class="axis" x1="775" y1="144" x2="847" y2="144"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="144" x2="782.2" y2="144"/><circle fill="#b45309" cx="782.2" cy="144" r="3"/>
+<text x="890" y="148">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="148">not evaluated</text>
+<text class="muted" x="1115" y="148">no waters</text>
+<text x="1210" y="148">queue RBFE or shared cl...</text>
+<rect x="28" y="157" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="174">JTY023_pyrazine_tail</text>
+<text class="muted" x="284" y="174">#3</text>
+<line class="axis" x1="410" y1="170" x2="512" y2="170"/><line stroke="#111" stroke-width="3.6" x1="410" y1="170" x2="494.1" y2="170"/><circle fill="#111" cx="494.1" cy="170" r="3"/>
+<line class="axis" x1="555" y1="170" x2="627" y2="170"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="170" x2="572.3" y2="170"/><circle fill="#8a3ffc" cx="572.3" cy="170" r="3"/>
+<line class="axis" x1="665" y1="170" x2="737" y2="170"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="170" x2="735.6" y2="170"/><circle fill="#0f766e" cx="735.6" cy="170" r="3"/>
+<line class="axis" x1="775" y1="170" x2="847" y2="170"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="170" x2="782.2" y2="170"/><circle fill="#b45309" cx="782.2" cy="170" r="3"/>
+<text x="890" y="174">3 loops / 25 edges</text>
+<text class="muted" x="1000" y="174">not evaluated</text>
+<text class="muted" x="1115" y="174">no waters</text>
+<text x="1210" y="174">queue RBFE or shared cl...</text>
+<text x="34" y="200">JTY027_aniline_diF_2F6Me_benzamide</text>
+<text class="muted" x="284" y="200">#4</text>
+<line class="axis" x1="410" y1="196" x2="512" y2="196"/><line stroke="#111" stroke-width="3.6" x1="410" y1="196" x2="507.2" y2="196"/><circle fill="#111" cx="507.2" cy="196" r="3"/>
+<line class="axis" x1="555" y1="196" x2="627" y2="196"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="196" x2="619.8" y2="196"/><circle fill="#8a3ffc" cx="619.8" cy="196" r="3"/>
+<line class="axis" x1="665" y1="196" x2="737" y2="196"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="196" x2="673.6" y2="196"/><circle fill="#0f766e" cx="673.6" cy="196" r="3"/>
+<line class="axis" x1="775" y1="196" x2="847" y2="196"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="196" x2="790.8" y2="196"/><circle fill="#b45309" cx="790.8" cy="196" r="3"/>
+<text x="890" y="200">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="200">no docked pose</text>
+<text class="muted" x="1115" y="200">no waters</text>
+<text x="1210" y="200">recover docked pose bef...</text>
+<rect x="28" y="209" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="226">2Cyano_benzamide</text>
+<text class="muted" x="284" y="226">#5</text>
+<line class="axis" x1="410" y1="222" x2="512" y2="222"/><line stroke="#111" stroke-width="3.6" x1="410" y1="222" x2="445.7" y2="222"/><circle fill="#111" cx="445.7" cy="222" r="3"/>
+<line class="axis" x1="555" y1="222" x2="627" y2="222"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="222" x2="619.8" y2="222"/><circle fill="#8a3ffc" cx="619.8" cy="222" r="3"/>
+<line class="axis" x1="665" y1="222" x2="737" y2="222"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="222" x2="673.6" y2="222"/><circle fill="#0f766e" cx="673.6" cy="222" r="3"/>
+<line class="axis" x1="775" y1="222" x2="847" y2="222"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="222" x2="841.2" y2="222"/><circle fill="#b45309" cx="841.2" cy="222" r="3"/>
+<text x="890" y="226">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="226">not evaluated</text>
+<text class="risk" x="1115" y="226">no waters</text>
+<text x="1210" y="226">add water/site percepti...</text>
+<text x="34" y="252">JTY027_aniline_diF_2Me_benzamide</text>
+<text class="muted" x="284" y="252">#6</text>
+<line class="axis" x1="410" y1="248" x2="512" y2="248"/><line stroke="#111" stroke-width="3.6" x1="410" y1="248" x2="502.5" y2="248"/><circle fill="#111" cx="502.5" cy="248" r="3"/>
+<line class="axis" x1="555" y1="248" x2="627" y2="248"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="248" x2="619.8" y2="248"/><circle fill="#8a3ffc" cx="619.8" cy="248" r="3"/>
+<line class="axis" x1="665" y1="248" x2="737" y2="248"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="248" x2="673.6" y2="248"/><circle fill="#0f766e" cx="673.6" cy="248" r="3"/>
+<line class="axis" x1="775" y1="248" x2="847" y2="248"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="248" x2="782.2" y2="248"/><circle fill="#b45309" cx="782.2" cy="248" r="3"/>
+<text x="890" y="252">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="252">not evaluated</text>
+<text class="muted" x="1115" y="252">no waters</text>
+<text x="1210" y="252">context</text>
+<rect x="28" y="261" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="278">2Me6Cl_benzamide</text>
+<text class="muted" x="284" y="278">#6</text>
+<line class="axis" x1="410" y1="274" x2="512" y2="274"/><line stroke="#111" stroke-width="3.6" x1="410" y1="274" x2="499.7" y2="274"/><circle fill="#111" cx="499.7" cy="274" r="3"/>
+<line class="axis" x1="555" y1="274" x2="627" y2="274"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="274" x2="619.8" y2="274"/><circle fill="#8a3ffc" cx="619.8" cy="274" r="3"/>
+<line class="axis" x1="665" y1="274" x2="737" y2="274"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="274" x2="673.6" y2="274"/><circle fill="#0f766e" cx="673.6" cy="274" r="3"/>
+<line class="axis" x1="775" y1="274" x2="847" y2="274"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="274" x2="790.8" y2="274"/><circle fill="#b45309" cx="790.8" cy="274" r="3"/>
+<text x="890" y="278">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="278">no docked pose</text>
+<text class="muted" x="1115" y="278">no waters</text>
+<text x="1210" y="278">recover docked pose bef...</text>
+<text x="34" y="304">JTY027_aniline_diF_2CF3_benzamide</text>
+<text class="muted" x="284" y="304">#7</text>
+<line class="axis" x1="410" y1="300" x2="512" y2="300"/><line stroke="#111" stroke-width="3.6" x1="410" y1="300" x2="493.1" y2="300"/><circle fill="#111" cx="493.1" cy="300" r="3"/>
+<line class="axis" x1="555" y1="300" x2="627" y2="300"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="300" x2="619.8" y2="300"/><circle fill="#8a3ffc" cx="619.8" cy="300" r="3"/>
+<line class="axis" x1="665" y1="300" x2="737" y2="300"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="300" x2="673.6" y2="300"/><circle fill="#0f766e" cx="673.6" cy="300" r="3"/>
+<line class="axis" x1="775" y1="300" x2="847" y2="300"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="300" x2="841.2" y2="300"/><circle fill="#b45309" cx="841.2" cy="300" r="3"/>
+<text x="890" y="304">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="304">no docked pose</text>
+<text class="risk" x="1115" y="304">no waters</text>
+<text x="1210" y="304">recover docked pose bef...</text>
+<rect x="28" y="313" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="330">JTY027_aniline_diF_2F_benzamide</text>
+<text class="muted" x="284" y="330">#8</text>
+<line class="axis" x1="410" y1="326" x2="512" y2="326"/><line stroke="#111" stroke-width="3.6" x1="410" y1="326" x2="481.5" y2="326"/><circle fill="#111" cx="481.5" cy="326" r="3"/>
+<line class="axis" x1="555" y1="326" x2="627" y2="326"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="326" x2="619.8" y2="326"/><circle fill="#8a3ffc" cx="619.8" cy="326" r="3"/>
+<line class="axis" x1="665" y1="326" x2="737" y2="326"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="326" x2="673.6" y2="326"/><circle fill="#0f766e" cx="673.6" cy="326" r="3"/>
+<line class="axis" x1="775" y1="326" x2="847" y2="326"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="326" x2="790.8" y2="326"/><circle fill="#b45309" cx="790.8" cy="326" r="3"/>
+<text x="890" y="330">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="330">no docked pose</text>
+<text class="muted" x="1115" y="330">no waters</text>
+<text x="1210" y="330">recover docked pose bef...</text>
+<text x="34" y="356">JTY027_aniline_diF_2Cl_benzamide</text>
+<text class="muted" x="284" y="356">#9</text>
+<line class="axis" x1="410" y1="352" x2="512" y2="352"/><line stroke="#111" stroke-width="3.6" x1="410" y1="352" x2="480.2" y2="352"/><circle fill="#111" cx="480.2" cy="352" r="3"/>
+<line class="axis" x1="555" y1="352" x2="627" y2="352"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="352" x2="619.8" y2="352"/><circle fill="#8a3ffc" cx="619.8" cy="352" r="3"/>
+<line class="axis" x1="665" y1="352" x2="737" y2="352"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="352" x2="673.6" y2="352"/><circle fill="#0f766e" cx="673.6" cy="352" r="3"/>
+<line class="axis" x1="775" y1="352" x2="847" y2="352"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="352" x2="790.8" y2="352"/><circle fill="#b45309" cx="790.8" cy="352" r="3"/>
+<text x="890" y="356">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="356">no docked pose</text>
+<text class="muted" x="1115" y="356">no waters</text>
+<text x="1210" y="356">recover docked pose bef...</text>
+<rect x="28" y="365" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="382">JTY023_4F_pyridyl_tail</text>
+<line class="axis" x1="410" y1="378" x2="512" y2="378"/><line stroke="#111" stroke-width="3.6" x1="410" y1="378" x2="503.7" y2="378"/><circle fill="#111" cx="503.7" cy="378" r="3"/>
+<line class="axis" x1="555" y1="378" x2="627" y2="378"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="378" x2="566.5" y2="378"/><circle fill="#8a3ffc" cx="566.5" cy="378" r="3"/>
+<line class="axis" x1="665" y1="378" x2="737" y2="378"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="378" x2="722.6" y2="378"/><circle fill="#0f766e" cx="722.6" cy="378" r="3"/>
+<line class="axis" x1="775" y1="378" x2="847" y2="378"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="378" x2="782.2" y2="378"/><circle fill="#b45309" cx="782.2" cy="378" r="3"/>
+<text x="890" y="382">3 loops / 25 edges</text>
+<text class="muted" x="1000" y="382">no docked pose</text>
+<text class="muted" x="1115" y="382">no waters</text>
+<text x="1210" y="382">recover docked pose bef...</text>
+<text x="34" y="408">JTY023_4Br_pyridyl_tail</text>
+<line class="axis" x1="410" y1="404" x2="512" y2="404"/><line stroke="#111" stroke-width="3.6" x1="410" y1="404" x2="502.5" y2="404"/><circle fill="#111" cx="502.5" cy="404" r="3"/>
+<line class="axis" x1="555" y1="404" x2="627" y2="404"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="404" x2="566.5" y2="404"/><circle fill="#8a3ffc" cx="566.5" cy="404" r="3"/>
+<line class="axis" x1="665" y1="404" x2="737" y2="404"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="404" x2="722.6" y2="404"/><circle fill="#0f766e" cx="722.6" cy="404" r="3"/>
+<line class="axis" x1="775" y1="404" x2="847" y2="404"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="404" x2="782.2" y2="404"/><circle fill="#b45309" cx="782.2" cy="404" r="3"/>
+<text x="890" y="408">5 loops / 43 edges</text>
+<text class="muted" x="1000" y="408">no docked pose</text>
+<text class="muted" x="1115" y="408">no waters</text>
+<text x="1210" y="408">recover docked pose bef...</text>
+<rect x="28" y="417" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="434">JTY023_5F_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="430" x2="512" y2="430"/><line stroke="#111" stroke-width="3.6" x1="410" y1="430" x2="489.6" y2="430"/><circle fill="#111" cx="489.6" cy="430" r="3"/>
+<line class="axis" x1="555" y1="430" x2="627" y2="430"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="430" x2="566.5" y2="430"/><circle fill="#8a3ffc" cx="566.5" cy="430" r="3"/>
+<line class="axis" x1="665" y1="430" x2="737" y2="430"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="430" x2="722.6" y2="430"/><circle fill="#0f766e" cx="722.6" cy="430" r="3"/>
+<line class="axis" x1="775" y1="430" x2="847" y2="430"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="430" x2="782.2" y2="430"/><circle fill="#b45309" cx="782.2" cy="430" r="3"/>
+<text x="890" y="434">2 loops / 16 edges</text>
+<text class="muted" x="1000" y="434">no docked pose</text>
+<text class="muted" x="1115" y="434">no waters</text>
+<text x="1210" y="434">recover docked pose bef...</text>
+<text x="34" y="460">JTY023_4CN_pyridyl_tail</text>
+<line class="axis" x1="410" y1="456" x2="512" y2="456"/><line stroke="#111" stroke-width="3.6" x1="410" y1="456" x2="479.1" y2="456"/><circle fill="#111" cx="479.1" cy="456" r="3"/>
+<line class="axis" x1="555" y1="456" x2="627" y2="456"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="456" x2="566.5" y2="456"/><circle fill="#8a3ffc" cx="566.5" cy="456" r="3"/>
+<line class="axis" x1="665" y1="456" x2="737" y2="456"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="456" x2="722.6" y2="456"/><circle fill="#0f766e" cx="722.6" cy="456" r="3"/>
+<line class="axis" x1="775" y1="456" x2="847" y2="456"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="456" x2="782.2" y2="456"/><circle fill="#b45309" cx="782.2" cy="456" r="3"/>
+<text x="890" y="460">2 loops / 18 edges</text>
+<text class="muted" x="1000" y="460">no docked pose</text>
+<text class="muted" x="1115" y="460">no waters</text>
+<text x="1210" y="460">recover docked pose bef...</text>
+<rect x="28" y="469" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="486">JTY023_4OCF3_pyridyl_tail</text>
+<line class="axis" x1="410" y1="482" x2="512" y2="482"/><line stroke="#111" stroke-width="3.6" x1="410" y1="482" x2="477.4" y2="482"/><circle fill="#111" cx="477.4" cy="482" r="3"/>
+<line class="axis" x1="555" y1="482" x2="627" y2="482"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="482" x2="566.5" y2="482"/><circle fill="#8a3ffc" cx="566.5" cy="482" r="3"/>
+<line class="axis" x1="665" y1="482" x2="737" y2="482"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="482" x2="722.6" y2="482"/><circle fill="#0f766e" cx="722.6" cy="482" r="3"/>
+<line class="axis" x1="775" y1="482" x2="847" y2="482"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="482" x2="811.0" y2="482"/><circle fill="#b45309" cx="811.0" cy="482" r="3"/>
+<text x="890" y="486">4 loops / 34 edges</text>
+<text class="muted" x="1000" y="486">no docked pose</text>
+<text class="muted" x="1115" y="486">no waters</text>
+<text x="1210" y="486">recover docked pose bef...</text>
+<text x="34" y="512">JTY023_3Cl_pyridyl_tail</text>
+<line class="axis" x1="410" y1="508" x2="512" y2="508"/><line stroke="#111" stroke-width="3.6" x1="410" y1="508" x2="476.3" y2="508"/><circle fill="#111" cx="476.3" cy="508" r="3"/>
+<line class="axis" x1="555" y1="508" x2="627" y2="508"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="508" x2="566.5" y2="508"/><circle fill="#8a3ffc" cx="566.5" cy="508" r="3"/>
+<line class="axis" x1="665" y1="508" x2="737" y2="508"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="508" x2="722.6" y2="508"/><circle fill="#0f766e" cx="722.6" cy="508" r="3"/>
+<line class="axis" x1="775" y1="508" x2="847" y2="508"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="508" x2="782.2" y2="508"/><circle fill="#b45309" cx="782.2" cy="508" r="3"/>
+<text x="890" y="512">1 loops / 9 edges</text>
+<text class="muted" x="1000" y="512">no docked pose</text>
+<text class="muted" x="1115" y="512">no waters</text>
+<text x="1210" y="512">recover docked pose bef...</text>
+<rect x="28" y="521" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="538">JTY026_pyridyl_tail</text>
+<text class="muted" x="284" y="538">local</text>
+<line class="axis" x1="410" y1="534" x2="512" y2="534"/><line stroke="#111" stroke-width="3.6" x1="410" y1="534" x2="471.0" y2="534"/><circle fill="#111" cx="471.0" cy="534" r="3"/>
+<line class="axis" x1="555" y1="534" x2="627" y2="534"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="534" x2="566.5" y2="534"/><circle fill="#8a3ffc" cx="566.5" cy="534" r="3"/>
+<line class="axis" x1="665" y1="534" x2="737" y2="534"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="534" x2="735.6" y2="534"/><circle fill="#0f766e" cx="735.6" cy="534" r="3"/>
+<line class="axis" x1="775" y1="534" x2="847" y2="534"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="534" x2="782.2" y2="534"/><circle fill="#b45309" cx="782.2" cy="534" r="3"/>
+<text x="890" y="538">3 loops / 25 edges</text>
+<text class="muted" x="1000" y="538">not evaluated</text>
+<text class="muted" x="1115" y="538">no waters</text>
+<text x="1210" y="538">share reference</text>
+<text x="34" y="564">JTY023_imidazole_tail</text>
+<text class="muted" x="284" y="564">local</text>
+<line class="axis" x1="410" y1="560" x2="512" y2="560"/><line stroke="#111" stroke-width="3.6" x1="410" y1="560" x2="469.3" y2="560"/><circle fill="#111" cx="469.3" cy="560" r="3"/>
+<line class="axis" x1="555" y1="560" x2="627" y2="560"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="560" x2="566.5" y2="560"/><circle fill="#8a3ffc" cx="566.5" cy="560" r="3"/>
+<line class="axis" x1="665" y1="560" x2="737" y2="560"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="560" x2="735.6" y2="560"/><circle fill="#0f766e" cx="735.6" cy="560" r="3"/>
+<line class="axis" x1="775" y1="560" x2="847" y2="560"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="560" x2="782.2" y2="560"/><circle fill="#b45309" cx="782.2" cy="560" r="3"/>
+<text x="890" y="564">2 loops / 16 edges</text>
+<text class="muted" x="1000" y="564">not evaluated</text>
+<text class="muted" x="1115" y="564">no waters</text>
+<text x="1210" y="564">share reference</text>
+<rect x="28" y="573" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="590">JTY023_4Br_pyrazinyl_tail</text>
+<line class="axis" x1="410" y1="586" x2="512" y2="586"/><line stroke="#111" stroke-width="3.6" x1="410" y1="586" x2="467.3" y2="586"/><circle fill="#111" cx="467.3" cy="586" r="3"/>
+<line class="axis" x1="555" y1="586" x2="627" y2="586"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="586" x2="566.5" y2="586"/><circle fill="#8a3ffc" cx="566.5" cy="586" r="3"/>
+<line class="axis" x1="665" y1="586" x2="737" y2="586"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="586" x2="722.6" y2="586"/><circle fill="#0f766e" cx="722.6" cy="586" r="3"/>
+<line class="axis" x1="775" y1="586" x2="847" y2="586"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="586" x2="782.2" y2="586"/><circle fill="#b45309" cx="782.2" cy="586" r="3"/>
+<text x="890" y="590">4 loops / 34 edges</text>
+<text class="muted" x="1000" y="590">no docked pose</text>
+<text class="muted" x="1115" y="590">no waters</text>
+<text x="1210" y="590">recover docked pose bef...</text>
+<text x="34" y="616">JTY023_4CF3_pyridyl_tail</text>
+<line class="axis" x1="410" y1="612" x2="512" y2="612"/><line stroke="#111" stroke-width="3.6" x1="410" y1="612" x2="463.9" y2="612"/><circle fill="#111" cx="463.9" cy="612" r="3"/>
+<line class="axis" x1="555" y1="612" x2="627" y2="612"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="612" x2="566.5" y2="612"/><circle fill="#8a3ffc" cx="566.5" cy="612" r="3"/>
+<line class="axis" x1="665" y1="612" x2="737" y2="612"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="612" x2="722.6" y2="612"/><circle fill="#0f766e" cx="722.6" cy="612" r="3"/>
+<line class="axis" x1="775" y1="612" x2="847" y2="612"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="612" x2="811.0" y2="612"/><circle fill="#b45309" cx="811.0" cy="612" r="3"/>
+<text x="890" y="616">2 loops / 18 edges</text>
+<text class="muted" x="1000" y="616">no docked pose</text>
+<text class="muted" x="1115" y="616">no waters</text>
+<text x="1210" y="616">recover docked pose bef...</text>
+<rect x="28" y="625" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="642">JTY023_4Cl_pyridyl_tail</text>
+<line class="axis" x1="410" y1="638" x2="512" y2="638"/><line stroke="#111" stroke-width="3.6" x1="410" y1="638" x2="456.7" y2="638"/><circle fill="#111" cx="456.7" cy="638" r="3"/>
+<line class="axis" x1="555" y1="638" x2="627" y2="638"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="638" x2="566.5" y2="638"/><circle fill="#8a3ffc" cx="566.5" cy="638" r="3"/>
+<line class="axis" x1="665" y1="638" x2="737" y2="638"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="638" x2="722.6" y2="638"/><circle fill="#0f766e" cx="722.6" cy="638" r="3"/>
+<line class="axis" x1="775" y1="638" x2="847" y2="638"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="638" x2="782.2" y2="638"/><circle fill="#b45309" cx="782.2" cy="638" r="3"/>
+<text x="890" y="642">4 loops / 34 edges</text>
+<text class="muted" x="1000" y="642">no docked pose</text>
+<text class="muted" x="1115" y="642">no waters</text>
+<text x="1210" y="642">recover docked pose bef...</text>
+<text x="34" y="668">JTY026_triazine_tail</text>
+<text class="muted" x="284" y="668">local</text>
+<line class="axis" x1="410" y1="664" x2="512" y2="664"/><line stroke="#111" stroke-width="3.6" x1="410" y1="664" x2="452.7" y2="664"/><circle fill="#111" cx="452.7" cy="664" r="3"/>
+<line class="axis" x1="555" y1="664" x2="627" y2="664"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="664" x2="566.5" y2="664"/><circle fill="#8a3ffc" cx="566.5" cy="664" r="3"/>
+<line class="axis" x1="665" y1="664" x2="737" y2="664"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="664" x2="735.6" y2="664"/><circle fill="#0f766e" cx="735.6" cy="664" r="3"/>
+<line class="axis" x1="775" y1="664" x2="847" y2="664"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="664" x2="782.2" y2="664"/><circle fill="#b45309" cx="782.2" cy="664" r="3"/>
+<text x="890" y="668">4 loops / 34 edges</text>
+<text class="muted" x="1000" y="668">not evaluated</text>
+<text class="muted" x="1115" y="668">no waters</text>
+<text x="1210" y="668">share reference</text>
+<rect x="28" y="677" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="694">JTY023_triazole_tail</text>
+<line class="axis" x1="410" y1="690" x2="512" y2="690"/><line stroke="#111" stroke-width="3.6" x1="410" y1="690" x2="450.5" y2="690"/><circle fill="#111" cx="450.5" cy="690" r="3"/>
+<line class="axis" x1="555" y1="690" x2="627" y2="690"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="690" x2="566.5" y2="690"/><circle fill="#8a3ffc" cx="566.5" cy="690" r="3"/>
+<line class="axis" x1="665" y1="690" x2="737" y2="690"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="690" x2="722.6" y2="690"/><circle fill="#0f766e" cx="722.6" cy="690" r="3"/>
+<line class="axis" x1="775" y1="690" x2="847" y2="690"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="690" x2="782.2" y2="690"/><circle fill="#b45309" cx="782.2" cy="690" r="3"/>
+<text x="890" y="694">1 loops / 9 edges</text>
+<text class="muted" x="1000" y="694">no docked pose</text>
+<text class="muted" x="1115" y="694">no waters</text>
+<text x="1210" y="694">recover docked pose bef...</text>
+<text x="34" y="720">JTY023_2Br5F_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="716" x2="512" y2="716"/><line stroke="#111" stroke-width="3.6" x1="410" y1="716" x2="445.7" y2="716"/><circle fill="#111" cx="445.7" cy="716" r="3"/>
+<line class="axis" x1="555" y1="716" x2="627" y2="716"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="716" x2="566.5" y2="716"/><circle fill="#8a3ffc" cx="566.5" cy="716" r="3"/>
+<line class="axis" x1="665" y1="716" x2="737" y2="716"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="716" x2="722.6" y2="716"/><circle fill="#0f766e" cx="722.6" cy="716" r="3"/>
+<line class="axis" x1="775" y1="716" x2="847" y2="716"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="716" x2="782.2" y2="716"/><circle fill="#b45309" cx="782.2" cy="716" r="3"/>
+<text x="890" y="720">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="720">no docked pose</text>
+<text class="muted" x="1115" y="720">n/a</text>
+<text x="1210" y="720">context</text>
+<rect x="28" y="729" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="746">JTY023_2Cl5F_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="742" x2="512" y2="742"/><line stroke="#111" stroke-width="3.6" x1="410" y1="742" x2="445.7" y2="742"/><circle fill="#111" cx="445.7" cy="742" r="3"/>
+<line class="axis" x1="555" y1="742" x2="627" y2="742"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="742" x2="566.5" y2="742"/><circle fill="#8a3ffc" cx="566.5" cy="742" r="3"/>
+<line class="axis" x1="665" y1="742" x2="737" y2="742"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="742" x2="722.6" y2="742"/><circle fill="#0f766e" cx="722.6" cy="742" r="3"/>
+<line class="axis" x1="775" y1="742" x2="847" y2="742"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="742" x2="790.8" y2="742"/><circle fill="#b45309" cx="790.8" cy="742" r="3"/>
+<text x="890" y="746">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="746">no docked pose</text>
+<text class="muted" x="1115" y="746">n/a</text>
+<text x="1210" y="746">context</text>
+<text x="34" y="772">JTY023_2F5F_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="768" x2="512" y2="768"/><line stroke="#111" stroke-width="3.6" x1="410" y1="768" x2="445.7" y2="768"/><circle fill="#111" cx="445.7" cy="768" r="3"/>
+<line class="axis" x1="555" y1="768" x2="627" y2="768"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="768" x2="566.5" y2="768"/><circle fill="#8a3ffc" cx="566.5" cy="768" r="3"/>
+<line class="axis" x1="665" y1="768" x2="737" y2="768"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="768" x2="722.6" y2="768"/><circle fill="#0f766e" cx="722.6" cy="768" r="3"/>
+<line class="axis" x1="775" y1="768" x2="847" y2="768"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="768" x2="790.8" y2="768"/><circle fill="#b45309" cx="790.8" cy="768" r="3"/>
+<text x="890" y="772">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="772">no docked pose</text>
+<text class="muted" x="1115" y="772">n/a</text>
+<text x="1210" y="772">context</text>
+<rect x="28" y="781" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="798">JTY023_5Br_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="794" x2="512" y2="794"/><line stroke="#111" stroke-width="3.6" x1="410" y1="794" x2="445.7" y2="794"/><circle fill="#111" cx="445.7" cy="794" r="3"/>
+<line class="axis" x1="555" y1="794" x2="627" y2="794"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="794" x2="566.5" y2="794"/><circle fill="#8a3ffc" cx="566.5" cy="794" r="3"/>
+<line class="axis" x1="665" y1="794" x2="737" y2="794"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="794" x2="722.6" y2="794"/><circle fill="#0f766e" cx="722.6" cy="794" r="3"/>
+<line class="axis" x1="775" y1="794" x2="847" y2="794"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="794" x2="782.2" y2="794"/><circle fill="#b45309" cx="782.2" cy="794" r="3"/>
+<text x="890" y="798">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="798">no docked pose</text>
+<text class="muted" x="1115" y="798">n/a</text>
+<text x="1210" y="798">context</text>
+<text x="34" y="824">JTY023_5CF3_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="820" x2="512" y2="820"/><line stroke="#111" stroke-width="3.6" x1="410" y1="820" x2="445.7" y2="820"/><circle fill="#111" cx="445.7" cy="820" r="3"/>
+<line class="axis" x1="555" y1="820" x2="627" y2="820"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="820" x2="566.5" y2="820"/><circle fill="#8a3ffc" cx="566.5" cy="820" r="3"/>
+<line class="axis" x1="665" y1="820" x2="737" y2="820"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="820" x2="722.6" y2="820"/><circle fill="#0f766e" cx="722.6" cy="820" r="3"/>
+<line class="axis" x1="775" y1="820" x2="847" y2="820"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="820" x2="811.0" y2="820"/><circle fill="#b45309" cx="811.0" cy="820" r="3"/>
+<text x="890" y="824">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="824">no docked pose</text>
+<text class="muted" x="1115" y="824">n/a</text>
+<text x="1210" y="824">context</text>
+<rect x="28" y="833" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="850">JTY023_5CN_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="846" x2="512" y2="846"/><line stroke="#111" stroke-width="3.6" x1="410" y1="846" x2="445.7" y2="846"/><circle fill="#111" cx="445.7" cy="846" r="3"/>
+<line class="axis" x1="555" y1="846" x2="627" y2="846"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="846" x2="566.5" y2="846"/><circle fill="#8a3ffc" cx="566.5" cy="846" r="3"/>
+<line class="axis" x1="665" y1="846" x2="737" y2="846"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="846" x2="722.6" y2="846"/><circle fill="#0f766e" cx="722.6" cy="846" r="3"/>
+<line class="axis" x1="775" y1="846" x2="847" y2="846"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="846" x2="782.2" y2="846"/><circle fill="#b45309" cx="782.2" cy="846" r="3"/>
+<text x="890" y="850">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="850">no docked pose</text>
+<text class="muted" x="1115" y="850">n/a</text>
+<text x="1210" y="850">context</text>
+<text x="34" y="876">JTY023_5Cl_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="872" x2="512" y2="872"/><line stroke="#111" stroke-width="3.6" x1="410" y1="872" x2="445.7" y2="872"/><circle fill="#111" cx="445.7" cy="872" r="3"/>
+<line class="axis" x1="555" y1="872" x2="627" y2="872"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="872" x2="566.5" y2="872"/><circle fill="#8a3ffc" cx="566.5" cy="872" r="3"/>
+<line class="axis" x1="665" y1="872" x2="737" y2="872"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="872" x2="722.6" y2="872"/><circle fill="#0f766e" cx="722.6" cy="872" r="3"/>
+<line class="axis" x1="775" y1="872" x2="847" y2="872"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="872" x2="782.2" y2="872"/><circle fill="#b45309" cx="782.2" cy="872" r="3"/>
+<text x="890" y="876">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="876">no docked pose</text>
+<text class="muted" x="1115" y="876">n/a</text>
+<text x="1210" y="876">context</text>
+<rect x="28" y="885" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="902">JTY023_5Et_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="898" x2="512" y2="898"/><line stroke="#111" stroke-width="3.6" x1="410" y1="898" x2="445.7" y2="898"/><circle fill="#111" cx="445.7" cy="898" r="3"/>
+<line class="axis" x1="555" y1="898" x2="627" y2="898"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="898" x2="566.5" y2="898"/><circle fill="#8a3ffc" cx="566.5" cy="898" r="3"/>
+<line class="axis" x1="665" y1="898" x2="737" y2="898"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="898" x2="722.6" y2="898"/><circle fill="#0f766e" cx="722.6" cy="898" r="3"/>
+<line class="axis" x1="775" y1="898" x2="847" y2="898"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="898" x2="782.2" y2="898"/><circle fill="#b45309" cx="782.2" cy="898" r="3"/>
+<text x="890" y="902">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="902">no docked pose</text>
+<text class="muted" x="1115" y="902">n/a</text>
+<text x="1210" y="902">context</text>
+<text x="34" y="928">JTY023_5I_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="924" x2="512" y2="924"/><line stroke="#111" stroke-width="3.6" x1="410" y1="924" x2="445.7" y2="924"/><circle fill="#111" cx="445.7" cy="924" r="3"/>
+<line class="axis" x1="555" y1="924" x2="627" y2="924"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="924" x2="566.5" y2="924"/><circle fill="#8a3ffc" cx="566.5" cy="924" r="3"/>
+<line class="axis" x1="665" y1="924" x2="737" y2="924"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="924" x2="722.6" y2="924"/><circle fill="#0f766e" cx="722.6" cy="924" r="3"/>
+<line class="axis" x1="775" y1="924" x2="847" y2="924"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="924" x2="782.2" y2="924"/><circle fill="#b45309" cx="782.2" cy="924" r="3"/>
+<text x="890" y="928">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="928">no docked pose</text>
+<text class="muted" x="1115" y="928">n/a</text>
+<text x="1210" y="928">context</text>
+<rect x="28" y="937" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="954">JTY023_5Me_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="950" x2="512" y2="950"/><line stroke="#111" stroke-width="3.6" x1="410" y1="950" x2="445.7" y2="950"/><circle fill="#111" cx="445.7" cy="950" r="3"/>
+<line class="axis" x1="555" y1="950" x2="627" y2="950"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="950" x2="566.5" y2="950"/><circle fill="#8a3ffc" cx="566.5" cy="950" r="3"/>
+<line class="axis" x1="665" y1="950" x2="737" y2="950"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="950" x2="722.6" y2="950"/><circle fill="#0f766e" cx="722.6" cy="950" r="3"/>
+<line class="axis" x1="775" y1="950" x2="847" y2="950"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="950" x2="782.2" y2="950"/><circle fill="#b45309" cx="782.2" cy="950" r="3"/>
+<text x="890" y="954">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="954">no docked pose</text>
+<text class="muted" x="1115" y="954">n/a</text>
+<text x="1210" y="954">context</text>
+<text x="34" y="980">JTY023_5OCF3_pyrimidyl_tail</text>
+<line class="axis" x1="410" y1="976" x2="512" y2="976"/><line stroke="#111" stroke-width="3.6" x1="410" y1="976" x2="445.7" y2="976"/><circle fill="#111" cx="445.7" cy="976" r="3"/>
+<line class="axis" x1="555" y1="976" x2="627" y2="976"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="976" x2="566.5" y2="976"/><circle fill="#8a3ffc" cx="566.5" cy="976" r="3"/>
+<line class="axis" x1="665" y1="976" x2="737" y2="976"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="976" x2="722.6" y2="976"/><circle fill="#0f766e" cx="722.6" cy="976" r="3"/>
+<line class="axis" x1="775" y1="976" x2="847" y2="976"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="976" x2="811.0" y2="976"/><circle fill="#b45309" cx="811.0" cy="976" r="3"/>
+<text x="890" y="980">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="980">no docked pose</text>
+<text class="muted" x="1115" y="980">n/a</text>
+<text x="1210" y="980">context</text>
+<rect x="28" y="989" width="1424" height="26" fill="#f7f5ef"/>
+<text x="34" y="1006">JTY023_pyrazole_tail</text>
+<line class="axis" x1="410" y1="1002" x2="512" y2="1002"/><line stroke="#111" stroke-width="3.6" x1="410" y1="1002" x2="445.7" y2="1002"/><circle fill="#111" cx="445.7" cy="1002" r="3"/>
+<line class="axis" x1="555" y1="1002" x2="627" y2="1002"/><line stroke="#8a3ffc" stroke-width="3.6" x1="555" y1="1002" x2="566.5" y2="1002"/><circle fill="#8a3ffc" cx="566.5" cy="1002" r="3"/>
+<line class="axis" x1="665" y1="1002" x2="737" y2="1002"/><line stroke="#0f766e" stroke-width="3.6" x1="665" y1="1002" x2="722.6" y2="1002"/><circle fill="#0f766e" cx="722.6" cy="1002" r="3"/>
+<line class="axis" x1="775" y1="1002" x2="847" y2="1002"/><line stroke="#b45309" stroke-width="3.6" x1="775" y1="1002" x2="782.2" y2="1002"/><circle fill="#b45309" cx="782.2" cy="1002" r="3"/>
+<text x="890" y="1006">0 loops / 0 edges</text>
+<text class="muted" x="1000" y="1006">no docked pose</text>
+<text class="muted" x="1115" y="1006">n/a</text>
+<text x="1210" y="1006">context</text>
+<line class="rule" x1="28" y1="1052" x2="1454" y2="1052"/>
+<text class="note" x="28" y="1076">Ranking rule: official series ranks outrank panel-local relative dG; panel-local values need bridge edges or a shared closed graph before global promotion.</text>
+</svg>

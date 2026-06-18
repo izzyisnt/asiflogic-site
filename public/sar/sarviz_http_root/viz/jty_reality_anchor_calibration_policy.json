@@ -1,0 +1,17 @@
+{
+  "coverage_qualified_calibration_allowed": false,
+  "failed_label_remediation_lane_active": false,
+  "full_panel_decision_grade_claims_blocked": true,
+  "missingness_sensitivity_required": true,
+  "proof_paths": {
+    "prepper_recovery_audit_json": null,
+    "source_run_root": null
+  },
+  "proof_source": "shared_runs_glob_missing",
+  "required_actions": [
+    "materialize prepper recovery audit before changing calibration status",
+    "block full-panel decision-grade claims"
+  ],
+  "schema_version": "sdf.jty_reality_anchor_calibration_policy.v1",
+  "status": "missing_prepper_recovery_audit"
+}

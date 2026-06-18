@@ -1,0 +1,318 @@
+{
+  "experiment_job_template": {
+    "expected_artifacts": [
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_operator_insight.json",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_operator_insight.html",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_cockpit_action_plan.json",
+      "/workspace/jldos_outputs/shared_runs/jty027_sar_autonomy/panel_queue.json",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_operator_insight.md",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_science_ranking.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_science_ranking.svg",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/global_sar_rank_rows.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/rank_integration_debt.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/jty_reality_anchor_calibration_policy.json",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/docking_ops_history.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_panel_members.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/admet_property_rows.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_universe_nodes.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_pair_edges.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pose_contact_summary.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/water_perception_summary.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pocket_hypotheses.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_action_ladder.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_action_ladder.svg",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/candidate_evidence_matrix.csv",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/candidate_evidence_matrix.svg",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/mechanistic_hypothesis_map.svg",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_pair_graph.dot",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_pair_graph.svg",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_chemistry_graph_3d.html",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/synthesis_brief.md",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sar_cockpit_action_plan.md",
+      "/usr/local/jldos/docs/analysis/2026-04-30-pose-mode-delta-protocol.md",
+      "/home/jldos/.local/share/asiflogic-site/public/sar/sarviz_http_root"
+    ],
+    "metadata": {
+      "execution_mode": "agent",
+      "ops_governance": {
+        "no_external_send": true,
+        "permission_required_for_external_send": true,
+        "proof_source": "pbcnet_pair_ranking + openfe_rbfe_edges_missing + docking_ops_run_summary_scan",
+        "rank_progress_guardrail": "Do not present SAR liveness, queue activity, or docking affinity as rank progress; rank progress must come from the PBCNet/OpenFE-anchored science ranking.",
+        "sar_water_tool_guardrails": [
+          {
+            "corrected_readout": "Lys93-adjacent water is weak/transient; rerun the check only when it would change a ranked SAR decision.",
+            "guardrail_id": "lys_anchor_water",
+            "kind": "negative_guardrail",
+            "required_evidence": "hydrated receptor/site-map or contact-frequency overlay before any durable bridge language",
+            "rule": "Do not claim a durable Lys93 bridge for JTY.",
+            "wet_review_effect": "not a synthesis or wet-review justification"
+          },
+          {
+            "corrected_readout": "Halogen-bearing candidates can remain in SAR, but unaudited vector language cannot justify synthesis.",
+            "guardrail_id": "halogen_vector_claims",
+            "kind": "negative_guardrail",
+            "required_evidence": "explicit halogen-vector geometry audit with receptor contacts and angles",
+            "rule": "Treat halogen or sigma-hole rationales as unproven until geometry is explicitly audited.",
+            "wet_review_effect": "blocked from synthesis rationale unless distance/angle geometry is audited"
+          },
+          {
+            "candidate_tokens": [
+              "2ocpr",
+              "2cyano",
+              "2cf3"
+            ],
+            "corrected_readout": "Solvent-ledge probes are hypothesis carriers until water/site or contact-map context is attached.",
+            "guardrail_id": "solvent_ledge_water_shell_probes",
+            "kind": "context_requirement",
+            "required_evidence": "water/site perception overlay, hydrated receptor/site-map analysis, or receptor contact-map overlay",
+            "rule": "2OcPr, 2Cyano, and 2CF3 require water/site perception or contact-map overlays before any wet-review claim.",
+            "wet_review_effect": "wet-review claim blocked until context overlay is present"
+          }
+        ]
+      },
+      "plateau_ownership": {
+        "best_run_summary_path": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+        "completed_runs_after_best": 0,
+        "escalation_lane": "sar",
+        "gap_state": "no_missing_ligands_observed",
+        "guardrail": "Do not present SAR liveness, queue activity, or docking affinity as rank progress; rank progress must come from the PBCNet/OpenFE-anchored science ranking.",
+        "headline": "SAR rank is not currently plateaued by the run-summary scan.",
+        "latest_run_summary_path": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+        "missing_ligand_candidate_ids": [],
+        "missing_panel_ids": [],
+        "next_action": "Continue admitted SAR and keep reporting artifact-backed rank deltas.",
+        "operator_action": "continue-admitted-sar",
+        "owner": "science-ops",
+        "proof_source": "run_summary_scan",
+        "reason": "0 completed run(s) after the first observed docking-operations best from run_summary_scan; latest docking-ops best -11.459867777778 kcal/mol versus first observed docking-ops best -11.459867777778 kcal/mol.",
+        "run_summary_count": 3,
+        "status": "improving"
+      },
+      "recommendation": {
+        "action_id": "continue-admitted-sar",
+        "action_ladder_lane": "pose_evidence",
+        "action_state": "continue",
+        "annunciator": "SAR FLOW",
+        "candidate_focus": "JTY027_aniline_diF_2F6Me_benzamide",
+        "gap_counters": {
+          "action_ladder_rows": 24,
+          "closed_graph_count": 9,
+          "no_docked_pose_rows": 15,
+          "runtime_ligand_count": 58,
+          "solvent_probe_rows_without_water_or_contact_context": 2
+        },
+        "guardrail": "Do not present SAR liveness, queue activity, or docking affinity as rank progress; rank progress must come from the PBCNet/OpenFE-anchored science ranking.",
+        "headline": "Continue admitted SAR while preserving artifact-backed rank deltas.",
+        "missing_evidence": "docked-pose artifact or receptor-aligned pose",
+        "no_external_send": true,
+        "ops_context": "docking affinity is shown only as operations context when paired-model evidence exists",
+        "primary_signal": "PBCNet pair ranking anchored by observed OpenFE RBFE edges",
+        "proof_paths": {
+          "best_run_summary": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+          "latest_run_summary": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+          "openfe_rbfe_proof_paths": [],
+          "pbcnet_closed_graph": "/usr/local/jldos/evidence/pbcnet/jty_top10_posebacked_closed_graph_full_20260421T212119Z/pbcnet_closed_graph.json",
+          "pbcnet_pairset_summary": null,
+          "science_ranking_series_table": null
+        },
+        "proof_source": "pbcnet_pair_ranking + openfe_rbfe_edges_missing + docking_ops_run_summary_scan",
+        "rank_state": {
+          "docking_ops_best_affinity_kcal": -11.459867777778,
+          "docking_ops_best_candidate": "JTY027_aniline_diF_2Me_benzamide",
+          "docking_ops_completed_runs_after_first_best": 0,
+          "docking_ops_latest_affinity_kcal": -11.459867777778,
+          "docking_ops_latest_candidate": "JTY027_aniline_diF_2Me_benzamide",
+          "docking_ops_status": "improving",
+          "openfe_anchor_candidate": null,
+          "openfe_rbfe_edge_count": 0,
+          "primary_rank_axis": "pbcnet_pair_relative_ddg_openfe_rbfe_anchor",
+          "status": "observed",
+          "top_candidate": "JTY027_aniline_diF_26diMe_benzamide",
+          "top_candidate_decision_state": "pbcnet_only_no_direct_openfe_edge",
+          "top_candidate_role_label": "top PBCNet series candidate; no direct RBFE edge reported",
+          "top_pbcnet_rank": 1.0,
+          "top_pbcnet_relative_ddg_kcal_per_mol": -0.22500532731044387
+        },
+        "recommended_action": "recover docked pose before geometry claims",
+        "tone": "flow",
+        "why_now": "no observed docked pose; prep conformer cannot support protein clash claims"
+      },
+      "recommendation_slug": "jty-sar-cockpit-pbcnet-openfe-rank-continue-admitted-sar-pose-evidence-2f6me-benzamide",
+      "source_artifacts": {
+        "admet_property_projection": "/home/jldos/.local/share/asiflogic-site/public/sar/admet_property_rows.csv",
+        "campaign_objectives": "/usr/local/jldos/docs/baton/campaign_objectives.json",
+        "current_control_decision": "/workspace/jldos_outputs/shared_runs/jty027_sar_autonomy/current_control_decision.json",
+        "delegated_obligations": "/usr/local/jldos/docs/baton/delegated_obligations.jsonl",
+        "observed_pose_index_candidate_count": 9,
+        "observed_pose_index_proof_source": "shared_runs_root jty*/candidate_rows.json, jty*/**/dock_report*.json, and jty*/**/pose_recovery_packet.json -> GNINA pose_path",
+        "openfe_rbfe_proof_paths": [],
+        "panel_queue": "/workspace/jldos_outputs/shared_runs/jty027_sar_autonomy/panel_queue.json",
+        "pbcnet_closed_graph": "/usr/local/jldos/evidence/pbcnet/jty_top10_posebacked_closed_graph_full_20260421T212119Z/pbcnet_closed_graph.json",
+        "pbcnet_pairset_summary": null,
+        "pose_mode_delta_latest_report": null,
+        "pose_mode_delta_pattern_doc": "/usr/local/jldos/docs/analysis/2026-04-30-pose-mode-delta-protocol.md",
+        "rank_integration_bridge_packet": null,
+        "reality_anchor_prepper_recovery_audit": null,
+        "receptor_for_contact_screen": null,
+        "repo_root": "/usr/local/jldos",
+        "sar_promotion_surface": null,
+        "science_ranking_series_table": null,
+        "series_context_root": null,
+        "shared_reference_bridge_packet": null,
+        "shared_runs_root": "/workspace/jldos_outputs/shared_runs",
+        "torsional_stress_graph_probe_latest_report": null
+      },
+      "surface": "jty_sar_cockpit"
+    },
+    "notes": [
+      "Continue admitted SAR while preserving artifact-backed rank deltas.",
+      "recover docked pose before geometry claims",
+      "no observed docked pose; prep conformer cannot support protein clash claims"
+    ],
+    "priority": 140,
+    "shell_command": "pixi run sdf rbfe jty027-sar-cron-tick --repo-root /usr/local/jldos --shared-runs-root /workspace/jldos_outputs/shared_runs --output-root /workspace/jldos_outputs/shared_runs/jty027_sar_autonomy --gnina-device 0 --gnina-cpu 8 --max-parallel-panels 1 && pixi run sdf jty-sar-insight --repo-root /usr/local/jldos --shared-runs-root /workspace/jldos_outputs/shared_runs --output-dir /home/jldos/.local/share/asiflogic-site/public/sar --json",
+    "slug": "jty-sar-cockpit-pbcnet-openfe-rank-continue-admitted-sar-pose-evidence-2f6me-benzamide",
+    "title": "Act on SAR cockpit recommendation: SAR FLOW",
+    "workdir": "/usr/local/jldos"
+  },
+  "experiment_queue": {
+    "enqueue_command": "pixi run sdf experiments --repo-root /usr/local/jldos --queue /usr/local/jldos/.codex/experiment_queue.json --runs-root /usr/local/jldos/.codex/experiment_runs enqueue --title 'Act on SAR cockpit recommendation: SAR FLOW' --created-by science-ops --slug jty-sar-cockpit-pbcnet-openfe-rank-continue-admitted-sar-pose-evidence-2f6me-benzamide --priority 140 --workdir /usr/local/jldos --metadata-json '{\"action_plan_path\": \"/home/jldos/.local/share/asiflogic-site/public/sar/sar_cockpit_action_plan.json\", \"execution_mode\": \"agent\", \"recommendation_slug\": \"jty-sar-cockpit-pbcnet-openfe-rank-continue-admitted-sar-pose-evidence-2f6me-benzamide\", \"surface\": \"jty_sar_cockpit\"}' --shell-command 'pixi run sdf rbfe jty027-sar-cron-tick --repo-root /usr/local/jldos --shared-runs-root /workspace/jldos_outputs/shared_runs --output-root /workspace/jldos_outputs/shared_runs/jty027_sar_autonomy --gnina-device 0 --gnina-cpu 8 --max-parallel-panels 1 && pixi run sdf jty-sar-insight --repo-root /usr/local/jldos --shared-runs-root /workspace/jldos_outputs/shared_runs --output-dir /home/jldos/.local/share/asiflogic-site/public/sar --json' --artifact /home/jldos/.local/share/asiflogic-site/public/sar/sar_operator_insight.json --artifact /home/jldos/.local/share/asiflogic-site/public/sar/sar_operator_insight.html --artifact /home/jldos/.local/share/asiflogic-site/public/sar/sar_cockpit_action_plan.json --artifact /workspace/jldos_outputs/shared_runs/jty027_sar_autonomy/panel_queue.json --artifact /home/jldos/.local/share/asiflogic-site/public/sar/sar_operator_insight.md --artifact /home/jldos/.local/share/asiflogic-site/public/sar/sar_science_ranking.csv --artifact /home/jldos/.local/share/asiflogic-site/public/sar/sar_science_ranking.svg --artifact /home/jldos/.local/share/asiflogic-site/public/sar/global_sar_rank_rows.csv --artifact /home/jldos/.local/share/asiflogic-site/public/sar/rank_integration_debt.csv --artifact /home/jldos/.local/share/asiflogic-site/public/sar/jty_reality_anchor_calibration_policy.json --artifact /home/jldos/.local/share/asiflogic-site/public/sar/docking_ops_history.csv --artifact /home/jldos/.local/share/asiflogic-site/public/sar/pbcnet_panel_members.csv",
+    "queue_path": "/usr/local/jldos/.codex/experiment_queue.json",
+    "run_next_command": "pixi run sdf experiments --repo-root /usr/local/jldos --queue /usr/local/jldos/.codex/experiment_queue.json --runs-root /usr/local/jldos/.codex/experiment_runs run-next --worker <agent> --json",
+    "runs_root": "/usr/local/jldos/.codex/experiment_runs",
+    "take_next_command": "pixi run sdf experiments --repo-root /usr/local/jldos --queue /usr/local/jldos/.codex/experiment_queue.json --runs-root /usr/local/jldos/.codex/experiment_runs take-next --operator <name> --json"
+  },
+  "generated_at": "2026-06-18T00:28:48Z",
+  "governance": {
+    "execution_mode": "agent",
+    "guardrails": [
+      "Do not present SAR liveness, queue activity, or docking affinity as rank progress; rank progress must come from the PBCNet/OpenFE-anchored science ranking.",
+      "Do not stop or restart compute from this action plan.",
+      "Do not send email, Pano review, synthesis request, or wet-review handoff without explicit operator permission.",
+      "lys_anchor_water: Do not claim a durable Lys93 bridge for JTY. Lys93-adjacent water is weak/transient; rerun the check only when it would change a ranked SAR decision.",
+      "halogen_vector_claims: Treat halogen or sigma-hole rationales as unproven until geometry is explicitly audited. Halogen-bearing candidates can remain in SAR, but unaudited vector language cannot justify synthesis.",
+      "solvent_ledge_water_shell_probes: 2OcPr, 2Cyano, and 2CF3 require water/site perception or contact-map overlays before any wet-review claim. Solvent-ledge probes are hypothesis carriers until water/site or contact-map context is attached."
+    ],
+    "no_external_send": true,
+    "permission_required_for_external_send": true,
+    "proof_paths": {
+      "best_run_summary": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+      "latest_run_summary": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+      "openfe_rbfe_proof_paths": [],
+      "pbcnet_closed_graph": "/usr/local/jldos/evidence/pbcnet/jty_top10_posebacked_closed_graph_full_20260421T212119Z/pbcnet_closed_graph.json",
+      "pbcnet_pairset_summary": null,
+      "science_ranking_series_table": null
+    },
+    "proof_source": "pbcnet_pair_ranking + openfe_rbfe_edges_missing + docking_ops_run_summary_scan",
+    "sar_water_tool_guardrails": [
+      {
+        "corrected_readout": "Lys93-adjacent water is weak/transient; rerun the check only when it would change a ranked SAR decision.",
+        "guardrail_id": "lys_anchor_water",
+        "kind": "negative_guardrail",
+        "required_evidence": "hydrated receptor/site-map or contact-frequency overlay before any durable bridge language",
+        "rule": "Do not claim a durable Lys93 bridge for JTY.",
+        "wet_review_effect": "not a synthesis or wet-review justification"
+      },
+      {
+        "corrected_readout": "Halogen-bearing candidates can remain in SAR, but unaudited vector language cannot justify synthesis.",
+        "guardrail_id": "halogen_vector_claims",
+        "kind": "negative_guardrail",
+        "required_evidence": "explicit halogen-vector geometry audit with receptor contacts and angles",
+        "rule": "Treat halogen or sigma-hole rationales as unproven until geometry is explicitly audited.",
+        "wet_review_effect": "blocked from synthesis rationale unless distance/angle geometry is audited"
+      },
+      {
+        "candidate_tokens": [
+          "2ocpr",
+          "2cyano",
+          "2cf3"
+        ],
+        "corrected_readout": "Solvent-ledge probes are hypothesis carriers until water/site or contact-map context is attached.",
+        "guardrail_id": "solvent_ledge_water_shell_probes",
+        "kind": "context_requirement",
+        "required_evidence": "water/site perception overlay, hydrated receptor/site-map analysis, or receptor contact-map overlay",
+        "rule": "2OcPr, 2Cyano, and 2CF3 require water/site perception or contact-map overlays before any wet-review claim.",
+        "wet_review_effect": "wet-review claim blocked until context overlay is present"
+      }
+    ],
+    "status": "actionable"
+  },
+  "recommendation": {
+    "action_id": "continue-admitted-sar",
+    "action_ladder_lane": "pose_evidence",
+    "action_state": "continue",
+    "annunciator": "SAR FLOW",
+    "candidate_focus": "JTY027_aniline_diF_2F6Me_benzamide",
+    "gap_counters": {
+      "action_ladder_rows": 24,
+      "closed_graph_count": 9,
+      "no_docked_pose_rows": 15,
+      "runtime_ligand_count": 58,
+      "solvent_probe_rows_without_water_or_contact_context": 2
+    },
+    "guardrail": "Do not present SAR liveness, queue activity, or docking affinity as rank progress; rank progress must come from the PBCNet/OpenFE-anchored science ranking.",
+    "headline": "Continue admitted SAR while preserving artifact-backed rank deltas.",
+    "missing_evidence": "docked-pose artifact or receptor-aligned pose",
+    "no_external_send": true,
+    "ops_context": "docking affinity is shown only as operations context when paired-model evidence exists",
+    "primary_signal": "PBCNet pair ranking anchored by observed OpenFE RBFE edges",
+    "proof_paths": {
+      "best_run_summary": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+      "latest_run_summary": "/workspace/jldos_outputs/shared_runs/jty_pbcnet_cycle2_winner_family_with_tail_probes_20260427T174603Z/run_summary.json",
+      "openfe_rbfe_proof_paths": [],
+      "pbcnet_closed_graph": "/usr/local/jldos/evidence/pbcnet/jty_top10_posebacked_closed_graph_full_20260421T212119Z/pbcnet_closed_graph.json",
+      "pbcnet_pairset_summary": null,
+      "science_ranking_series_table": null
+    },
+    "proof_source": "pbcnet_pair_ranking + openfe_rbfe_edges_missing + docking_ops_run_summary_scan",
+    "rank_state": {
+      "docking_ops_best_affinity_kcal": -11.459867777778,
+      "docking_ops_best_candidate": "JTY027_aniline_diF_2Me_benzamide",
+      "docking_ops_completed_runs_after_first_best": 0,
+      "docking_ops_latest_affinity_kcal": -11.459867777778,
+      "docking_ops_latest_candidate": "JTY027_aniline_diF_2Me_benzamide",
+      "docking_ops_status": "improving",
+      "openfe_anchor_candidate": null,
+      "openfe_rbfe_edge_count": 0,
+      "primary_rank_axis": "pbcnet_pair_relative_ddg_openfe_rbfe_anchor",
+      "status": "observed",
+      "top_candidate": "JTY027_aniline_diF_26diMe_benzamide",
+      "top_candidate_decision_state": "pbcnet_only_no_direct_openfe_edge",
+      "top_candidate_role_label": "top PBCNet series candidate; no direct RBFE edge reported",
+      "top_pbcnet_rank": 1.0,
+      "top_pbcnet_relative_ddg_kcal_per_mol": -0.22500532731044387
+    },
+    "recommended_action": "recover docked pose before geometry claims",
+    "tone": "flow",
+    "why_now": "no observed docked pose; prep conformer cannot support protein clash claims"
+  },
+  "schema_version": "sdf.jty027_sar_cockpit_action_plan.v1",
+  "slug": "jty-sar-cockpit-pbcnet-openfe-rank-continue-admitted-sar-pose-evidence-2f6me-benzamide",
+  "source_artifacts": {
+    "admet_property_projection": "/home/jldos/.local/share/asiflogic-site/public/sar/admet_property_rows.csv",
+    "campaign_objectives": "/usr/local/jldos/docs/baton/campaign_objectives.json",
+    "current_control_decision": "/workspace/jldos_outputs/shared_runs/jty027_sar_autonomy/current_control_decision.json",
+    "delegated_obligations": "/usr/local/jldos/docs/baton/delegated_obligations.jsonl",
+    "observed_pose_index_candidate_count": 9,
+    "observed_pose_index_proof_source": "shared_runs_root jty*/candidate_rows.json, jty*/**/dock_report*.json, and jty*/**/pose_recovery_packet.json -> GNINA pose_path",
+    "openfe_rbfe_proof_paths": [],
+    "panel_queue": "/workspace/jldos_outputs/shared_runs/jty027_sar_autonomy/panel_queue.json",
+    "pbcnet_closed_graph": "/usr/local/jldos/evidence/pbcnet/jty_top10_posebacked_closed_graph_full_20260421T212119Z/pbcnet_closed_graph.json",
+    "pbcnet_pairset_summary": null,
+    "pose_mode_delta_latest_report": null,
+    "pose_mode_delta_pattern_doc": "/usr/local/jldos/docs/analysis/2026-04-30-pose-mode-delta-protocol.md",
+    "rank_integration_bridge_packet": null,
+    "reality_anchor_prepper_recovery_audit": null,
+    "receptor_for_contact_screen": null,
+    "repo_root": "/usr/local/jldos",
+    "sar_promotion_surface": null,
+    "science_ranking_series_table": null,
+    "series_context_root": null,
+    "shared_reference_bridge_packet": null,
+    "shared_runs_root": "/workspace/jldos_outputs/shared_runs",
+    "torsional_stress_graph_probe_latest_report": null
+  },
+  "status": "ready_to_queue",
+  "title": "Act on SAR cockpit recommendation: SAR FLOW"
+}

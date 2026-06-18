@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <style>
+    html,body,#viewer { width:100%; height:100%; margin:0; background:#fff; overflow:hidden; }
+    .label { position:absolute; left:8px; top:6px; right:8px; font:12px Arial,sans-serif; color:#222; background:rgba(255,255,255,.88); padding:4px 6px; border-left:2px solid #111; }
+  </style>
+  <script src="https://3Dmol.org/build/3Dmol-min.js"></script>
+</head>
+<body>
+  <div id="viewer"></div>
+  <div class="label">JTY027_aniline_diF observed docked pose; receptor atoms within 5 A when available</div>
+  <script>
+    const sdf = "JTY027_aniline_diF\n\n\n 31 34  0  0  0  0  0  0  0  0999 V2000\n   -4.4309   29.2080  -32.3158 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.6639   29.7285  -32.6687 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.4836   28.7604  -33.0272 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.7374   27.5066  -32.9512 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.0676   26.1665  -33.2198 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.0647   25.1742  -33.0902 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.8111   25.4821  -32.7011 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.4835   26.7787  -32.4360 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.4464   27.8193  -32.5320 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.8670   31.9369  -32.0145 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.2958   31.6189  -30.7548 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.7636   30.5119  -30.0198 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.8000   29.7053  -30.5309 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -3.3718   29.9861  -31.7948 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.9088   31.1120  -32.5189 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.4615   35.6175  -33.2288 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.9457   34.3774  -32.5912 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -1.3951   33.1218  -32.7971 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -0.5015   33.0038  -33.6360 O   0  0  0  0  0  0  0  0  0  0  0  0\n   -2.5639   34.4586  -31.7858 H   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.3109   23.8242  -33.2661 N   0  0  0  0  0  0  0  0  0  0  0  0\n   -4.8089   23.2536  -32.5880 H   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.3586   23.2301  -33.9987 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.2491   22.2786  -33.4201 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.1426   21.9198  -32.1166 F   0  0  0  0  0  0  0  0  0  0  0  0\n   -8.2919   21.7258  -34.1904 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -8.4752   22.1219  -35.5270 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -9.4791   21.5875  -36.2604 F   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.6233   23.0853  -36.0959 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -6.5757   23.6457  -35.3370 C   0  0  0  0  0  0  0  0  0  0  0  0\n   -5.5296   24.8408  -36.0803 Cl  0  0  0  0  0  0  0  0  0  0  0  0\n 16 17  1  0\n 17 18  1  0\n 18 19  2  0\n 18 10  1  0\n 10 11  2  0\n 11 12  1  0\n 12 13  2  0\n 13 14  1  0\n 14  1  1  0\n  1  2  1  0\n  2  3  2  0\n  3  4  1  0\n  4  5  2  0\n  5  6  1  0\n  6 21  1  0\n 21 23  1  0\n 23 24  2  0\n 24 25  1  0\n 24 26  1  0\n 26 27  2  0\n 27 28  1  0\n 27 29  1  0\n 29 30  2  0\n 30 31  1  0\n  6  7  2  0\n  7  8  1  0\n  8  9  2  0\n 14 15  2  0\n 15 10  1  0\n  9  1  1  0\n  9  4  1  0\n 30 23  1  0\n 17 20  1  0\n 21 22  1  0\nM  END\n";
+    const pocket = "";
+    const viewer = $3Dmol.createViewer("viewer", {backgroundColor: "white"});
+    if (pocket.trim().length > 0) {
+      const receptor = viewer.addModel(pocket, "pdb");
+      receptor.setStyle({}, {stick: {radius: 0.09, colorscheme: "grayCarbon", opacity: 0.45}});
+    }
+    const ligand = viewer.addModel(sdf, "sdf");
+    ligand.setStyle({}, {stick: {radius: 0.18, colorscheme: "greenCarbon"}, sphere: {scale: 0.17, colorscheme: "greenCarbon"}});
+    viewer.zoomTo();
+    viewer.rotate(24, "y");
+    viewer.rotate(-12, "x");
+    viewer.render();
+  </script>
+</body>
+</html>

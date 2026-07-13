@@ -3,16 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Piezo1 — the real structure · Asif Logic</title>
-  <meta name="description" content="The real Piezo1 ion channel (PDB 6B3R) rendered with Mol*, narrated by the rigidity model: how low-frequency ultrasound, amplified by the cell's own myosin, gates this channel. Asif Logic." />
+  <title>Piezo1 opening — real atoms, driven by the model · Asif Logic</title>
+  <meta name="description" content="The real Piezo1 channel (35,478 atoms, PDB 6B3R) rendered atom-by-atom, its three blades splaying open on the model's gating timeline. Asif Logic." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/molstar@4/build/viewer/molstar.css" />
   <style>
     :root{--accent:#4fc4c4}
     *{box-sizing:border-box}
     html,body{margin:0;height:100%;background:#05090b;color:#e8efee;overflow:hidden;
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-    #app{position:fixed;inset:0}
+    #gl{position:fixed;inset:0;width:100%;height:100%;display:block}
     .hud{position:fixed;pointer-events:none;z-index:20}
     #top{top:0;left:0;right:0;padding:18px 22px;background:linear-gradient(#05090bd9,#05090b00)}
     #top h1{font-size:16px;font-weight:600;margin:0}
@@ -23,130 +22,157 @@
     #story .step{font-size:12px;color:#7f938f;font-family:ui-monospace,Menlo,monospace;letter-spacing:.06em}
     #story .txt{font-size:14px;line-height:1.5;margin-top:6px;color:#dfeae7}
     #story .txt b{color:var(--accent)}
-    #legend{position:fixed;right:20px;bottom:20px;font-size:11px;color:#5e716d;font-family:ui-monospace,Menlo,monospace;
-      text-align:right;line-height:1.6;z-index:20}
+    #legend{position:fixed;right:20px;bottom:20px;font-size:11px;color:#5e716d;text-align:right;line-height:1.6;
+      font-family:ui-monospace,Menlo,monospace;z-index:20}
     #legend b{color:#9fb2ae}
     #back{position:fixed;top:16px;right:18px;z-index:30;color:var(--accent);text-decoration:none;font-size:12px;
       font-family:ui-monospace,Menlo,monospace;background:#0a1114cc;border:1px solid #1a2725;border-radius:8px;padding:5px 9px;pointer-events:auto}
-    #load{position:fixed;inset:0;display:grid;place-items:center;color:#8ba09c;font-size:14px;z-index:15;
-      font-family:ui-monospace,Menlo,monospace;text-align:center;padding:24px}
-    #err{position:fixed;left:22px;bottom:20px;max-width:60vw;color:#e0918f;font-size:13px;z-index:40;display:none;
+    #load{position:fixed;inset:0;display:grid;place-items:center;color:#8ba09c;font-size:14px;z-index:15;text-align:center;
+      padding:24px;font-family:ui-monospace,Menlo,monospace}
+    #err{position:fixed;left:22px;top:60px;max-width:70vw;color:#e0918f;font-size:13px;z-index:40;display:none;
       background:#140b0bcc;border:1px solid #3a1f1f;border-radius:10px;padding:12px 14px;font-family:ui-monospace,Menlo,monospace;line-height:1.5}
   </style>
 </head>
 <body>
-  <div id="app"></div>
-  <div id="load">loading the real Piezo1 structure (PDB 6B3R) via Mol*…</div>
+  <canvas id="gl"></canvas>
+  <div id="load">loading the real Piezo1 structure — 35,478 atoms (PDB 6B3R)…</div>
   <a id="back" href="/">← Asif Logic</a>
   <div id="top" class="hud">
-    <h1>Piezo1 — the real channel the ultrasound opens</h1>
-    <div class="sub">LFU 33&nbsp;kHz → bare <b id="hb"></b> · ×10⁵ myosin → <b id="ha"></b> ✓ gates ( threshold <b id="ht"></b> )</div>
+    <h1>Piezo1 opening — the real channel, atom by atom</h1>
+    <div class="sub">LFU 33&nbsp;kHz → bare <b>5.4×10⁻⁵ pN</b> · ×10⁵ myosin → <b>5.4 pN</b> ✓ gates ( threshold <b>4 pN</b> )</div>
   </div>
   <div id="story" class="hud">
-    <div class="step" id="step">STRUCTURE · PDB 6B3R</div>
-    <div class="txt" id="txt">The real, three-bladed <b>Piezo1</b> mechanosensitive channel — cryo-EM structure, every atom in place. This is the door low-frequency ultrasound pushes on.</div>
+    <div class="step" id="step">REAL STRUCTURE · PDB 6B3R</div>
+    <div class="txt" id="txt">35,478 atoms of the real three-bladed <b>Piezo1</b> channel. Watch the blades splay as it gates.</div>
   </div>
-  <div id="legend" class="hud">real structure: <b>RCSB PDB 6B3R</b><br/>rendering: <b>Mol*</b><br/>narrative + numbers: <b>the model</b></div>
-  <div id="diag" class="hud" style="top:60px;left:50%;transform:translateX(-50%);font-size:11px;color:#5e716d;font-family:ui-monospace,Menlo,monospace;max-width:74vw;text-align:center;line-height:1.4">gating: initialising…</div>
+  <div id="legend" class="hud">structure: <b>RCSB PDB 6B3R</b> · 35,478 atoms<br/>3 blades = chains <b>A / C / E</b><br/>opening + numbers: <b>the model</b></div>
   <div id="err"></div>
-  <script src="https://cdn.jsdelivr.net/npm/molstar@4/build/viewer/molstar.js"></script>
   <script>
-    const MODEL = { bare: 5.43e-5, amplified: 5.43, threshold: 4.0, deficit: 73679 };
-    document.getElementById('hb').textContent = MODEL.bare.toExponential(1) + ' pN';
-    document.getElementById('ha').textContent = MODEL.amplified.toFixed(1) + ' pN';
-    document.getElementById('ht').textContent = MODEL.threshold.toFixed(0) + ' pN';
+  const PHASES = [
+    ['REAL STRUCTURE · PDB 6B3R', '35,478 atoms of the real three-bladed <b>Piezo1</b> channel — the trimeric propeller, closed.'],
+    ['① BARE FIELD', 'A 33&nbsp;kHz wave alone exerts <b>5.4×10⁻⁵ pN</b> — ~<b>10⁵× too weak</b> to move these blades.'],
+    ['② MYOSIN POWERS IT', "The cell's myosin amplifies it ~10⁵× → <b>5.4 pN</b>, past the <b>4 pN</b> gating threshold."],
+    ['③ PIEZO1 OPENS', 'The three blades splay and the dome flattens — the pore opens and <b>Ca²⁺</b> floods in.'],
+    ['④ THE DECISION', 'Healthy cells (Tpm2.1 intact) buffer the load and <b>survive</b>; cancer cells cannot.'],
+    ['⑤ SELECTIVE APOPTOSIS', 'Unbuffered, the load commits the cell to death — <b>only the cancer cell dies</b>.'],
+  ];
+  function fail(m){ var e=document.getElementById('err'); e.style.display='block'; e.textContent=m; document.getElementById('load').style.display='none'; }
 
-    // model-driven narrative phases (states are the model's LFU -> Piezo1 chain)
-    const PHASES = [
-      ['STRUCTURE · PDB 6B3R', 'The real three-bladed <b>Piezo1</b> channel — cryo-EM, every atom in place. The door the ultrasound pushes on.'],
-      ['① BARE FIELD', 'A 33&nbsp;kHz ultrasound wave alone exerts <b>5.4×10⁻⁵ pN</b> on the channel — about <b>10⁵× too weak</b> to open it.'],
-      ['② MYOSIN POWERS IT', "The cell's own myosin amplifies the nudge ~10⁵×, delivering <b>5.4 pN</b> — past the <b>4 pN</b> gating threshold."],
-      ['③ PIEZO1 GATES', 'The blades flex, the pore opens, and <b>Ca²⁺</b> floods in — the mechanical signal the cell must now interpret.'],
-      ['④ THE DECISION', 'A healthy cell (Tpm2.1 intact) buffers the load and <b>survives</b>; a cancer cell that lost its rigidity sensor cannot.'],
-      ['⑤ SELECTIVE APOPTOSIS', 'Unbuffered, the load trips an irreversible commitment — <b>only the cancer cell dies</b>. That is the therapeutic window.'],
-    ];
-    let pi = 0;
-    function cyclePhase(){
-      document.getElementById('step').innerHTML = PHASES[pi][0];
-      document.getElementById('txt').innerHTML = PHASES[pi][1];
-      pi = (pi + 1) % PHASES.length;
+  const cv=document.getElementById('gl');
+  const gl=cv.getContext('webgl2',{antialias:true,alpha:false});
+  if(!gl){ fail('This needs WebGL2 — try a current desktop browser.'); }
+  else fetch('./piezo.bin').then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.arrayBuffer(); })
+    .then(buf=>{ try{ start(buf); }catch(e){ fail('render error: '+(e&&e.message||e)); } })
+    .catch(e=>fail('could not load structure (piezo.bin): '+(e&&e.message||e)));
+
+  function start(buf){
+    // ---- parse packed structure: u32 N, N*3 f32 pos, N u8 chain, N u8 elem ----
+    const dv=new DataView(buf); const N=dv.getUint32(0,true);
+    const pos=new Float32Array(buf,4,N*3);
+    const chain=new Uint8Array(buf,4+N*12,N);
+    const elem=new Uint8Array(buf,4+N*12+N,N);
+    // blade radial directions (from centroids, ~120° apart) for the splay
+    const cen=[[0,0,0],[0,0,0],[0,0,0]],cnt=[0,0,0];
+    for(let i=0;i<N;i++){const c=chain[i];cen[c][0]+=pos[i*3];cen[c][1]+=pos[i*3+1];cnt[c]++;}
+    const rad=cen.map((c,i)=>{const x=c[0]/cnt[i],y=c[1]/cnt[i],l=Math.hypot(x,y)||1;return [x/l,y/l];});
+    // per-atom colours: chain hue × subtle element value
+    const CHC=[[0.30,0.70,0.78],[0.44,0.57,0.83],[0.37,0.76,0.58]];
+    const EV=[1.0,0.86,0.92,1.15]; // C,O,N,S value factor
+    // ---- geometry: low-poly sphere ----
+    function sphere(ri,se){const p=[],ix=[];for(let i=0;i<=ri;i++){const th=i/ri*Math.PI,st=Math.sin(th),ct=Math.cos(th);
+      for(let j=0;j<=se;j++){const ph=j/se*6.283;p.push(st*Math.cos(ph),ct,st*Math.sin(ph));}}
+      for(let i=0;i<ri;i++)for(let j=0;j<se;j++){const a=i*(se+1)+j,b=a+se+1;ix.push(a,b,a+1,b,b+1,a+1);}
+      return {p:new Float32Array(p),i:new Uint16Array(ix)};}
+    const SP=sphere(6,10);
+    // ---- instance buffer (static): base xyz + radius, colour, chain ----
+    const ST=8, inst=new Float32Array(N*ST);
+    for(let i=0;i<N;i++){const o=i*ST,c=chain[i],col=CHC[c],ev=EV[elem[i]]||1;
+      inst[o]=pos[i*3];inst[o+1]=pos[i*3+1];inst[o+2]=pos[i*3+2];inst[o+3]=0.17;
+      inst[o+4]=Math.min(1,col[0]*ev);inst[o+5]=Math.min(1,col[1]*ev);inst[o+6]=Math.min(1,col[2]*ev);inst[o+7]=c;}
+    // ---- program ----
+    function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
+      if(!gl.getShaderParameter(o,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(o));return o;}
+    const prog=gl.createProgram();
+    gl.attachShader(prog,sh(gl.VERTEX_SHADER,`#version 300 es
+      layout(location=0) in vec3 aPos; layout(location=1) in vec4 aOff;
+      layout(location=2) in vec3 aCol; layout(location=3) in float aCh;
+      uniform mat4 uVP; uniform vec3 uB0,uB1,uB2; uniform float uFlat;
+      out vec3 vN,vC,vW;
+      void main(){ vec3 off = aCh<0.5?uB0:(aCh<1.5?uB1:uB2);
+        vec3 base = vec3(aOff.xy+off.xy, aOff.z*uFlat+off.z);
+        vec3 w = aPos*aOff.w + base; vW=w; vN=aPos; vC=aCol; gl_Position=uVP*vec4(w,1.0); }`));
+    gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,`#version 300 es
+      precision highp float; in vec3 vN,vC,vW; uniform vec3 uL,uCam,uFog; out vec4 f;
+      void main(){ vec3 n=normalize(vN),l=normalize(uL),v=normalize(uCam-vW);
+        float d=max(dot(n,l),0.0); float rim=pow(1.0-max(dot(n,v),0.0),2.6);
+        float sp=pow(max(dot(reflect(-l,n),v),0.0),20.0)*0.3;
+        vec3 c=vC*(0.32+0.85*d)+vec3(sp)+rim*0.15*vec3(0.5,0.85,0.9);
+        float fog=clamp((length(uCam-vW)-30.0)/40.0,0.0,0.85); f=vec4(mix(c,uFog,fog),1.0); }`));
+    gl.linkProgram(prog); if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(prog));
+    const vao=gl.createVertexArray();gl.bindVertexArray(vao);
+    let b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,SP.p,gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
+    const ie=gl.createBuffer();gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,ie);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,SP.i,gl.STATIC_DRAW);
+    const ib=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,ib);gl.bufferData(gl.ARRAY_BUFFER,inst,gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,4,gl.FLOAT,false,ST*4,0);gl.vertexAttribDivisor(1,1);
+    gl.enableVertexAttribArray(2);gl.vertexAttribPointer(2,3,gl.FLOAT,false,ST*4,16);gl.vertexAttribDivisor(2,1);
+    gl.enableVertexAttribArray(3);gl.vertexAttribPointer(3,1,gl.FLOAT,false,ST*4,28);gl.vertexAttribDivisor(3,1);
+    gl.bindVertexArray(null);
+    const U=n=>gl.getUniformLocation(prog,n);
+    const uVP=U('uVP'),uB0=U('uB0'),uB1=U('uB1'),uB2=U('uB2'),uFlat=U('uFlat'),uL=U('uL'),uCam=U('uCam'),uFog=U('uFog');
+    // ---- mat helpers ----
+    const nrm=a=>{const l=Math.hypot(a[0],a[1],a[2])||1;return[a[0]/l,a[1]/l,a[2]/l];};
+    function persp(f,a,n,fr){const t=1/Math.tan(f/2),o=new Float32Array(16);o[0]=t/a;o[5]=t;o[10]=(fr+n)/(n-fr);o[11]=-1;o[14]=2*fr*n/(n-fr);return o;}
+    function look(e,c,u){const z=nrm([e[0]-c[0],e[1]-c[1],e[2]-c[2]]);
+      const x=nrm([u[1]*z[2]-u[2]*z[1],u[2]*z[0]-u[0]*z[2],u[0]*z[1]-u[1]*z[0]]);
+      const y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];
+      const d=(a,v)=>a[0]*v[0]+a[1]*v[1]+a[2]*v[2];
+      return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-d(x,e),-d(y,e),-d(z,e),1]);}
+    function mul(a,bb){const o=new Float32Array(16);for(let i=0;i<4;i++)for(let j=0;j<4;j++){let s=0;for(let k=0;k<4;k++)s+=a[k*4+j]*bb[i*4+k];o[i*4+j]=s;}return o;}
+
+    let W,H;function resize(){const d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;gl.viewport(0,0,cv.width,cv.height);}
+    addEventListener('resize',resize);resize();
+    gl.enable(gl.DEPTH_TEST);gl.clearColor(0.02,0.045,0.055,1);
+    document.getElementById('load').style.display='none';
+    const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+    // ---- timeline: closed → gate → open → hold → close (loops); phases sync ----
+    const R=4.2;               // blade splay distance
+    let last=performance.now(), phaseT=0, pIdx=0;
+    function setPhase(i){document.getElementById('step').innerHTML=PHASES[i][0];document.getElementById('txt').innerHTML=PHASES[i][1];}
+    setPhase(0);
+    function openAt(tt){ // tt in [0,20) sec loop
+      if(tt<8) return 0;                 // phases 0-2: closed
+      if(tt<10) return (tt-8)/2;         // gate: ramp open
+      if(tt<15) return 1;                // hold open (decision/apoptosis)
+      if(tt<17) return 1-(tt-15)/2;      // close
+      return 0;
     }
-    function fail(msg){
-      const e = document.getElementById('err'); e.style.display = 'block';
-      e.innerHTML = msg + '<br/>The structure is fetched live from RCSB by Mol*; a blocked network or an unsupported browser would stop it.';
-      document.getElementById('load').style.display = 'none';
+    function phaseAt(tt){ return tt<3?0:tt<5.5?1:tt<8?2:tt<11?3:tt<15?4:5; }
+
+    function draw(now){
+      const dt=(now-last)/1000; last=now; phaseT=(phaseT+dt)%20;
+      const open=openAt(phaseT), np=phaseAt(phaseT); if(np!==pIdx){pIdx=np;setPhase(np);}
+      const flat=1-0.28*open, zoff=-1.4*open;
+      gl.useProgram(prog);
+      gl.uniform3f(uB0, rad[0][0]*R*open, rad[0][1]*R*open, zoff);
+      gl.uniform3f(uB1, rad[1][0]*R*open, rad[1][1]*R*open, zoff);
+      gl.uniform3f(uB2, rad[2][0]*R*open, rad[2][1]*R*open, zoff);
+      gl.uniform1f(uFlat, flat);
+      const az=now/6000, el=0.28, radc=32;
+      const eye=[Math.cos(el)*Math.sin(az)*radc, Math.sin(el)*radc, Math.cos(el)*Math.cos(az)*radc];
+      const P=persp(0.7, cv.width/cv.height, 0.5, 200), V=look(eye,[0,0,0],[0,1,0]);
+      gl.uniformMatrix4fv(uVP,false,mul(P,V));
+      gl.uniform3fv(uL,nrm([0.5,0.9,0.5]));gl.uniform3fv(uCam,eye);gl.uniform3fv(uFog,[0.03,0.06,0.075]);
+      gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+      gl.bindVertexArray(vao);
+      gl.drawElementsInstanced(gl.TRIANGLES,SP.i.length,gl.UNSIGNED_SHORT,0,N);
+      gl.bindVertexArray(null);
+      if(!reduce) requestAnimationFrame(draw);
     }
-
-    if (!window.molstar || !molstar.Viewer) {
-      fail('Mol* did not load from the CDN.');
-    } else {
-      molstar.Viewer.create('app', {
-        layoutIsExpanded: false, layoutShowControls: false, layoutShowRemoteState: false,
-        layoutShowSequence: false, layoutShowLog: false, layoutShowLeftPanel: false,
-        viewportShowExpand: false, viewportShowControls: false, viewportShowSettings: false,
-        viewportShowSelectionMode: false, viewportShowAnimation: false,
-        pdbProvider: 'rcsb', emdbProvider: 'rcsb',
-      }).then(function (viewer) {
-        var plugin = viewer.plugin;
-        // clean, evenly-lit background (no murky occlusion/outline)
-        try { if (plugin.canvas3d) plugin.canvas3d.setProps({ renderer: { backgroundColor: 0x0a1014 } }); } catch (e) {}
-
-        viewer.loadPdb('6b3r').then(function () {
-          document.getElementById('load').style.display = 'none';
-          // reliable continuous spin (this is the part that always works)
-          try { if (plugin.canvas3d) plugin.canvas3d.setProps({ trackball: { animate: { name: 'spin', params: { speed: 1 } } } }); } catch (e) {}
-          startGating(plugin);                 // guarded flatten/open pulse of the real channel
-          cyclePhase(); setInterval(cyclePhase, 6500);
-        }).catch(function (err) { fail('Could not load PDB 6B3R (' + err + ').'); });
-      }).catch(function (err) { fail('Mol* viewer failed to initialise (' + err + ').'); });
-    }
-
-    function setDiag(m){ var d = document.getElementById('diag'); if (d) d.textContent = m; }
-
-    // Piezo1 gating IS the dome flattening: animate a real conformational pulse
-    // (flatten along the 3-fold axis + splay). Resolve the transformer across the
-    // paths the bundle might expose it at; report the surface if none is found.
-    function startGating(plugin){
-      var m = window.molstar || {};
-      var TC = (m.StateTransforms && m.StateTransforms.Model && m.StateTransforms.Model.TransformStructureConformation)
-            || (m.Model && m.Model.TransformStructureConformation)
-            || m.TransformStructureConformation
-            || null;
-      if (!TC) {
-        var keys = Object.keys(m);
-        var hint = keys.filter(function (k){ return /Transform|Model|State/i.test(k); });
-        setDiag('gating: transform API not found · molstar has ' + keys.length + ' keys · relevant: ' + (hint.join(', ') || 'none'));
-        return;
-      }
-      try {
-        var structs = plugin.managers.structure.hierarchy.current.structures;
-        if (!structs || !structs.length) { setDiag('gating: no structure in hierarchy'); return; }
-        var s0 = structs[0];
-        var data = s0.cell.obj && s0.cell.obj.data;
-        var c = (data && data.boundary && data.boundary.sphere && data.boundary.sphere.center) || [0, 0, 0];
-        function scaleAbout(sx, sy, sz){
-          var mm = new Float32Array(16);
-          mm[0] = sx; mm[5] = sy; mm[10] = sz; mm[15] = 1;
-          mm[12] = c[0] * (1 - sx); mm[13] = c[1] * (1 - sy); mm[14] = c[2] * (1 - sz);
-          return mm;
-        }
-        var b = plugin.build().to(s0.cell.transform.ref).apply(
-          TC, { transform: { name: 'matrix', params: { data: scaleAbout(1, 1, 1), transpose: false } } });
-        var tref = b.ref;
-        b.commit().then(function () {
-          setDiag('gating: channel flattening ✓');
-          var t = 0;
-          setInterval(function () {
-            t += 0.08;
-            var open = 0.5 - 0.5 * Math.cos(t);                 // 0 → 1 → 0
-            var sxy = 1 + 0.18 * open, sz = 1 - 0.22 * open;    // splay in-plane, flatten the dome
-            plugin.build().to(tref).update(function () {
-              return { transform: { name: 'matrix', params: { data: scaleAbout(sxy, sxy, sz), transpose: false } } };
-            }).commit();
-          }, 90);
-        }).catch(function (e) { setDiag('gating apply failed: ' + (e && e.message || e)); });
-      } catch (e) { setDiag('gating error: ' + (e && e.message || e)); }
-    }
+    if(reduce){ phaseT=12; last=performance.now(); draw(performance.now()); }
+    else requestAnimationFrame(draw);
+  }
   </script>
 </body>
 </html>

@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A model-driven molecular animation: ultrasound selectively triggering apoptosis in cancer cells via the Piezo1 / talin rigidity-sensing chain. Asif Logic." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
+  <title>The kill switch — a model-driven molecular animation</title>
+<style>
+  :root{
+    --bg:#0a1013; --ink:#e8efee; --ink2:#9fb0ad; --muted:#63736f; --line:#1d2a29;
+    --accent:#43bcbc; --serif:"Charter","Iowan Old Style",Georgia,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:980px;margin:0 auto;padding:40px 20px 64px}
+  .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0 0 12px}
+  h1{font-family:var(--serif);font-weight:600;font-size:clamp(28px,5vw,40px);line-height:1.08;letter-spacing:-.015em;margin:0 0 12px;text-wrap:balance}
+  .lead{color:var(--ink2);font-size:17px;line-height:1.55;max-width:60ch;margin:0 0 26px;text-wrap:pretty}
+  .stage{position:relative;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#070c0e}
+  canvas{display:block;width:100%}
+  .cap{color:var(--muted);font-size:13px;line-height:1.6;margin:18px 2px 0;max-width:64ch}
+  .cap b{color:var(--ink2);font-weight:600}
+  .credit{color:var(--muted);font-size:12px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line);line-height:1.6}
+  .credit b{color:var(--ink2)}
+</style>
+</head>
+<body>
+  <div class="wrap">
+  <p style="margin:0 0 22px"><a href="/" style="color:#43bcbc;text-decoration:none;font-size:13px;letter-spacing:.02em">← Asif Logic</a></p>
+  <p class="eyebrow">Molecular animation · driven by the model</p>
+  <h1>The kill switch, molecule by molecule</h1>
+  <p class="lead">Two cells under the same beam of ultrasound. Left, a healthy cell with its rigidity sensor intact; right, a cancer cell that has lost it. Every motion below — the channel opening, the calcium flooding in, the sensor engaging or failing, the fate — is played back from the simulation's own frame-by-frame output.</p>
+  <div class="stage"><canvas id="c" aria-label="Molecular animation of two cells under ultrasound"></canvas></div>
+  <p class="cap"><b>What you're watching.</b> Ultrasound washes over both cells and nudges the pressure-gated channel <b>Piezo1</b> — but the bare acoustic push is ~10⁵× too weak, so the cell's own <b>myosin</b> supplies the power that swings it open. Calcium (bright) floods in. The healthy cell's <b>talin</b> sensor unfolds, recruits vinculin, and reinforces — buffering the load. The cancer cell's sensor can't engage; the load accumulates until it trips the irreversible commitment and the cell undergoes apoptosis.</p>
+  <p class="credit">Rendered in the crowded, flat-fill idiom of <b>David Goodsell's</b> molecular landscapes, with the cinematic motion of <b>Robert Lue / XVIVO's "The Inner Life of the Cell."</b> Not a literal structure — a stylized cross-section whose timing and outcome are driven by the model's trajectories. Molecular sizes and palette are illustrative.</p>
+</div>
+<script>
+const DATA = {"N":300,"lfu_on":45,"bare":5.428978443349739e-05,"amplified":5.428978443349739,"threshold":4.0,"deficit":73678.68636317436,"buffering_healthy":0.851,"buffering_cancer":0.001,"talin_unfold_pn":[5.0,5.0,9.0,9.0,12.0,12.0,12.0,15.0,15.0,18.0,18.0],"healthy":{"talin":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0511,0.0991,0.1442,0.1866,0.2265,0.264,0.2992,0.3323,0.3635,0.3927,0.4202,0.4461,0.4704,0.4933,0.5147,0.5349,0.5539,0.5717,0.5885,0.6043,0.6191,0.633,0.6461,0.6584,0.67,0.6809,0.6911,0.7007,0.7097,0.7182,0.7262,0.7337,0.7407,0.7474,0.7536,0.7595,0.765,0.7701,0.775,0.7796,0.7839,0.7879,0.7917,0.7953,0.7986,0.8018,0.8048,0.8075,0.8102,0.8126,0.8149,0.8171,0.8192,0.8211,0.8229,0.8246,0.8262,0.8277,0.8291,0.8304,0.8317,0.8329,0.834,0.835,0.836,0.8369,0.8377,0.8385,0.8393,0.84,0.8407,0.8413,0.8419,0.8425,0.843,0.8435,0.844,0.8444,0.8448,0.8452,0.8455,0.8459,0.8462,0.8465,0.8468,0.8471,0.8473,0.8475,0.8478,0.848,0.8482,0.8483,0.8485,0.8487,0.8488,0.849,0.8491,0.8492,0.8494,0.8495,0.8496,0.8497,0.8498,0.8499,0.8499,0.85,0.8501,0.8502,0.8502,0.8503,0.8503,0.8504,0.8504,0.8505,0.8505,0.8506,0.8506,0.8506,0.8507,0.8507,0.8507,0.8508,0.8508,0.8508,0.8508,0.8509,0.8509,0.8509,0.8509,0.8509,0.851,0.851,0.851,0.851,0.851,0.851,0.851,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8511,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512,0.8512],"death":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0],"committed":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false],"commit_frame":null},"cancer":{"talin":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0001,0.0001,0.0002,0.0002,0.0002,0.0003,0.0003,0.0003,0.0004,0.0004,0.0004,0.0005,0.0005,0.0005,0.0005,0.0006,0.0006,0.0006,0.0006,0.0006,0.0006,0.0007,0.0007,0.0007,0.0007,0.0007,0.0007,0.0007,0.0007,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0008,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009,0.0009],"death":[0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.233,0.4661,0.6991,0.9321,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15,1.15],"committed":[false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true],"commit_frame":49}};
+const cv=document.getElementById('c'), ctx=cv.getContext('2d');
+const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+let W=0,H=0,DPR=1;
+function resize(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  W=cv.parentElement.clientWidth; H=Math.round(W*0.60);
+  cv.style.height=H+'px'; cv.width=W*DPR; cv.height=H*DPR;
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+}
+addEventListener('resize',resize); resize();
+
+// -- deterministic RNG --
+function mul(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+
+// Goodsell-muted palette
+const CROWD=['#6f7a3f','#8a8150','#5b7d8c','#7a6a8c','#9c7a5a','#5e7a5a','#8c6a5a'];
+const C={ exo:'#0f2a33', cyto:'#141c17', head:'#b98d3e', tail:'#6b5a2e',
+  piezo:'#3f93a0', piezoOpen:'#7fd8e0', talin:'#a86e8a', vinc:'#e0913e',
+  actin:'#83a76c', myo:'#8f7ba0', ca:'#d6f0f6', death:'#c05038', outline:'#060a0c' };
+
+// build a cell scene (crowd + talin anchors), mirrored per side
+function buildCell(seed, x0, w, memY, cytoTop, cytoBot){
+  const r=mul(seed), blobs=[];
+  const nb=Math.round(w*0.42);
+  for(let i=0;i<nb;i++){
+    blobs.push({x:x0+r()*w, y:cytoTop+r()*(cytoBot-cytoTop), rad:5+r()*11,
+      col:CROWD[(r()*CROWD.length)|0], ph:r()*6.28, jx:(r()-.5), jy:(r()-.5)});
+  }
+  const cx=x0+w*0.5;
+  const talins=[[cx-w*0.16],[cx+w*0.02],[cx+w*0.20]].map(a=>({ax:a[0], seed:r()*99}));
+  return {x0,w,cx,memY,cytoTop,cytoBot,blobs,talins,ca:[],piezoX:cx};
+}
+let cells=[];
+function layout(){
+  const gap=W*0.045, cw=(W-gap)/2, memY=H*0.34, ct=H*0.40, cb=H*0.985;
+  cells=[ buildCell(7,  0,        cw, memY, ct, cb),
+          buildCell(23, cw+gap,   cw, memY, ct, cb) ];
+}
+layout(); addEventListener('resize',()=>{resize();layout();});
+
+// -- drawing helpers --
+function blob(x,y,r,col,a=1){ctx.globalAlpha=a;ctx.fillStyle=col;ctx.strokeStyle=C.outline;ctx.lineWidth=1;
+  ctx.beginPath();ctx.arc(x,y,r,0,6.283);ctx.fill();ctx.stroke();ctx.globalAlpha=1;}
+
+function drawBilayer(cell){
+  const y=cell.memY, x0=cell.x0, w=cell.w, step=9;
+  for(let x=x0+4;x<x0+w-3;x+=step){
+    blob(x,y-4,3.4,C.head,.95); blob(x,y+8,3.4,C.head,.95);
+    ctx.strokeStyle=C.tail;ctx.lineWidth=1.4;ctx.globalAlpha=.8;
+    ctx.beginPath();ctx.moveTo(x,y-1);ctx.lineTo(x,y+5);ctx.stroke();ctx.globalAlpha=1;
+  }
+}
+function drawPiezo(cell,open){
+  const x=cell.piezoX, y=cell.memY, spread=open*10;
+  ctx.save();ctx.translate(x,y);
+  if(open>0.3){ // glow
+    const g=ctx.createRadialGradient(0,6,2,0,6,42);
+    g.addColorStop(0,'rgba(127,216,224,'+(0.28*open)+')');g.addColorStop(1,'rgba(127,216,224,0)');
+    ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,6,42,0,6.283);ctx.fill();
+  }
+  const col=open>0.5?C.piezoOpen:C.piezo;
+  for(const s of [-1,1]){ // two curved blades forming the pore
+    ctx.fillStyle=col;ctx.strokeStyle=C.outline;ctx.lineWidth=1.2;
+    ctx.beginPath();
+    ctx.moveTo(s*(7+spread),-9);
+    ctx.quadraticCurveTo(s*(26),-2, s*(20),16);
+    ctx.quadraticCurveTo(s*(15),20, s*(9+spread),16);
+    ctx.quadraticCurveTo(s*(13),4, s*(7+spread),-9);
+    ctx.closePath();ctx.fill();ctx.stroke();
+  }
+  ctx.restore();
+}
+function spawnCa(cell,rng){ if(cell.ca.length<90)
+  cell.ca.push({x:cell.piezoX+(rng()-.5)*10, y:cell.memY+14, vx:(rng()-.5)*.5, vy:.5+rng()*.9, life:1, r:2+rng()*1.4}); }
+function drawCa(cell){
+  for(const p of cell.ca){ ctx.globalAlpha=Math.max(0,p.life)*.9; ctx.fillStyle=C.ca;
+    ctx.shadowColor=C.ca;ctx.shadowBlur=6;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,6.283);ctx.fill();ctx.shadowBlur=0; }
+  ctx.globalAlpha=1;
+}
+function updateCa(cell,cytoBot){ for(const p of cell.ca){p.x+=p.vx;p.y+=p.vy;p.vy*=.99;p.life-=.006;
+  if(p.y>cytoBot-6){p.vy*=-.3;p.y=cytoBot-6;}} cell.ca=cell.ca.filter(p=>p.life>0); }
+
+function drawActin(cell,reinforce){
+  const y=cell.cytoBot-cell.w*0.16, x0=cell.x0+cell.w*0.10, x1=cell.x0+cell.w*0.90;
+  ctx.lineCap='round';
+  for(let k=0;k<3;k++){
+    ctx.strokeStyle=C.actin;ctx.globalAlpha=.45+.4*reinforce;ctx.lineWidth=2.2+2.4*reinforce;
+    ctx.beginPath();
+    for(let x=x0;x<=x1;x+=6){const yy=y+k*7+Math.sin(x*0.05+k)*3;x===x0?ctx.moveTo(x,yy):ctx.lineTo(x,yy);}
+    ctx.stroke();
+  }
+  ctx.globalAlpha=1;
+}
+function drawTalin(cell,t,engage){ // t: talin anchor obj, engage 0..1
+  const x=t.ax, y0=cell.memY+16, len=cell.w*(0.10+0.16*engage), n=5;
+  const dx=(cell.cx-x)*0.14*engage;
+  ctx.strokeStyle=C.talin;ctx.lineWidth=3.2;ctx.lineCap='round';ctx.globalAlpha=.9;
+  ctx.beginPath();ctx.moveTo(x,y0);
+  const pts=[];
+  for(let i=1;i<=n;i++){ const f=i/n; const zig=(1-engage)*8*((i%2)?1:-1);
+    const px=x+dx*f+zig, py=y0+len*f; pts.push([px,py]); ctx.lineTo(px,py); }
+  ctx.stroke();
+  // domains (unfolded = separated circles) + vinculin
+  for(let i=0;i<pts.length;i++){ blob(pts[i][0],pts[i][1],3.6,C.talin,.95);
+    if(engage>0.35 && i<pts.length-1 && (i%1===0)){ ctx.globalAlpha=engage;
+      blob(pts[i][0]+5,pts[i][1]+3,2.6,C.vinc,engage); } }
+  ctx.globalAlpha=1;
+}
+function drawMyosin(cell,phase){
+  const y=cell.cytoBot-cell.w*0.16+16, x=cell.cx, s=Math.sin(phase)*2;
+  ctx.strokeStyle=C.myo;ctx.lineWidth=4;ctx.lineCap='round';ctx.globalAlpha=.8;
+  ctx.beginPath();ctx.moveTo(x-24,y);ctx.lineTo(x+24,y);ctx.stroke();
+  for(const d of [-1,1]){ ctx.beginPath();ctx.moveTo(x+d*22,y);ctx.lineTo(x+d*30,y-6+s*d);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(x+d*22,y);ctx.lineTo(x+d*30,y+6-s*d);ctx.stroke(); }
+  ctx.globalAlpha=1;
+}
+
+function drawLFU(prog,tphase){
+  if(prog<=0)return;
+  ctx.save();ctx.strokeStyle='rgba(127,216,224,'+(0.10+0.16*prog)+')';ctx.lineWidth=1.6;
+  const top=6, bot=H*0.30, amp=3+7*prog;
+  for(let b=0;b<4;b++){ const yo=top+((tphase*38+b*22)%(bot-top));
+    ctx.beginPath();
+    for(let x=0;x<=W;x+=8){ const yy=yo+Math.sin(x*0.03+tphase*3)*amp; x===0?ctx.moveTo(x,yy):ctx.lineTo(x,yy);}
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function label(cell,title,dead){
+  ctx.textAlign='center';
+  ctx.fillStyle=dead?C.death:'#cfe0dc';ctx.font='600 14px '+getComputedStyle(document.body).fontFamily;
+  ctx.fillText(title, cell.cx, 22);
+}
+function hud(cell,d,f,isCancer){
+  const y=H-30, x0=cell.x0+cell.w*0.10, bw=cell.w*0.55;
+  ctx.textAlign='left';ctx.font='11px '+C.mono;ctx.fillStyle='#8fa39f';
+  ctx.fillText('death evidence', x0, y-8);
+  ctx.fillStyle='#1d2a29';ctx.fillRect(x0,y,bw,7);
+  const dv=Math.min(1,d.death[f]);
+  ctx.fillStyle=isCancer?C.death:C.actin;ctx.fillRect(x0,y,bw*dv,7);
+  const dead=d.commit_frame!=null && f>=d.commit_frame;
+  ctx.fillStyle=dead?C.death:C.actin;ctx.textAlign='right';ctx.font='700 13px '+getComputedStyle(document.body).fontFamily;
+  ctx.fillText(dead?'APOPTOSIS':'survives', cell.x0+cell.w*0.90, y+7);
+}
+
+function drawCell(cell,d,f,isCancer,gp,tphase){
+  const dead=d.commit_frame!=null && f>=d.commit_frame;
+  const p=dead? Math.min(1,(f-d.commit_frame)/44):0;   // apoptosis progress
+  const engage=d.talin[f];
+  ctx.save();
+  // cytoplasm ground
+  ctx.fillStyle=C.cyto;ctx.fillRect(cell.x0,cell.memY,cell.w,H-cell.memY);
+  // crowd (Goodsell)
+  for(const b of cell.blobs){
+    const j/*apoptosis scatter*/=p*22;
+    const bx=b.x+Math.sin(tphase*2+b.ph)*.6 + b.jx*j, by=b.y+Math.cos(tphase*1.6+b.ph)*.6 + b.jy*j;
+    blob(bx,by,b.rad*(1-0.25*p), dead?C.death:b.col, (1-0.55*p));
+  }
+  drawActin(cell, isCancer?0:engage*(1-p));
+  drawMyosin(cell,tphase+ (isCancer?0:0));
+  for(const t of cell.talins) drawTalin(cell,t, isCancer?0.04: engage*(1-p));
+  // membrane + piezo
+  drawBilayer(cell);
+  drawPiezo(cell,gp);
+  // calcium
+  if(gp>0.5 && f%2===0) spawnCa(cell, mul(f*31+cell.x0));
+  updateCa(cell,cell.cytoBot); drawCa(cell);
+  // apoptosis blebs + tint
+  if(p>0){
+    for(let k=0;k<5;k++){const bx=cell.x0+cell.w*(0.2+0.15*k), by=cell.memY+10+Math.sin(k)*4;
+      blob(bx,by-6*p, 6+10*p*(0.5+0.5*Math.sin(k*2)), C.death, 0.5*p);}
+    ctx.fillStyle='rgba(192,80,56,'+(0.16*p)+')';ctx.fillRect(cell.x0,cell.memY,cell.w,H-cell.memY);
+  }
+  ctx.restore();
+  label(cell, isCancer?'CANCER  ·  Tpm2.1 lost':'HEALTHY  ·  Tpm2.1 intact', dead);
+  hud(cell,d,f,isCancer);
+}
+
+C.mono='ui-monospace,Menlo,monospace';
+function header(f){
+  ctx.textAlign='center';ctx.font='11px '+C.mono;ctx.fillStyle='#5f726e';
+  const on=f>=DATA.lfu_on;
+  ctx.fillText('LFU 33 kHz  →  Piezo1 :  bare '+DATA.bare.toExponential(1)+' pN   ×10⁵ myosin   →  '
+    +DATA.amplified.toFixed(1)+' pN '+(on?'✓ gates':'· off')+'   ( threshold '+DATA.threshold+' pN )', W/2, H-8);
+}
+
+const FPS=26, N=DATA.N, holdS=1.6, cycle=N/FPS+holdS;
+let t0=performance.now();
+function frame(now){
+  const s=((now-t0)/1000)%cycle;
+  const f=Math.min(N-1, Math.floor(s*FPS));
+  const tphase=now/1000;
+  // background extracellular
+  const g=ctx.createLinearGradient(0,0,0,H*0.36);
+  g.addColorStop(0,'#0c2530');g.addColorStop(1,C.exo);
+  ctx.fillStyle='#070c0e';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=g;ctx.fillRect(0,0,W,H*0.36);
+  const lprog=f>=DATA.lfu_on?Math.min(1,(f-DATA.lfu_on)/10):0;
+  drawLFU(lprog,tphase);
+  const gp=(f>=DATA.lfu_on)?1:0;   // Piezo gating (model: gates once LFU on)
+  drawCell(cells[0],DATA.healthy,f,false,gp,tphase);
+  drawCell(cells[1],DATA.cancer,f,true,gp,tphase);
+  header(f);
+  // divider seam
+  ctx.strokeStyle='#070c0e';ctx.lineWidth=W*0.045;ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+  if(!reduce) requestAnimationFrame(frame);
+}
+if(reduce){ t0=performance.now()-(N-1)/FPS*1000; frame(performance.now()); }
+else requestAnimationFrame(frame);
+</script>
+
+</body>
+</html>

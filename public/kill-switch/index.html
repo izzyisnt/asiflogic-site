@@ -46,7 +46,7 @@
     <div class="step" id="step">STRUCTURE · PDB 6B3R</div>
     <div class="txt" id="txt">The real, three-bladed <b>Piezo1</b> mechanosensitive channel — cryo-EM structure, every atom in place. This is the door low-frequency ultrasound pushes on.</div>
   </div>
-  <div id="legend" class="hud">real structure: <b>RCSB PDB 6B3R</b><br/>rendering: <b>Mol*</b> · illustrative<br/>narrative + numbers: <b>the model</b></div>
+  <div id="legend" class="hud">real structure: <b>RCSB PDB 6B3R</b><br/>rendering: <b>Mol*</b><br/>narrative + numbers: <b>the model</b></div>
   <div id="err"></div>
   <script src="https://cdn.jsdelivr.net/npm/molstar@4/build/viewer/molstar.js"></script>
   <script>
@@ -86,27 +86,55 @@
         viewportShowSelectionMode: false, viewportShowAnimation: false,
         pdbProvider: 'rcsb', emdbProvider: 'rcsb',
       }).then(function (viewer) {
-        try {
-          if (viewer.plugin.canvas3d) viewer.plugin.canvas3d.setProps({
-            renderer: { backgroundColor: 0x060B0E },
-            postprocessing: {
-              occlusion: { name: 'on', params: { samples: 32, multiScale: { name: 'off', params: {} }, radius: 5, bias: 0.8, blurKernelSize: 15, resolutionScale: 1, color: 0x000000 } },
-              outline: { name: 'on', params: { scale: 1, threshold: 0.33, color: 0x000000, includeTransparent: true } },
-            },
-          });
-        } catch (e) { /* post-fx optional */ }
+        var plugin = viewer.plugin;
+        // clean, evenly-lit background (no murky occlusion/outline)
+        try { if (plugin.canvas3d) plugin.canvas3d.setProps({ renderer: { backgroundColor: 0x0a1014 } }); } catch (e) {}
 
         viewer.loadPdb('6b3r').then(function () {
           document.getElementById('load').style.display = 'none';
-          try {
-            if (viewer.plugin.canvas3d) viewer.plugin.canvas3d.setProps({
-              trackball: { animate: { name: 'spin', params: { speed: 0.35 } } },
-            });
-          } catch (e) {}
-          cyclePhase();
-          setInterval(cyclePhase, 6500);
+          // reliable continuous spin (this is the part that always works)
+          try { if (plugin.canvas3d) plugin.canvas3d.setProps({ trackball: { animate: { name: 'spin', params: { speed: 1 } } } }); } catch (e) {}
+          startGating(plugin);                 // guarded flatten/open pulse of the real channel
+          cyclePhase(); setInterval(cyclePhase, 6500);
         }).catch(function (err) { fail('Could not load PDB 6B3R (' + err + ').'); });
       }).catch(function (err) { fail('Mol* viewer failed to initialise (' + err + ').'); });
+    }
+
+    // Piezo1 gating IS the dome flattening: animate a real conformational pulse
+    // of the loaded structure. Fully guarded — if the transform API differs, the
+    // spin above still runs and this silently no-ops.
+    function startGating(plugin){
+      try {
+        var ST = window.molstar && molstar.StateTransforms;
+        if (!ST || !ST.Model || !ST.Model.TransformStructureConformation) return;
+        var structs = plugin.managers.structure.hierarchy.current.structures;
+        if (!structs || !structs.length) return;
+        var s0 = structs[0];
+        var data = s0.cell.obj && s0.cell.obj.data;
+        var c = (data && data.boundary && data.boundary.sphere && data.boundary.sphere.center) || [0, 0, 0];
+        function scaleAbout(sx, sy, sz){
+          var m = new Float32Array(16);
+          m[0] = sx; m[5] = sy; m[10] = sz; m[15] = 1;
+          m[12] = c[0] * (1 - sx); m[13] = c[1] * (1 - sy); m[14] = c[2] * (1 - sz);
+          return m;
+        }
+        var b = plugin.build().to(s0.cell.transform.ref).apply(
+          ST.Model.TransformStructureConformation,
+          { transform: { name: 'matrix', params: { data: scaleAbout(1, 1, 1), transpose: false } } });
+        var tref = b.ref;
+        b.commit().then(function () {
+          var t = 0;
+          setInterval(function () {
+            t += 0.07;
+            var open = 0.5 - 0.5 * Math.cos(t);          // 0 → 1 → 0
+            var sxy = 1 + 0.10 * open, sz = 1 - 0.12 * open;   // splay + flatten the dome
+            plugin.build().to(tref).update(function (old) {
+              old.transform = { name: 'matrix', params: { data: scaleAbout(sxy, sxy, sz), transpose: false } };
+              return old;
+            }).commit();
+          }, 90);
+        });
+      } catch (e) { /* channel pulse unavailable; spin still runs */ }
     }
   </script>
 </body>

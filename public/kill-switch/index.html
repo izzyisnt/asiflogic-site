@@ -47,6 +47,7 @@
     <div class="txt" id="txt">The real, three-bladed <b>Piezo1</b> mechanosensitive channel — cryo-EM structure, every atom in place. This is the door low-frequency ultrasound pushes on.</div>
   </div>
   <div id="legend" class="hud">real structure: <b>RCSB PDB 6B3R</b><br/>rendering: <b>Mol*</b><br/>narrative + numbers: <b>the model</b></div>
+  <div id="diag" class="hud" style="top:60px;left:50%;transform:translateX(-50%);font-size:11px;color:#5e716d;font-family:ui-monospace,Menlo,monospace;max-width:74vw;text-align:center;line-height:1.4">gating: initialising…</div>
   <div id="err"></div>
   <script src="https://cdn.jsdelivr.net/npm/molstar@4/build/viewer/molstar.js"></script>
   <script>
@@ -100,41 +101,51 @@
       }).catch(function (err) { fail('Mol* viewer failed to initialise (' + err + ').'); });
     }
 
+    function setDiag(m){ var d = document.getElementById('diag'); if (d) d.textContent = m; }
+
     // Piezo1 gating IS the dome flattening: animate a real conformational pulse
-    // of the loaded structure. Fully guarded — if the transform API differs, the
-    // spin above still runs and this silently no-ops.
+    // (flatten along the 3-fold axis + splay). Resolve the transformer across the
+    // paths the bundle might expose it at; report the surface if none is found.
     function startGating(plugin){
+      var m = window.molstar || {};
+      var TC = (m.StateTransforms && m.StateTransforms.Model && m.StateTransforms.Model.TransformStructureConformation)
+            || (m.Model && m.Model.TransformStructureConformation)
+            || m.TransformStructureConformation
+            || null;
+      if (!TC) {
+        var keys = Object.keys(m);
+        var hint = keys.filter(function (k){ return /Transform|Model|State/i.test(k); });
+        setDiag('gating: transform API not found · molstar has ' + keys.length + ' keys · relevant: ' + (hint.join(', ') || 'none'));
+        return;
+      }
       try {
-        var ST = window.molstar && molstar.StateTransforms;
-        if (!ST || !ST.Model || !ST.Model.TransformStructureConformation) return;
         var structs = plugin.managers.structure.hierarchy.current.structures;
-        if (!structs || !structs.length) return;
+        if (!structs || !structs.length) { setDiag('gating: no structure in hierarchy'); return; }
         var s0 = structs[0];
         var data = s0.cell.obj && s0.cell.obj.data;
         var c = (data && data.boundary && data.boundary.sphere && data.boundary.sphere.center) || [0, 0, 0];
         function scaleAbout(sx, sy, sz){
-          var m = new Float32Array(16);
-          m[0] = sx; m[5] = sy; m[10] = sz; m[15] = 1;
-          m[12] = c[0] * (1 - sx); m[13] = c[1] * (1 - sy); m[14] = c[2] * (1 - sz);
-          return m;
+          var mm = new Float32Array(16);
+          mm[0] = sx; mm[5] = sy; mm[10] = sz; mm[15] = 1;
+          mm[12] = c[0] * (1 - sx); mm[13] = c[1] * (1 - sy); mm[14] = c[2] * (1 - sz);
+          return mm;
         }
         var b = plugin.build().to(s0.cell.transform.ref).apply(
-          ST.Model.TransformStructureConformation,
-          { transform: { name: 'matrix', params: { data: scaleAbout(1, 1, 1), transpose: false } } });
+          TC, { transform: { name: 'matrix', params: { data: scaleAbout(1, 1, 1), transpose: false } } });
         var tref = b.ref;
         b.commit().then(function () {
+          setDiag('gating: channel flattening ✓');
           var t = 0;
           setInterval(function () {
-            t += 0.07;
-            var open = 0.5 - 0.5 * Math.cos(t);          // 0 → 1 → 0
-            var sxy = 1 + 0.10 * open, sz = 1 - 0.12 * open;   // splay + flatten the dome
-            plugin.build().to(tref).update(function (old) {
-              old.transform = { name: 'matrix', params: { data: scaleAbout(sxy, sxy, sz), transpose: false } };
-              return old;
+            t += 0.08;
+            var open = 0.5 - 0.5 * Math.cos(t);                 // 0 → 1 → 0
+            var sxy = 1 + 0.18 * open, sz = 1 - 0.22 * open;    // splay in-plane, flatten the dome
+            plugin.build().to(tref).update(function () {
+              return { transform: { name: 'matrix', params: { data: scaleAbout(sxy, sxy, sz), transpose: false } } };
             }).commit();
           }, 90);
-        });
-      } catch (e) { /* channel pulse unavailable; spin still runs */ }
+        }).catch(function (e) { setDiag('gating apply failed: ' + (e && e.message || e)); });
+      } catch (e) { setDiag('gating error: ' + (e && e.message || e)); }
     }
   </script>
 </body>

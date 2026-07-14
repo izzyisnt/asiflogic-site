@@ -13,17 +13,20 @@
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
     #gl{position:fixed;inset:0;width:100%;height:100%;display:block}
     .hud{position:fixed;pointer-events:none;z-index:20}
-    #top{top:0;left:0;right:0;padding:18px 22px;background:linear-gradient(#05090bd9,#05090b00)}
+    #top{top:0;left:0;right:0;padding:16px 100px 16px 22px;background:linear-gradient(#05090bee,#05090b00)}
+    .mon{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#8ba09c;margin-top:8px;max-width:480px;line-height:1.5}
+    .mon b{color:var(--accent);font-weight:600}
+    .cabar{height:6px;border-radius:4px;background:#12201e;margin-top:6px;max-width:300px;overflow:hidden}
+    .cabar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#3f9aa8,#cdeff5);border-radius:4px;transition:width .12s linear}
     #top h1{font-size:16px;font-weight:600;margin:0}
     #top .sub{font-size:12px;color:#8ba09c;margin-top:3px;font-family:ui-monospace,Menlo,monospace}
     #top .sub b{color:var(--accent);font-weight:600}
-    #story{position:fixed;left:22px;bottom:20px;max-width:min(46vw,380px);padding:14px 16px;
-      background:#0a1114cc;border:1px solid #1a2725;border-radius:12px;backdrop-filter:blur(3px);z-index:20}
+    #bottom{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;padding:16px 20px;flex-wrap:wrap-reverse}
+    #story{max-width:min(52vw,400px);padding:14px 16px;background:#0a1114cc;border:1px solid #1a2725;border-radius:12px;backdrop-filter:blur(3px)}
     #story .step{font-size:12px;color:#7f938f;font-family:ui-monospace,Menlo,monospace;letter-spacing:.06em}
     #story .txt{font-size:14px;line-height:1.5;margin-top:6px;color:#dfeae7}
     #story .txt b{color:var(--accent)}
-    #legend{position:fixed;right:20px;bottom:20px;font-size:11px;color:#5e716d;text-align:right;line-height:1.6;
-      font-family:ui-monospace,Menlo,monospace;z-index:20}
+    #legend{font-size:11px;color:#5e716d;text-align:right;line-height:1.6;font-family:ui-monospace,Menlo,monospace;flex:0 0 auto}
     #legend b{color:#9fb2ae}
     #back{position:fixed;top:16px;right:18px;z-index:30;color:var(--accent);text-decoration:none;font-size:12px;
       font-family:ui-monospace,Menlo,monospace;background:#0a1114cc;border:1px solid #1a2725;border-radius:8px;padding:5px 9px;pointer-events:auto}
@@ -38,23 +41,27 @@
   <div id="load">loading the real Piezo1 structure — 35,478 atoms (PDB 6B3R)…</div>
   <a id="back" href="/">← Asif Logic</a>
   <div id="top" class="hud">
-    <h1>Piezo1 opening — the real channel, atom by atom</h1>
-    <div class="sub">LFU 33&nbsp;kHz → bare <b>5.4×10⁻⁵ pN</b> · ×10⁵ myosin → <b>5.4 pN</b> ✓ gates ( threshold <b>4 pN</b> )</div>
+    <h1>Piezo1 gating — the real channel, atom by atom</h1>
+    <div class="sub">LFU 33&nbsp;kHz → bare <b>5.4×10⁻⁵ pN</b> · ×10⁵ myosin → <b>5.4 pN</b>, past the <b>4 pN</b> threshold</div>
+    <div class="mon" id="mon">gating attempts <b id="att">0</b> · opened <b id="opn">0</b> · P<sub>open</sub> ≈ <b id="po">—</b> · Ca²⁺ integrated <b id="cav">0%</b>
+      <div class="cabar"><i id="cab"></i></div></div>
   </div>
-  <div id="story" class="hud">
-    <div class="step" id="step">REAL STRUCTURE · PDB 6B3R</div>
-    <div class="txt" id="txt">35,478 atoms of the real three-bladed <b>Piezo1</b> channel. Watch the blades splay as it gates.</div>
+  <div id="bottom" class="hud">
+    <div id="story">
+      <div class="step" id="step">REAL STRUCTURE · PDB 6B3R</div>
+      <div class="txt" id="txt">35,478 atoms of the real three-bladed <b>Piezo1</b> channel — closed and quiet.</div>
+    </div>
+    <div id="legend">structure: <b>RCSB PDB 6B3R</b> · 35,478 atoms<br/>3 blades = chains <b>A / C / E</b><br/>gating stochastic · Ca integrated · <b>the model</b></div>
   </div>
-  <div id="legend" class="hud">structure: <b>RCSB PDB 6B3R</b> · 35,478 atoms<br/>3 blades = chains <b>A / C / E</b><br/>opening + numbers: <b>the model</b></div>
   <div id="err"></div>
   <script>
   const PHASES = [
-    ['REAL STRUCTURE · PDB 6B3R', '35,478 atoms of the real three-bladed <b>Piezo1</b> channel — the trimeric propeller, closed.'],
-    ['① BARE FIELD', 'A 33&nbsp;kHz wave alone exerts <b>5.4×10⁻⁵ pN</b> — ~<b>10⁵× too weak</b> to move these blades.'],
-    ['② MYOSIN POWERS IT', "The cell's myosin amplifies it ~10⁵× → <b>5.4 pN</b>, past the <b>4 pN</b> gating threshold."],
-    ['③ PIEZO1 OPENS', 'The three blades splay and the dome flattens — the pore opens and <b>Ca²⁺</b> floods in.'],
-    ['④ THE DECISION', 'Healthy cells (Tpm2.1 intact) buffer the load and <b>survive</b>; cancer cells cannot.'],
-    ['⑤ SELECTIVE APOPTOSIS', 'Unbuffered, the load commits the cell to death — <b>only the cancer cell dies</b>.'],
+    ['REAL STRUCTURE · PDB 6B3R', '35,478 atoms of the real three-bladed <b>Piezo1</b> channel — the trimeric propeller, closed and quiet.'],
+    ['① BARE FIELD', 'A 33&nbsp;kHz ultrasound wave alone exerts <b>5.4×10⁻⁵ pN</b> — about <b>10⁵× too weak</b> to gate the channel.'],
+    ['② MYOSIN POWERS IT', "The cell's myosin amplifies the nudge ~10⁵× → <b>5.4 pN</b>, enough to make gating <em>possible</em> — but never certain."],
+    ['③ STOCHASTIC GATING', 'Piezo1 is probabilistic: each attempt opens it only <b>~1 in 100</b> times, for a moment. Watch it flicker — the cell <b>integrates thousands</b> of these brief openings into a rising Ca²⁺ signal.'],
+    ['④ THE INTEGRATED SIGNAL', 'A healthy cell (Tpm2.1 intact) buffers that summed Ca²⁺ load and <b>survives</b>; a Tpm2.1-null cancer cell cannot.'],
+    ['⑤ SELECTIVE APOPTOSIS', 'Unbuffered, the accumulated load commits the cancer cell to death — <b>only it dies</b>. That is the therapeutic window.'],
   ];
   function fail(m){ var e=document.getElementById('err'); e.style.display='block'; e.textContent=m; document.getElementById('load').style.display='none'; }
 
@@ -153,25 +160,28 @@
     document.getElementById('load').style.display='none';
     const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
-    // ---- timeline: closed → gate → open → hold → close (loops); phases sync ----
-    const R=4.2;               // blade splay distance
-    let last=performance.now(), phaseT=0, pIdx=0;
+    // ---- stochastic gating: Piezo1 opens only ~1 in 100 attempts, briefly;
+    //      the cell integrates thousands of flickers into a Ca²⁺ signal. Seeded
+    //      PRNG -> stochastic-looking, but deterministic and reproducible. ----
+    function mkrng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+    const rng=mkrng(20260712), Po=0.012, R=4.2, LOOP=32, GATE0=13, GATE1=28;
+    const A=document.getElementById('att'),O=document.getElementById('opn'),PO=document.getElementById('po'),
+          CV=document.getElementById('cav'),CB=document.getElementById('cab');
     function setPhase(i){document.getElementById('step').innerHTML=PHASES[i][0];document.getElementById('txt').innerHTML=PHASES[i][1];}
-    setPhase(0);
-    function openAt(tt){ // tt in [0,20) sec loop
-      if(tt<8) return 0;                 // phases 0-2: closed
-      if(tt<10) return (tt-8)/2;         // gate: ramp open
-      if(tt<15) return 1;                // hold open (decision/apoptosis)
-      if(tt<17) return 1-(tt-15)/2;      // close
-      return 0;
-    }
-    function phaseAt(tt){ return tt<3?0:tt<5.5?1:tt<8?2:tt<11?3:tt<15?4:5; }
+    function phaseAt(t){ return t<4?0:t<9?1:t<13?2:t<24?3:t<28?4:5; }   // human-paced holds
+    let last=performance.now(), T=0, prevT=0, pIdx=-1, pulse=0, attempts=0, opens=0, ca=0;
 
     function draw(now){
-      const dt=(now-last)/1000; last=now; phaseT=(phaseT+dt)%20;
-      const open=openAt(phaseT), np=phaseAt(phaseT); if(np!==pIdx){pIdx=np;setPhase(np);}
+      const dt=Math.min((now-last)/1000,0.05); last=now; prevT=T; T=(T+dt)%LOOP;
+      if(T<prevT){ attempts=0; opens=0; ca=0; pulse=0; }              // reset each loop
+      const np=phaseAt(T); if(np!==pIdx){pIdx=np;setPhase(np);}
+      if(T>=GATE0 && T<GATE1){ attempts++; if(pulse<=0.02 && rng()<Po){ pulse=1.0; opens++; } }
+      pulse=Math.max(0, pulse - dt*3.4);                             // each opening lasts ~0.3 s
+      if(pulse>0) ca=Math.min(1, ca + pulse*dt*0.10);                // integrate Ca over openings
+      const open=pulse*0.85;                                        // a brief splay flicker
+      if(A){A.textContent=attempts;O.textContent=opens;PO.textContent=opens>0?'1/'+Math.round(attempts/opens):'—';CV.textContent=Math.round(ca*100)+'%';CB.style.width=(ca*100)+'%';}
       const flat=1-0.28*open, zoff=-1.4*open;
-      const az=now/9000, el=0.24+Math.sin(now/7000)*0.10, radc=31-3*open;   // slow orbit, gentle bob, dolly-in as it opens
+      const az=now/9000, el=0.24+Math.sin(now/7000)*0.10, radc=31-2.4*ca;   // slow orbit, gentle dolly-in as Ca builds
       const eye=[Math.cos(el)*Math.sin(az)*radc, Math.sin(el)*radc, Math.cos(el)*Math.cos(az)*radc];
       const P=persp(0.64, cv.width/cv.height, 0.5, 200), V=look(eye,[0,0,0],[0,1,0]);
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
@@ -188,7 +198,7 @@
       gl.bindVertexArray(null);
       if(!reduce) requestAnimationFrame(draw);
     }
-    if(reduce){ phaseT=12; last=performance.now(); draw(performance.now()); }
+    if(reduce){ T=20; attempts=800; opens=9; ca=0.7; setPhase(3); draw(performance.now()); }
     else requestAnimationFrame(draw);
   }
   </script>

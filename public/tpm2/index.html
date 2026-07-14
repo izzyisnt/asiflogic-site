@@ -13,17 +13,16 @@
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
     #gl{position:fixed;inset:0;width:100%;height:100%;display:block}
     .hud{position:fixed;pointer-events:none;z-index:20}
-    #top{top:0;left:0;right:0;padding:18px 22px;background:linear-gradient(#05090bd9,#05090b00)}
+    #top{top:0;left:0;right:0;padding:16px 100px 16px 22px;background:linear-gradient(#05090bee,#05090b00)}
     #top h1{font-size:16px;font-weight:600;margin:0}
     #top .sub{font-size:12px;color:#8ba09c;margin-top:3px;font-family:ui-monospace,Menlo,monospace}
     #top .sub b{color:var(--teal);font-weight:600}
-    #story{position:fixed;left:22px;bottom:20px;max-width:min(48vw,400px);padding:14px 16px;
-      background:#0a1114cc;border:1px solid #1a2725;border-radius:12px;backdrop-filter:blur(3px);z-index:20}
+    #bottom{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;gap:18px;padding:16px 20px;flex-wrap:wrap-reverse}
+    #story{max-width:min(52vw,400px);padding:14px 16px;background:#0a1114cc;border:1px solid #1a2725;border-radius:12px;backdrop-filter:blur(3px)}
     #story .step{font-size:12px;color:#7f938f;font-family:ui-monospace,Menlo,monospace;letter-spacing:.06em}
     #story .txt{font-size:14px;line-height:1.5;margin-top:6px;color:#dfeae7}
     #story .txt b{color:var(--accent)}
-    #legend{position:fixed;right:20px;bottom:20px;font-size:11px;color:#5e716d;text-align:right;line-height:1.6;
-      font-family:ui-monospace,Menlo,monospace;z-index:20}
+    #legend{font-size:11px;color:#5e716d;text-align:right;line-height:1.6;font-family:ui-monospace,Menlo,monospace;flex:0 0 auto}
     #legend b{color:#9fb2ae} #legend .a{color:var(--accent)} #legend .s{color:#7d95a8}
     #back{position:fixed;top:16px;right:18px;z-index:30;color:var(--teal);text-decoration:none;font-size:12px;
       font-family:ui-monospace,Menlo,monospace;background:#0a1114cc;border:1px solid #1a2725;border-radius:8px;padding:5px 9px;pointer-events:auto}
@@ -41,11 +40,13 @@
     <h1>The Tpm2.1 mechanism — why losing it makes cancer</h1>
     <div class="sub">rigidity buffering: <b id="buf">0.85</b> · Tpm2.1 present → sensor works · lost → sensor fails</div>
   </div>
-  <div id="story" class="hud">
-    <div class="step" id="step">REAL STRUCTURE · PDB 5NOG</div>
-    <div class="txt" id="txt"><b>Tropomyosin</b> (gold) runs the length of the <b style="color:#7d95a8">actin</b> filament, clamping it into the stiff bundle the rigidity sensor needs.</div>
+  <div id="bottom" class="hud">
+    <div id="story">
+      <div class="step" id="step">REAL STRUCTURE · PDB 5NOG</div>
+      <div class="txt" id="txt"><b>Tropomyosin</b> (gold) runs the length of the <b style="color:#7d95a8">actin</b> filament, clamping it into the stiff bundle the rigidity sensor needs.</div>
+    </div>
+    <div id="legend">structure: <b>RCSB PDB 5NOG</b><br/><span class="a">■</span> Tpm2.1 (tropomyosin) · <span class="s">■</span> actin (5 subunits)<br/>mechanism + numbers: <b>the model</b></div>
   </div>
-  <div id="legend" class="hud">structure: <b>RCSB PDB 5NOG</b><br/><span class="a">■</span> Tpm2.1 (tropomyosin) · <span class="s">■</span> actin (5 subunits)<br/>mechanism + numbers: <b>the model</b></div>
   <div id="err"></div>
   <script>
   const PHASES = [
@@ -162,12 +163,12 @@
     setPhase(0);
 
     const AMP=3.0;
-    function tpmAt(t){ if(t<8)return 1; if(t<11)return 1-(t-8)/3; if(t<16)return 0; if(t<19)return (t-16)/3; return 1; }
-    function phaseAt(t){ return t<3?0:t<8?1:t<11?2:t<16?3:4; }
+    function tpmAt(t){ if(t<10)return 1; if(t<14)return 1-(t-10)/4; if(t<21)return 0; if(t<25)return (t-21)/4; return 1; }
+    function phaseAt(t){ return t<4?0:t<10?1:t<14?2:t<21?3:4; }   // human-paced holds
     let last=performance.now(), T=0, pI=0;
 
     function draw(now){
-      const dt=(now-last)/1000; last=now; T=(T+dt)%20;
+      const dt=Math.min((now-last)/1000,0.05); last=now; T=(T+dt)%26;
       const tpm=tpmAt(T), np=phaseAt(T); if(np!==pI){pI=np;setPhase(np);}
       document.getElementById('buf').textContent=(0.85*tpm).toFixed(2);
       const bk=new Float32Array(10);
@@ -186,7 +187,7 @@
       gl.bindVertexArray(null);
       if(!reduce) requestAnimationFrame(draw);
     }
-    if(reduce){ T=13; last=performance.now(); draw(performance.now()); }
+    if(reduce){ T=17; last=performance.now(); draw(performance.now()); }
     else requestAnimationFrame(draw);
   }
   </script>

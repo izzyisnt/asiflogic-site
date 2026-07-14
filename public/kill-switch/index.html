@@ -75,9 +75,10 @@
     const cen=[[0,0,0],[0,0,0],[0,0,0]],cnt=[0,0,0];
     for(let i=0;i<N;i++){const c=chain[i];cen[c][0]+=pos[i*3];cen[c][1]+=pos[i*3+1];cnt[c]++;}
     const rad=cen.map((c,i)=>{const x=c[0]/cnt[i],y=c[1]/cnt[i],l=Math.hypot(x,y)||1;return [x/l,y/l];});
-    // per-atom colours: chain hue × subtle element value
-    const CHC=[[0.30,0.70,0.78],[0.44,0.57,0.83],[0.37,0.76,0.58]];
-    const EV=[1.0,0.86,0.92,1.15]; // C,O,N,S value factor
+    // per-atom colours: a cohesive cool jewel triad (blades A/C/E), element value modulation
+    const CHC=[[0.15,0.52,0.62],[0.20,0.61,0.75],[0.24,0.72,0.55]];
+    const EV=[1.0,0.88,0.93,1.12]; // C,O,N,S value factor
+    const VDW=[0.205,0.183,0.188,0.216]; // space-filling radii (C,O,N,S), slight merge
     // ---- geometry: low-poly sphere ----
     function sphere(ri,se){const p=[],ix=[];for(let i=0;i<=ri;i++){const th=i/ri*Math.PI,st=Math.sin(th),ct=Math.cos(th);
       for(let j=0;j<=se;j++){const ph=j/se*6.283;p.push(st*Math.cos(ph),ct,st*Math.sin(ph));}}
@@ -87,7 +88,7 @@
     // ---- instance buffer (static): base xyz + radius, colour, chain ----
     const ST=8, inst=new Float32Array(N*ST);
     for(let i=0;i<N;i++){const o=i*ST,c=chain[i],col=CHC[c],ev=EV[elem[i]]||1;
-      inst[o]=pos[i*3];inst[o+1]=pos[i*3+1];inst[o+2]=pos[i*3+2];inst[o+3]=0.17;
+      inst[o]=pos[i*3];inst[o+1]=pos[i*3+1];inst[o+2]=pos[i*3+2];inst[o+3]=VDW[elem[i]]||0.19;
       inst[o+4]=Math.min(1,col[0]*ev);inst[o+5]=Math.min(1,col[1]*ev);inst[o+6]=Math.min(1,col[2]*ev);inst[o+7]=c;}
     // ---- program ----
     function sh(t,s){const o=gl.createShader(t);gl.shaderSource(o,s);gl.compileShader(o);
@@ -103,12 +104,28 @@
         vec3 w = aPos*aOff.w + base; vW=w; vN=aPos; vC=aCol; gl_Position=uVP*vec4(w,1.0); }`));
     gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,`#version 300 es
       precision highp float; in vec3 vN,vC,vW; uniform vec3 uL,uCam,uFog; out vec4 f;
-      void main(){ vec3 n=normalize(vN),l=normalize(uL),v=normalize(uCam-vW);
-        float d=max(dot(n,l),0.0); float rim=pow(1.0-max(dot(n,v),0.0),2.6);
-        float sp=pow(max(dot(reflect(-l,n),v),0.0),20.0)*0.3;
-        vec3 c=vC*(0.32+0.85*d)+vec3(sp)+rim*0.15*vec3(0.5,0.85,0.9);
-        float fog=clamp((length(uCam-vW)-30.0)/40.0,0.0,0.85); f=vec4(mix(c,uFog,fog),1.0); }`));
+      const vec3 FILL=vec3(-0.45,-0.35,-0.5);
+      const vec3 KEYC=vec3(1.0,0.94,0.84), FILLC=vec3(0.26,0.46,0.66), RIMC=vec3(0.40,0.80,0.94);
+      void main(){ vec3 n=normalize(vN),k=normalize(uL),v=normalize(uCam-vW),fd=normalize(FILL);
+        float kl=max(dot(n,k),0.0), fl=max(dot(n,fd),0.0);
+        float rim=pow(1.0-max(dot(n,v),0.0),3.0);
+        vec3 h=normalize(k+v); float sp=pow(max(dot(n,h),0.0),42.0)*0.20;
+        vec3 c=vC*(vec3(0.10,0.12,0.15) + kl*KEYC + 0.5*fl*FILLC) + sp*KEYC + rim*0.55*RIMC;
+        float fog=clamp((length(uCam-vW)-32.0)/46.0,0.0,0.9); f=vec4(mix(c,uFog,fog),1.0); }`));
     gl.linkProgram(prog); if(!gl.getProgramParameter(prog,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(prog));
+    // ---- background vignette (guarded; falls back to flat clear) ----
+    let bgprog=null,bgvao=null;
+    try{ bgprog=gl.createProgram();
+      gl.attachShader(bgprog,sh(gl.VERTEX_SHADER,`#version 300 es
+        out vec2 vUv; const vec2 P[3]=vec2[3](vec2(-1.,-1.),vec2(3.,-1.),vec2(-1.,3.));
+        void main(){ vec2 p=P[gl_VertexID]; vUv=p*0.5+0.5; gl_Position=vec4(p,0.,1.); }`));
+      gl.attachShader(bgprog,sh(gl.FRAGMENT_SHADER,`#version 300 es
+        precision highp float; in vec2 vUv; out vec4 f;
+        void main(){ float r=length((vUv-0.5)*vec2(1.15,1.0))*1.5;
+          f=vec4(mix(vec3(0.05,0.11,0.13), vec3(0.006,0.017,0.024), clamp(r,0.,1.)),1.0); }`));
+      gl.linkProgram(bgprog); if(!gl.getProgramParameter(bgprog,gl.LINK_STATUS)) bgprog=null;
+      bgvao=gl.createVertexArray();
+    }catch(e){ bgprog=null; }
     const vao=gl.createVertexArray();gl.bindVertexArray(vao);
     let b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,SP.p,gl.STATIC_DRAW);
     gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,3,gl.FLOAT,false,0,0);
@@ -132,7 +149,7 @@
 
     let W,H;function resize(){const d=Math.min(devicePixelRatio||1,2);W=cv.clientWidth;H=cv.clientHeight;cv.width=W*d;cv.height=H*d;gl.viewport(0,0,cv.width,cv.height);}
     addEventListener('resize',resize);resize();
-    gl.enable(gl.DEPTH_TEST);gl.clearColor(0.02,0.045,0.055,1);
+    gl.enable(gl.DEPTH_TEST);gl.clearColor(0.006,0.017,0.024,1);
     document.getElementById('load').style.display='none';
     const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
 
@@ -154,17 +171,18 @@
       const dt=(now-last)/1000; last=now; phaseT=(phaseT+dt)%20;
       const open=openAt(phaseT), np=phaseAt(phaseT); if(np!==pIdx){pIdx=np;setPhase(np);}
       const flat=1-0.28*open, zoff=-1.4*open;
+      const az=now/9000, el=0.24+Math.sin(now/7000)*0.10, radc=31-3*open;   // slow orbit, gentle bob, dolly-in as it opens
+      const eye=[Math.cos(el)*Math.sin(az)*radc, Math.sin(el)*radc, Math.cos(el)*Math.cos(az)*radc];
+      const P=persp(0.64, cv.width/cv.height, 0.5, 200), V=look(eye,[0,0,0],[0,1,0]);
+      gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+      if(bgprog){ gl.depthMask(false); gl.useProgram(bgprog); gl.bindVertexArray(bgvao); gl.drawArrays(gl.TRIANGLES,0,3); gl.bindVertexArray(null); gl.depthMask(true); }
       gl.useProgram(prog);
       gl.uniform3f(uB0, rad[0][0]*R*open, rad[0][1]*R*open, zoff);
       gl.uniform3f(uB1, rad[1][0]*R*open, rad[1][1]*R*open, zoff);
       gl.uniform3f(uB2, rad[2][0]*R*open, rad[2][1]*R*open, zoff);
       gl.uniform1f(uFlat, flat);
-      const az=now/6000, el=0.28, radc=32;
-      const eye=[Math.cos(el)*Math.sin(az)*radc, Math.sin(el)*radc, Math.cos(el)*Math.cos(az)*radc];
-      const P=persp(0.7, cv.width/cv.height, 0.5, 200), V=look(eye,[0,0,0],[0,1,0]);
       gl.uniformMatrix4fv(uVP,false,mul(P,V));
-      gl.uniform3fv(uL,nrm([0.5,0.9,0.5]));gl.uniform3fv(uCam,eye);gl.uniform3fv(uFog,[0.03,0.06,0.075]);
-      gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);
+      gl.uniform3fv(uL,nrm([0.45,0.85,0.55]));gl.uniform3fv(uCam,eye);gl.uniform3fv(uFog,[0.006,0.017,0.024]);
       gl.bindVertexArray(vao);
       gl.drawElementsInstanced(gl.TRIANGLES,SP.i.length,gl.UNSIGNED_SHORT,0,N);
       gl.bindVertexArray(null);

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>How it works — killing cancer with sound · Asif Logic</title>
+  <meta name="description" content="A plain-language walkthrough: ultrasound flicks Piezo1, a molecular ratchet integrates the signal, Tpm2.1 decides whether the ratchet grips, and only the cancer cells — whose ratchet freewheels — die. Asif Logic." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
+  <style>
+    :root{--bg:#070c0e;--surface:#0b1214;--ink:#eaf1ef;--ink2:#9fb2ad;--muted:#5e716d;--line:#182422;
+      --teal:#4fc4c4;--amber:#e6a23c;--live:#37c08a;--die:#e0645f;--talin:#b57fa0}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+    .wrap{max-width:760px;margin:0 auto;padding:30px 20px 70px}
+    .nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em;margin-bottom:24px}
+    .nav a{color:var(--muted);text-decoration:none} .nav a.on{color:var(--teal);font-weight:600} .nav a:hover{color:var(--ink2)}
+    .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:0 0 12px}
+    h1{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;font-weight:600;text-wrap:balance}
+    h1 em{font-style:normal;color:var(--teal)}
+    .lead{font-size:19px;color:var(--ink2);margin:0 0 40px;max-width:60ch;text-wrap:pretty}
+
+    .steps{display:flex;flex-direction:column;gap:14px;margin:0 0 44px;counter-reset:s}
+    .step{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:16px 18px;border:1px solid var(--line);border-radius:14px;background:var(--surface);transition:border-color .3s,background .3s}
+    .step.on{border-color:var(--teal);background:#0d1719}
+    .num{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-family:ui-monospace,Menlo,monospace;font-size:14px;font-weight:600;background:#132020;color:var(--ink2);flex:none;transition:.3s}
+    .step.on .num{background:var(--teal);color:#04100f}
+    .step h3{margin:2px 0 4px;font-size:16px;font-weight:650;letter-spacing:-.01em}
+    .step p{margin:0;font-size:14.5px;color:var(--ink2)} .step p b{color:var(--ink)}
+    .step .who{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-top:6px}
+    .step .who b{color:var(--teal)}
+
+    .payoff{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:22px;margin:0 0 40px}
+    .payoff h2{margin:0 0 4px;font-size:18px;font-weight:600}
+    .payoff .sub{color:var(--ink2);font-size:14px;margin:0 0 20px}
+    .cells{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media (max-width:520px){.cells{grid-template-columns:1fr}}
+    .cell{border-radius:12px;padding:16px;text-align:center;background:#0a1113;border:1px solid var(--line)}
+    .cell h4{margin:0 0 2px;font-size:14px;font-weight:600}
+    .cell .tag{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:14px}
+    .ratchet{display:flex;flex-direction:column-reverse;gap:4px;width:46px;margin:0 auto 14px;padding:8px;border:1px solid var(--line);border-radius:8px;background:#060b0c}
+    .tooth{height:12px;border-radius:3px;background:#16211f}
+    .fate{font-size:15px;font-weight:700;letter-spacing:.04em}
+    .live{color:var(--live)} .die{color:var(--die)}
+    .cellnote{font-size:12px;color:var(--muted);margin-top:10px;line-height:1.5}
+
+    .dives{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:0 0 36px}
+    .dive{display:block;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .2s}
+    .dive:hover{border-color:var(--teal)}
+    .dive .k{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--teal);letter-spacing:.04em}
+    .dive .t{font-size:14px;font-weight:600;margin-top:3px}
+    .dive .d{font-size:12.5px;color:var(--muted);margin-top:3px}
+    .foot{color:var(--muted);font-size:12.5px;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;max-width:66ch}
+    .foot b{color:var(--ink2)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="nav"><a href="/">Asif Logic</a> · <a class="on">how it works</a> · <a href="/kill-switch/">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a></div>
+    <div class="eyebrow">How it works</div>
+    <h1>Killing cancer with sound, in <em>five steps</em>.</h1>
+    <p class="lead">The whole idea in one line: ultrasound tickles a pressure channel, a molecular ratchet keeps score, and only the cells whose ratchet is broken — the cancer cells — die. Here is each step.</p>
+
+    <div class="steps" id="steps">
+      <div class="step"><div class="num">1</div><div>
+        <h3>Ultrasound flicks the channel</h3>
+        <p>A gentle 33&nbsp;kHz wave nudges <b>Piezo1</b>, a pressure-sensitive pore. It opens only ~1 in 100 nudges, for a moment — a rare, random flicker, not a switch.</p>
+        <div class="who">the trigger · <b>Piezo1</b></div></div></div>
+      <div class="step"><div class="num">2</div><div>
+        <h3>A ratchet keeps score</h3>
+        <p>Those flickers don’t pile up in the calcium (it’s pumped away). They feed a <b>molecular ratchet</b>: a protein (talin) unfolds under pull, and another (vinculin) locks it — one click that can’t slip back.</p>
+        <div class="who">the integrator · <b>the ratchet</b></div></div></div>
+      <div class="step"><div class="num">3</div><div>
+        <h3>Stiff ground makes it click</h3>
+        <p>On stiff tissue the pull builds fast, the ratchet <b>clicks forward and locks</b>, click after click — the cell has now measured and remembered where it is. On soft tissue it slips instead.</p>
+        <div class="who">reads stiffness · click vs. slip</div></div></div>
+      <div class="step"><div class="num">4</div><div>
+        <h3>Tpm2.1 is the grip</h3>
+        <p><b>Tpm2.1</b> stiffens the actin cable the ratchet pulls on. With it, the ratchet has something to grip. Lose it — as cancer cells do — and the cable buckles: the ratchet <b>freewheels</b> and the cell goes stiffness-blind.</p>
+        <div class="who">the on-switch · <b>Tpm2.1</b></div></div></div>
+      <div class="step"><div class="num">5</div><div>
+        <h3>Only the broken ratchet dies</h3>
+        <p>Under the same ultrasound, a healthy cell’s working ratchet lets it cope and <b>survive</b>. A cancer cell’s freewheeling ratchet can’t — the load it can’t handle tips it into <b>self-destruction</b>. Same beam, opposite fates.</p>
+        <div class="who">the therapy · selective</div></div></div>
+    </div>
+
+    <div class="payoff">
+      <h2>The whole point</h2>
+      <p class="sub">Same beam of ultrasound. The ratchet is the difference between living and dying.</p>
+      <div class="cells">
+        <div class="cell">
+          <h4 style="color:var(--live)">Healthy cell</h4>
+          <div class="tag">Tpm2.1 intact · ratchet grips</div>
+          <div class="ratchet" id="rH"></div>
+          <div class="fate live" id="fH">SURVIVES</div>
+          <div class="cellnote">clicks lock in → the cell copes with the load</div>
+        </div>
+        <div class="cell">
+          <h4 style="color:var(--die)">Cancer cell</h4>
+          <div class="tag">Tpm2.1 lost · ratchet freewheels</div>
+          <div class="ratchet" id="rC"></div>
+          <div class="fate die" id="fC">DIES</div>
+          <div class="cellnote">no clicks → the load has nowhere to go</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dives">
+      <a class="dive" href="/kill-switch/"><div class="k">STEP 1</div><div class="t">Piezo1, atom by atom →</div><div class="d">the real channel, gating stochastically</div></a>
+      <a class="dive" href="/ratchet/"><div class="k">STEPS 2–3</div><div class="t">The ratchet →</div><div class="d">click, slip, freewheel — side by side</div></a>
+      <a class="dive" href="/tpm2/"><div class="k">STEP 4</div><div class="t">Tpm2.1 →</div><div class="d">the real filament losing its grip</div></a>
+    </div>
+
+    <p class="foot"><b>Honest footing.</b> The probabilities, the 5&nbsp;kPa stiffness threshold, and the selective outcome come from a runnable, falsifiable model; the molecular pictures in the deep-dives use real structures from the Protein Data Bank, but these diagrams are schematic and several numbers are project estimates, not measurements. This makes the hypothesis clear and testable — not proven.</p>
+  </div>
+  <script>
+  // build the two ratchet columns (8 teeth)
+  const N=8;
+  function build(id){const el=document.getElementById(id),t=[];for(let i=0;i<N;i++){const d=document.createElement('div');d.className='tooth';el.appendChild(d);t.push(d);}return t;}
+  const H=build('rH'), C=build('rC');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // step highlighter
+  const steps=[...document.querySelectorAll('#steps .step')];
+  let si=0;
+  function step(){ steps.forEach((s,i)=>s.classList.toggle('on',i===si)); si=(si+1)%steps.length; }
+
+  // healthy ratchet fills click-by-click and holds; cancer never fills (freewheel)
+  let hc=0, hold=0;
+  function tick(){
+    if(hc<N){ H[hc].style.background='var(--live)'; hc++; }
+    else { hold++; if(hold>4){ hc=0; hold=0; H.forEach(t=>t.style.background='#16211f'); } }
+    document.getElementById('fH').textContent = hc>=N?'SURVIVES':'reinforcing…';
+    // cancer: a faint jitter, never captures
+    C.forEach((t,i)=>{ t.style.background = (Math.floor(performance.now()/220)%N===i)?'#3a1f22':'#16211f'; });
+  }
+  if(reduce){ H.forEach(t=>t.style.background='var(--live)'); steps[0].classList.add('on'); }
+  else { step(); setInterval(step,2600); tick(); setInterval(tick,650); }
+  </script>
+</body>
+</html>

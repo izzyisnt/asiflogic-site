@@ -45,7 +45,7 @@
     <div id="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a class="on">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a></div>
     <h1>Piezo1 gating — the real channel, atom by atom</h1>
     <div class="sub">Piezo1 opens with membrane <b>tension</b> (P<sub>o</sub> rises around T½ ≈ <b>1.4 mN/m</b>) — a probability, not a force switch</div>
-    <div class="mon" id="mon">gating attempts <b id="att">0</b> · opened <b id="opn">0</b> · P<sub>open</sub> ≈ <b id="po">—</b> · Ca²⁺ <b id="cav">0%</b> <span style="color:#5e716d">(transient — pumped away)</span>
+    <div class="mon" id="mon">peak P<sub>o</sub> ≈ <b>0.82</b> at 1.8 mN/m · but inactivates → flickers <b id="opn">0</b>/<b id="att">0</b> · Ca²⁺ <b id="cav">0%</b> <span style="color:#5e716d">(transient — pumped away)</span>
       <div class="cabar"><i id="cab"></i></div></div>
   </div>
   <div id="bottom" class="hud">
@@ -60,8 +60,8 @@
   const PHASES = [
     ['REAL STRUCTURE · PDB 6B3R', '35,478 atoms of the real three-bladed <b>Piezo1</b> channel — the trimeric propeller, closed and quiet.'],
     ['① THE BARE FIELD', 'A 33&nbsp;kHz wave adds only a sliver of membrane tension on its own — well below what opens the channel. Piezo1 is gated by tension (T½ ≈ 1.4 mN/m), not a point force.'],
-    ['② THE GAP IS BRIDGED BY THE CELL', 'Myosin prestress biases the membrane near threshold, and curvature / patch / resonance terms add an <b>uncertain 10²–10⁵×</b> — a range, not a single number.'],
-    ['③ STOCHASTIC GATING', 'Piezo1 gates probabilistically — a brief, low-probability flicker per cycle — and it <b>fast-inactivates</b>, so the oscillating drive keeps re-triggering it. The Ca²⁺ that enters is pumped away in seconds.'],
+    ['② THE CELL PROVIDES THE TENSION', 'The bare field sits ~<b>2600× below</b> T½ (a derived Young–Laplace ratio, not a hardcoded 1e5). Myosin <b>cortical tension (~1–2 mN/m)</b> reaches T½ directly → total ≈ <b>1.8 mN/m</b>, peak P<sub>o</sub> ≈ <b>0.82</b>. The field is marginal; the cell decides.'],
+    ['③ IT INACTIVATES → BRIEF FLICKERS', 'Even at high P<sub>o</sub> the channel <b>fast-inactivates</b> in milliseconds — so activity is brief flickers, not a held opening, and the 33 kHz drive keeps re-triggering it. The Ca²⁺ that enters is pumped away in seconds.'],
     ['④ THE RATCHET INTEGRATES', 'Calcium is pumped away in seconds — it does not accumulate. The flickers feed the <b>talin–vinculin ratchet</b> instead, the real integrator: a healthy cell grips and reinforces, a Tpm2.1-null cell freewheels.'],
     ['⑤ SELECTIVE APOPTOSIS', 'A cell whose ratchet cannot reinforce cannot buffer the load — so LFU commits <b>only the Tpm2.1-null cancer cell</b> to death. That is the therapeutic window.'],
   ];
@@ -167,7 +167,7 @@
     //      PRNG -> stochastic-looking, but deterministic and reproducible. ----
     function mkrng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
     const rng=mkrng(20260712), Po=0.012, R=4.2, LOOP=32, GATE0=13, GATE1=28;
-    const A=document.getElementById('att'),O=document.getElementById('opn'),PO=document.getElementById('po'),
+    const A=document.getElementById('att'),O=document.getElementById('opn'),
           CV=document.getElementById('cav'),CB=document.getElementById('cab');
     function setPhase(i){document.getElementById('step').innerHTML=PHASES[i][0];document.getElementById('txt').innerHTML=PHASES[i][1];}
     function phaseAt(t){ return t<4?0:t<9?1:t<13?2:t<24?3:t<28?4:5; }   // human-paced holds
@@ -181,7 +181,7 @@
       pulse=Math.max(0, pulse - dt*3.4);                             // each opening lasts ~0.3 s
       ca=Math.max(0, ca*(1-dt*0.6) + (pulse>0?pulse*dt*1.4:0));       // Ca rises on a flicker then is pumped away -> transient, not integrated
       const open=pulse*0.85;                                        // a brief splay flicker
-      if(A){A.textContent=attempts;O.textContent=opens;PO.textContent=opens>0?'1/'+Math.round(attempts/opens):'—';CV.textContent=Math.round(ca*100)+'%';CB.style.width=(ca*100)+'%';}
+      if(A){A.textContent=attempts;O.textContent=opens;CV.textContent=Math.round(ca*100)+'%';CB.style.width=(ca*100)+'%';}
       const flat=1-0.28*open, zoff=-1.4*open;
       const az=now/9000, el=0.24+Math.sin(now/7000)*0.10, radc=30-(pIdx>=3?2:0);   // slow orbit, gentle dolly-in during gating
       const eye=[Math.cos(el)*Math.sin(az)*radc, Math.sin(el)*radc, Math.cos(el)*Math.cos(az)*radc];

@@ -14,6 +14,8 @@
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
     .wrap{max-width:1040px;margin:0 auto;padding:34px 20px 60px}
     a.back{color:#4fc4c4;text-decoration:none;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+    .nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em}
+    .nav a{color:#5e716d;text-decoration:none} .nav a.on{color:#4fc4c4;font-weight:600} .nav a:hover{color:#9fb2ad}
     .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#4fc4c4;margin:14px 0 10px}
     h1{font-size:clamp(24px,4vw,34px);line-height:1.1;margin:0 0 10px;letter-spacing:-.01em;font-weight:600}
     .lead{color:var(--ink2);font-size:16px;line-height:1.55;max-width:64ch;margin:0 0 8px}
@@ -34,8 +36,8 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="back" href="/">← Asif Logic</a>
-    <div class="eyebrow">The rigidity sensor · the integrator</div>
+    <div class="nav"><a href="/">Asif Logic</a> · <a href="/kill-switch/">Piezo1</a> · <a class="on">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a></div>
+    <div class="eyebrow" style="margin-top:14px">The rigidity sensor · the integrator</div>
     <h1>The talin–vinculin ratchet</h1>
     <p class="lead">Calcium is cleared in seconds and Piezo1 inactivates in milliseconds — neither can remember mechanical history. The cell integrates it with a <b>molecular ratchet</b>: myosin loads talin, a domain unfolds, and vinculin captures it (the pawl) — a click that can’t slip back. Whether a click is caught is a race between unfolding and the clutch slipping, and that race is what reads stiffness.</p>
     <p class="model">from the model · grips (P<sub>advance</sub>=½) at <b>5 kPa</b> · reinforce after <b>8</b> captured clicks · stiff <b id="ps">0.89</b> · soft <b id="pf">0.03</b> · Tpm2.1-null <b id="pn">0.00</b></p>
@@ -67,7 +69,7 @@
       <span><i style="background:var(--vinc)"></i>vinculin (the pawl)</span>
       <span><i style="background:var(--actin)"></i>actin (the anchor)</span>
     </div>
-    <p class="note"><b>Reading it.</b> Myosin pulls the talin rod upward; each attempt tries to advance one tooth. On <b>stiff</b> matrix force builds fast, talin unfolds before the clutch slips, and vinculin catches the tooth — the ratchet <b>clicks forward and locks</b>, accumulating an irreversible reinforcement. On <b>soft</b> matrix the load builds too slowly, the clutch slips first, and the rod springs back — no capture. With <b>Tpm2.1 lost</b> the actin anchor can’t bear load at all, so the rod never tensions and the ratchet <b>freewheels</b> — the cancer cell is stiffness-blind. The advance probabilities and the 5 kPa grip point come straight from the model; the mechanism is drawn schematically (a ratchet-and-pawl), the molecules labelled.</p>
+    <p class="note"><b>Reading it.</b> Myosin pulls the talin rod upward; each attempt tries to advance one tooth. On <b>stiff</b> matrix force builds fast, talin unfolds before the clutch slips, and vinculin catches the tooth — the ratchet <b>clicks forward and locks</b>, accumulating an irreversible reinforcement. On <b>soft</b> matrix the load builds too slowly, the clutch slips first, and the rod springs back — no capture. With <b>Tpm2.1 lost</b> the actin anchor can’t bear load at all, so the rod never tensions and the ratchet <b>freewheels</b> — the cancer cell is stiffness-blind. The advance probabilities and the 5 kPa grip point come straight from the model; the mechanism is drawn schematically (a ratchet-and-pawl), the molecules labelled. Its input is the stochastic <b><a href="/kill-switch/" style="color:inherit">Piezo1</a></b> flicker; whether it grips at all is set by <b><a href="/tpm2/" style="color:inherit">Tpm2.1</a></b>.</p>
   </div>
   <script>
   const D={ps:0.891, pf:0.0314, pn:0.0, commit:8};

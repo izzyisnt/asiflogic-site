@@ -13,7 +13,9 @@
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
     #gl{position:fixed;inset:0;width:100%;height:100%;display:block}
     .hud{position:fixed;pointer-events:none;z-index:20}
-    #top{top:0;left:0;right:0;padding:16px 100px 16px 22px;background:linear-gradient(#05090bee,#05090b00)}
+    #top{top:0;left:0;right:0;padding:14px 22px 16px;background:linear-gradient(#05090bee,#05090b00)}
+    #nav{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;margin-bottom:9px;pointer-events:auto;letter-spacing:.02em}
+    #nav a{color:#5e716d;text-decoration:none} #nav a.on{color:var(--accent);font-weight:600} #nav a:hover{color:#9fb2ad}
     .mon{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:#8ba09c;margin-top:8px;max-width:480px;line-height:1.5}
     .mon b{color:var(--accent);font-weight:600}
     .cabar{height:6px;border-radius:4px;background:#12201e;margin-top:6px;max-width:300px;overflow:hidden}
@@ -39,11 +41,11 @@
 <body>
   <canvas id="gl"></canvas>
   <div id="load">loading the real Piezo1 structure — 35,478 atoms (PDB 6B3R)…</div>
-  <a id="back" href="/">← Asif Logic</a>
   <div id="top" class="hud">
+    <div id="nav"><a href="/">Asif Logic</a> · <a class="on">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a></div>
     <h1>Piezo1 gating — the real channel, atom by atom</h1>
     <div class="sub">LFU 33&nbsp;kHz → bare <b>5.4×10⁻⁵ pN</b> · ×10⁵ myosin → <b>5.4 pN</b>, past the <b>4 pN</b> threshold</div>
-    <div class="mon" id="mon">gating attempts <b id="att">0</b> · opened <b id="opn">0</b> · P<sub>open</sub> ≈ <b id="po">—</b> · Ca²⁺ integrated <b id="cav">0%</b>
+    <div class="mon" id="mon">gating attempts <b id="att">0</b> · opened <b id="opn">0</b> · P<sub>open</sub> ≈ <b id="po">—</b> · Ca²⁺ influx <b id="cav">0%</b>
       <div class="cabar"><i id="cab"></i></div></div>
   </div>
   <div id="bottom" class="hud">
@@ -51,7 +53,7 @@
       <div class="step" id="step">REAL STRUCTURE · PDB 6B3R</div>
       <div class="txt" id="txt">35,478 atoms of the real three-bladed <b>Piezo1</b> channel — closed and quiet.</div>
     </div>
-    <div id="legend">structure: <b>RCSB PDB 6B3R</b> · 35,478 atoms<br/>3 blades = chains <b>A / C / E</b><br/>gating stochastic · Ca integrated · <b>the model</b></div>
+    <div id="legend">structure: <b>RCSB PDB 6B3R</b> · 35,478 atoms<br/>gating stochastic · integrated by the <b>ratchet</b><br/>selectivity via <b>Tpm2.1</b> · the model</div>
   </div>
   <div id="err"></div>
   <script>
@@ -60,8 +62,8 @@
     ['① BARE FIELD', 'A 33&nbsp;kHz ultrasound wave alone exerts <b>5.4×10⁻⁵ pN</b> — about <b>10⁵× too weak</b> to gate the channel.'],
     ['② MYOSIN POWERS IT', "The cell's myosin amplifies the nudge ~10⁵× → <b>5.4 pN</b>, enough to make gating <em>possible</em> — but never certain."],
     ['③ STOCHASTIC GATING', 'Piezo1 is probabilistic: each attempt opens it only <b>~1 in 100</b> times, for a moment. Watch it flicker — the cell <b>integrates thousands</b> of these brief openings into a rising Ca²⁺ signal.'],
-    ['④ THE INTEGRATED SIGNAL', 'A healthy cell (Tpm2.1 intact) buffers that summed Ca²⁺ load and <b>survives</b>; a Tpm2.1-null cancer cell cannot.'],
-    ['⑤ SELECTIVE APOPTOSIS', 'Unbuffered, the accumulated load commits the cancer cell to death — <b>only it dies</b>. That is the therapeutic window.'],
+    ['④ THE RATCHET INTEGRATES', 'Calcium is pumped away in seconds — it does not accumulate. The flickers feed the <b>talin–vinculin ratchet</b> instead, the real integrator: a healthy cell grips and reinforces, a Tpm2.1-null cell freewheels.'],
+    ['⑤ SELECTIVE APOPTOSIS', 'A cell whose ratchet cannot reinforce cannot buffer the load — so LFU commits <b>only the Tpm2.1-null cancer cell</b> to death. That is the therapeutic window.'],
   ];
   function fail(m){ var e=document.getElementById('err'); e.style.display='block'; e.textContent=m; document.getElementById('load').style.display='none'; }
 

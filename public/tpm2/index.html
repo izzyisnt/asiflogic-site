@@ -13,7 +13,9 @@
       font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
     #gl{position:fixed;inset:0;width:100%;height:100%;display:block}
     .hud{position:fixed;pointer-events:none;z-index:20}
-    #top{top:0;left:0;right:0;padding:16px 100px 16px 22px;background:linear-gradient(#05090bee,#05090b00)}
+    #top{top:0;left:0;right:0;padding:14px 22px 16px;background:linear-gradient(#05090bee,#05090b00)}
+    #nav{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;margin-bottom:9px;pointer-events:auto;letter-spacing:.02em}
+    #nav a{color:#5e716d;text-decoration:none} #nav a.on{color:var(--teal);font-weight:600} #nav a:hover{color:#9fb2ad}
     #top h1{font-size:16px;font-weight:600;margin:0}
     #top .sub{font-size:12px;color:#8ba09c;margin-top:3px;font-family:ui-monospace,Menlo,monospace}
     #top .sub b{color:var(--teal);font-weight:600}
@@ -35,8 +37,8 @@
 <body>
   <canvas id="gl"></canvas>
   <div id="load">loading the real actin–tropomyosin filament — 15,600 atoms (PDB 5NOG)…</div>
-  <a id="back" href="/">← Asif Logic</a>
   <div id="top" class="hud">
+    <div id="nav"><a href="/">Asif Logic</a> · <a href="/kill-switch/">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a class="on">Tpm2.1</a></div>
     <h1>The Tpm2.1 mechanism — why losing it makes cancer</h1>
     <div class="sub">rigidity buffering: <b id="buf">0.85</b> · Tpm2.1 present → sensor works · lost → sensor fails</div>
   </div>
@@ -45,7 +47,7 @@
       <div class="step" id="step">REAL STRUCTURE · PDB 5NOG</div>
       <div class="txt" id="txt"><b>Tropomyosin</b> (gold) runs the length of the <b style="color:#7d95a8">actin</b> filament, clamping it into the stiff bundle the rigidity sensor needs.</div>
     </div>
-    <div id="legend">structure: <b>RCSB PDB 5NOG</b><br/><span class="a">■</span> Tpm2.1 (tropomyosin) · <span class="s">■</span> actin (5 subunits)<br/>mechanism + numbers: <b>the model</b></div>
+    <div id="legend">structure: <b>RCSB PDB 5NOG</b><br/><span class="a">■</span> Tpm2.1 (tropomyosin) · <span class="s">■</span> actin (5 subunits)<br/>enables the <b>ratchet</b> to grip · the model</div>
   </div>
   <div id="err"></div>
   <script>
@@ -53,8 +55,8 @@
     ['REAL STRUCTURE · PDB 5NOG', '<b>Tropomyosin</b> (gold) runs the length of the actin filament, clamping it into the stiff bundle the rigidity sensor needs.'],
     ['① STABILIZED', 'With Tpm2.1 bound, the actin bundle holds. Myosin can build force, talin unfolds, and the cell can <b>read the substrate stiffness</b>.'],
     ['② CANCER LOSES Tpm2.1', 'Transformed cells down-regulate Tpm2.1. Watch the tropomyosin dissolve away from the filament…'],
-    ['③ THE SENSOR COLLAPSES', '…and without its clamp the actin bundle <b>buckles</b>. No sustained force, no talin unfolding — the rigidity sensor is gone.'],
-    ['④ THE THERAPEUTIC HANDLE', 'A cell that cannot sense cannot buffer an ultrasound-driven Piezo1 load — so <b>LFU selectively kills exactly the Tpm2.1-null cancer cells</b>.'],
+    ['③ THE RATCHET FREEWHEELS', '…and without its clamp the actin bundle <b>buckles</b> — it can no longer bear load, so the <b>talin–vinculin ratchet loses its anchor and freewheels</b>. No captured clicks, no reinforcement.'],
+    ['④ THE THERAPEUTIC HANDLE', 'A cell whose ratchet freewheels cannot buffer an ultrasound-driven Piezo1 load — so <b>LFU selectively kills exactly the Tpm2.1-null cancer cells</b>.'],
   ];
   function fail(m){ var e=document.getElementById('err'); e.style.display='block'; e.textContent=m; document.getElementById('load').style.display='none'; }
   function setPhase(i){ document.getElementById('step').innerHTML=PHASES[i][0]; document.getElementById('txt').innerHTML=PHASES[i][1]; }

@@ -44,8 +44,8 @@
   <div id="top" class="hud">
     <div id="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a class="on">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a></div>
     <h1>Piezo1 gating — the real channel, atom by atom</h1>
-    <div class="sub">LFU 33&nbsp;kHz → bare <b>5.4×10⁻⁵ pN</b> · ×10⁵ myosin → <b>5.4 pN</b>, past the <b>4 pN</b> threshold</div>
-    <div class="mon" id="mon">gating attempts <b id="att">0</b> · opened <b id="opn">0</b> · P<sub>open</sub> ≈ <b id="po">—</b> · Ca²⁺ influx <b id="cav">0%</b>
+    <div class="sub">Piezo1 opens with membrane <b>tension</b> (P<sub>o</sub> rises around T½ ≈ <b>1.4 mN/m</b>) — a probability, not a force switch</div>
+    <div class="mon" id="mon">gating attempts <b id="att">0</b> · opened <b id="opn">0</b> · P<sub>open</sub> ≈ <b id="po">—</b> · Ca²⁺ <b id="cav">0%</b> <span style="color:#5e716d">(transient — pumped away)</span>
       <div class="cabar"><i id="cab"></i></div></div>
   </div>
   <div id="bottom" class="hud">
@@ -59,9 +59,9 @@
   <script>
   const PHASES = [
     ['REAL STRUCTURE · PDB 6B3R', '35,478 atoms of the real three-bladed <b>Piezo1</b> channel — the trimeric propeller, closed and quiet.'],
-    ['① BARE FIELD', 'A 33&nbsp;kHz ultrasound wave alone exerts <b>5.4×10⁻⁵ pN</b> — about <b>10⁵× too weak</b> to gate the channel.'],
-    ['② MYOSIN POWERS IT', "The cell's myosin amplifies the nudge ~10⁵× → <b>5.4 pN</b>, enough to make gating <em>possible</em> — but never certain."],
-    ['③ STOCHASTIC GATING', 'Piezo1 is probabilistic: each attempt opens it only <b>~1 in 100</b> times, for a moment. Watch it flicker — the cell <b>integrates thousands</b> of these brief openings into a rising Ca²⁺ signal.'],
+    ['① THE BARE FIELD', 'A 33&nbsp;kHz wave adds only a sliver of membrane tension on its own — well below what opens the channel. Piezo1 is gated by tension (T½ ≈ 1.4 mN/m), not a point force.'],
+    ['② THE GAP IS BRIDGED BY THE CELL', 'Myosin prestress biases the membrane near threshold, and curvature / patch / resonance terms add an <b>uncertain 10²–10⁵×</b> — a range, not a single number.'],
+    ['③ STOCHASTIC GATING', 'Piezo1 gates probabilistically — a brief, low-probability flicker per cycle — and it <b>fast-inactivates</b>, so the oscillating drive keeps re-triggering it. The Ca²⁺ that enters is pumped away in seconds.'],
     ['④ THE RATCHET INTEGRATES', 'Calcium is pumped away in seconds — it does not accumulate. The flickers feed the <b>talin–vinculin ratchet</b> instead, the real integrator: a healthy cell grips and reinforces, a Tpm2.1-null cell freewheels.'],
     ['⑤ SELECTIVE APOPTOSIS', 'A cell whose ratchet cannot reinforce cannot buffer the load — so LFU commits <b>only the Tpm2.1-null cancer cell</b> to death. That is the therapeutic window.'],
   ];
@@ -179,11 +179,11 @@
       const np=phaseAt(T); if(np!==pIdx){pIdx=np;setPhase(np);}
       if(T>=GATE0 && T<GATE1){ attempts++; if(pulse<=0.02 && rng()<Po){ pulse=1.0; opens++; } }
       pulse=Math.max(0, pulse - dt*3.4);                             // each opening lasts ~0.3 s
-      if(pulse>0) ca=Math.min(1, ca + pulse*dt*0.10);                // integrate Ca over openings
+      ca=Math.max(0, ca*(1-dt*0.6) + (pulse>0?pulse*dt*1.4:0));       // Ca rises on a flicker then is pumped away -> transient, not integrated
       const open=pulse*0.85;                                        // a brief splay flicker
       if(A){A.textContent=attempts;O.textContent=opens;PO.textContent=opens>0?'1/'+Math.round(attempts/opens):'—';CV.textContent=Math.round(ca*100)+'%';CB.style.width=(ca*100)+'%';}
       const flat=1-0.28*open, zoff=-1.4*open;
-      const az=now/9000, el=0.24+Math.sin(now/7000)*0.10, radc=31-2.4*ca;   // slow orbit, gentle dolly-in as Ca builds
+      const az=now/9000, el=0.24+Math.sin(now/7000)*0.10, radc=30-(pIdx>=3?2:0);   // slow orbit, gentle dolly-in during gating
       const eye=[Math.cos(el)*Math.sin(az)*radc, Math.sin(el)*radc, Math.cos(el)*Math.cos(az)*radc];
       const P=persp(0.64, cv.width/cv.height, 0.5, 200), V=look(eye,[0,0,0],[0,1,0]);
       gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);

@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The rigidity ratchet — click, slip, freewheel · Asif Logic</title>
+  <meta name="description" content="The talin–vinculin molecular ratchet: on stiff matrix it clicks forward and locks; on soft it slips; without Tpm2.1 it freewheels. Driven by the rigidity model. Asif Logic." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
+  <style>
+    :root{--bg:#070c0e;--ink:#e8efee;--ink2:#9fb2ad;--muted:#5e716d;--line:#1a2725;
+      --talin:#b57fa0;--vinc:#e6a23c;--actin:#83a76c;--myo:#9587ad;--lock:#37c08a;--slip:#e0918f}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--ink);
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+    .wrap{max-width:1040px;margin:0 auto;padding:34px 20px 60px}
+    a.back{color:#4fc4c4;text-decoration:none;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+    .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#4fc4c4;margin:14px 0 10px}
+    h1{font-size:clamp(24px,4vw,34px);line-height:1.1;margin:0 0 10px;letter-spacing:-.01em;font-weight:600}
+    .lead{color:var(--ink2);font-size:16px;line-height:1.55;max-width:64ch;margin:0 0 8px}
+    .model{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--muted);margin:0 0 26px}
+    .model b{color:#4fc4c4}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+    .panel{background:#0a1113;border:1px solid var(--line);border-radius:14px;padding:14px 14px 16px}
+    .panel h2{font-size:13px;font-weight:600;margin:0 0 2px;letter-spacing:.02em}
+    .panel .cond{font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--muted);margin-bottom:10px}
+    canvas{display:block;width:100%;height:auto;border-radius:8px}
+    .status{margin-top:10px;font-size:13px;font-weight:700;letter-spacing:.03em;display:flex;justify-content:space-between;align-items:baseline}
+    .status .clk{font-family:ui-monospace,Menlo,monospace;font-weight:500;color:var(--ink2);font-size:12px}
+    .legend{display:flex;flex-wrap:wrap;gap:14px;margin:22px 2px 0;font-size:12px;color:var(--ink2)}
+    .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:middle;margin-right:5px}
+    .note{color:var(--muted);font-size:12.5px;line-height:1.6;margin:22px 2px 0;max-width:70ch}
+    .note b{color:var(--ink2)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="/">← Asif Logic</a>
+    <div class="eyebrow">The rigidity sensor · the integrator</div>
+    <h1>The talin–vinculin ratchet</h1>
+    <p class="lead">Calcium is cleared in seconds and Piezo1 inactivates in milliseconds — neither can remember mechanical history. The cell integrates it with a <b>molecular ratchet</b>: myosin loads talin, a domain unfolds, and vinculin captures it (the pawl) — a click that can’t slip back. Whether a click is caught is a race between unfolding and the clutch slipping, and that race is what reads stiffness.</p>
+    <p class="model">from the model · grips (P<sub>advance</sub>=½) at <b>5 kPa</b> · reinforce after <b>8</b> captured clicks · stiff <b id="ps">0.89</b> · soft <b id="pf">0.03</b> · Tpm2.1-null <b id="pn">0.00</b></p>
+
+    <div class="grid">
+      <div class="panel">
+        <h2 style="color:var(--lock)">STIFF matrix</h2>
+        <div class="cond">30 kPa · P<sub>advance</sub> = 0.89 · healthy</div>
+        <canvas id="c0" width="300" height="330"></canvas>
+        <div class="status"><span id="s0" style="color:var(--lock)">ratcheting…</span><span class="clk" id="k0">0 / 8 clicks</span></div>
+      </div>
+      <div class="panel">
+        <h2 style="color:var(--vinc)">SOFT matrix</h2>
+        <div class="cond">1 kPa · P<sub>advance</sub> = 0.03 · healthy</div>
+        <canvas id="c1" width="300" height="330"></canvas>
+        <div class="status"><span id="s1" style="color:var(--vinc)">slipping…</span><span class="clk" id="k1">0 / 8 clicks</span></div>
+      </div>
+      <div class="panel">
+        <h2 style="color:var(--slip)">Tpm2.1 LOST</h2>
+        <div class="cond">30 kPa · P<sub>advance</sub> = 0.00 · cancer</div>
+        <canvas id="c2" width="300" height="330"></canvas>
+        <div class="status"><span id="s2" style="color:var(--slip)">freewheeling…</span><span class="clk" id="k2">0 / 8 clicks</span></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <span><i style="background:var(--myo)"></i>myosin (pulls)</span>
+      <span><i style="background:var(--talin)"></i>talin rod (the rack)</span>
+      <span><i style="background:var(--vinc)"></i>vinculin (the pawl)</span>
+      <span><i style="background:var(--actin)"></i>actin (the anchor)</span>
+    </div>
+    <p class="note"><b>Reading it.</b> Myosin pulls the talin rod upward; each attempt tries to advance one tooth. On <b>stiff</b> matrix force builds fast, talin unfolds before the clutch slips, and vinculin catches the tooth — the ratchet <b>clicks forward and locks</b>, accumulating an irreversible reinforcement. On <b>soft</b> matrix the load builds too slowly, the clutch slips first, and the rod springs back — no capture. With <b>Tpm2.1 lost</b> the actin anchor can’t bear load at all, so the rod never tensions and the ratchet <b>freewheels</b> — the cancer cell is stiffness-blind. The advance probabilities and the 5 kPa grip point come straight from the model; the mechanism is drawn schematically (a ratchet-and-pawl), the molecules labelled.</p>
+  </div>
+  <script>
+  const D={ps:0.891, pf:0.0314, pn:0.0, commit:8};
+  document.getElementById('ps').textContent=D.ps.toFixed(2);
+  document.getElementById('pf').textContent=D.pf.toFixed(2);
+  document.getElementById('pn').textContent=D.pn.toFixed(2);
+  function mkrng(s){return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+  const CSS=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  const COL={talin:CSS('--talin'),vinc:CSS('--vinc'),actin:CSS('--actin'),myo:CSS('--myo'),lock:CSS('--lock'),slip:CSS('--slip'),line:CSS('--line'),ink2:CSS('--ink2'),muted:CSS('--muted')};
+  const TEETH=8, TH=26;                 // 8 teeth, tooth height (device px in 300x330 space)
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function makePanel(id, p, seed, freewheel){
+    const cv=document.getElementById('c'+id), g=cv.getContext('2d');
+    return {cv,g,p,freewheel,rng:mkrng(seed),clicks:0,rise:0,phase:'rest',at:0,locked:false,
+            slist:document.getElementById('s'+id),klist:document.getElementById('k'+id),
+            snap:0,float:0};
+  }
+  const P=[ makePanel(0, D.ps, 101, false),
+            makePanel(1, D.pf, 202, false),
+            makePanel(2, D.pn, 303, true) ];
+
+  function update(pn,dt){
+    if(pn.locked){ pn.snap=Math.max(0,pn.snap-dt*4); return; }
+    if(pn.freewheel){ pn.float+=dt; return; }          // actin detached -> no engagement
+    pn.at+=dt; pn.snap=Math.max(0,pn.snap-dt*4);
+    if(pn.phase==='rest'){ if(pn.at>0.30){pn.phase='rise';pn.at=0;} }
+    else if(pn.phase==='rise'){ pn.rise=Math.min(1,pn.rise+dt*2.0);
+      if(pn.rise>=1){ if(pn.rng()<pn.p){ pn.clicks++; pn.snap=1; pn.phase='rest'; pn.rise=0; pn.at=0;
+          if(pn.clicks>=D.commit) pn.locked=true; }
+        else { pn.phase='slip'; pn.at=0; } } }
+    else if(pn.phase==='slip'){ pn.rise=Math.max(0,pn.rise-dt*2.6); if(pn.rise<=0){pn.phase='rest';pn.at=0;} }
+  }
+
+  function draw(pn,now){
+    const g=pn.g, W=300, H=330, cx=150, baseY=290, topY=40;
+    // background vignette
+    const bgr=g.createRadialGradient(cx,150,20,cx,150,220);
+    bgr.addColorStop(0,'#0d1618'); bgr.addColorStop(1,'#070c0e');
+    g.fillStyle=bgr; g.fillRect(0,0,W,H);
+    // actin anchor (bottom)
+    g.strokeStyle=COL.actin; g.lineWidth=6; g.lineCap='round';
+    g.globalAlpha=pn.freewheel?0.4:1;
+    g.beginPath();
+    for(let x=40;x<=260;x+=8){ const y=baseY+18+Math.sin(x*0.25)*3 + (pn.freewheel?Math.sin(x*0.5+pn.float*3)*7:0); x===40?g.moveTo(x,y):g.lineTo(x,y);}
+    g.stroke(); g.globalAlpha=1;
+    // rod vertical offset from clicks + current attempt rise
+    const lift=(pn.clicks+pn.rise)*0 ; // rod stays; teeth fill upward as clicks accumulate
+    const floatY=pn.freewheel?Math.sin(pn.float*1.6)*10:0;
+    const rodX=cx-16, rodW=32, rodTop=topY+10, rodBot=baseY;
+    // rod body (talin)
+    g.fillStyle=COL.talin; g.strokeStyle='#0a0f10'; g.lineWidth=1.5;
+    roundRect(g,rodX,rodTop+floatY,rodW,rodBot-rodTop,8); g.fill(); g.stroke();
+    // teeth on the right edge (one per possible click), filled up to clicks
+    for(let i=0;i<TEETH;i++){
+      const ty=rodBot - (i+1)*TH + floatY;
+      const captured = i < pn.clicks;
+      g.fillStyle = captured ? COL.talin : '#3a2b34';
+      g.strokeStyle='#0a0f10'; g.lineWidth=1;
+      g.beginPath(); g.moveTo(rodX+rodW, ty); g.lineTo(rodX+rodW+12, ty+TH*0.5); g.lineTo(rodX+rodW, ty+TH); g.closePath();
+      g.fill(); g.stroke();
+    }
+    // the attempt: a highlighted tooth rising above the captured stack
+    if(!pn.freewheel && !pn.locked && (pn.phase==='rise'||pn.phase==='slip')){
+      const ty=rodBot - (pn.clicks+ pn.rise)*TH - TH + floatY;
+      g.fillStyle='rgba(230,162,60,0.25)';
+      g.beginPath(); g.moveTo(rodX+rodW, ty); g.lineTo(rodX+rodW+12, ty+TH*0.5); g.lineTo(rodX+rodW, ty+TH); g.closePath(); g.fill();
+    }
+    // vinculin pawl — sits at the current locked level, snaps on capture
+    const pawlY = rodBot - pn.clicks*TH + floatY - (pn.snap*4);
+    if(!pn.freewheel){
+      g.fillStyle=COL.vinc; g.strokeStyle='#0a0f10'; g.lineWidth=1.5;
+      g.beginPath(); g.moveTo(rodX+rodW+30, pawlY-9); g.lineTo(rodX+rodW+11, pawlY+TH*0.5); g.lineTo(rodX+rodW+30, pawlY+TH+9); g.closePath();
+      g.fill(); g.stroke();
+      g.fillStyle=COL.ink2; g.font='10px ui-monospace,Menlo,monospace'; g.textAlign='left';
+      g.fillText('vinculin', rodX+rodW+26, pawlY+TH*0.5-14);
+    }
+    // myosin motor at top pulling up
+    g.strokeStyle=COL.myo; g.lineWidth=3; g.beginPath();
+    for(let i=0;i<7;i++){ const y=rodTop-4-i*4+floatY, x=cx+(i%2?7:-7); i===0?g.moveTo(cx,rodTop+floatY):g.lineTo(x,y);} g.stroke();
+    g.fillStyle=COL.myo; g.beginPath(); g.arc(cx,topY-6+floatY*0.4,9,0,6.28); g.fill();
+    g.strokeStyle=COL.myo; g.lineWidth=2; g.beginPath(); g.moveTo(cx,topY-18); g.lineTo(cx-5,topY-11); g.moveTo(cx,topY-18); g.lineTo(cx+5,topY-11); g.stroke();
+    // labels
+    g.fillStyle=COL.muted; g.font='10px ui-monospace,Menlo,monospace'; g.textAlign='center';
+    g.fillText('myosin ↑', cx, topY-24+floatY*0.4);
+    g.fillText('talin rod', cx, rodBot+8);
+    g.fillText(pn.freewheel?'actin — detached':'actin', cx, baseY+34);
+    // clicks meter (left)
+    const mx=18, mtop=rodTop, mh=rodBot-rodTop;
+    g.fillStyle='#16211f'; roundRect(g,mx,mtop,8,mh,4); g.fill();
+    g.fillStyle= pn.locked?COL.lock:(pn.freewheel?COL.slip:COL.vinc);
+    const fh=Math.min(1,pn.clicks/D.commit)*mh;
+    roundRect(g,mx,mtop+mh-fh,8,fh,4); g.fill();
+  }
+  function roundRect(g,x,y,w,h,r){r=Math.min(r,w/2,h/2);g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
+
+  function updHud(pn,i){
+    pn.klist.textContent = pn.clicks+' / '+D.commit+' clicks';
+    let s;
+    if(pn.freewheel) s='freewheeling';
+    else if(pn.locked) s='REINFORCED ✓';
+    else if(pn.clicks>=3) s='ratcheting…';
+    else if(i===1) s='slipping…';
+    else s='ratcheting…';
+    pn.slist.textContent=s;
+    pn.slist.style.color = pn.locked?COL.lock : (pn.freewheel?COL.slip : (i===1?COL.vinc:COL.lock));
+  }
+
+  let last=performance.now();
+  function loop(now){
+    const dt=Math.min((now-last)/1000,0.05); last=now;
+    P.forEach((pn,i)=>{ update(pn,dt); draw(pn,now); updHud(pn,i); });
+    // restart soft/stiff after a while so it loops; keep null freewheeling
+    P.forEach((pn)=>{ if(pn.locked && pn.snap<=0){ pn._hold=(pn._hold||0)+dt; if(pn._hold>3.5){pn.locked=false;pn.clicks=0;pn.phase='rest';pn.rise=0;pn.at=0;pn._hold=0;} } });
+    if(!reduce) requestAnimationFrame(loop);
+  }
+  if(reduce){ P[0].clicks=8;P[0].locked=true; P[1].clicks=1; draw(P[0]);draw(P[1]);draw(P[2]); P.forEach((p,i)=>updHud(p,i)); }
+  else requestAnimationFrame(loop);
+  </script>
+</body>
+</html>

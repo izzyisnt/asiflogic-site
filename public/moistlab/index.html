@@ -1,0 +1,688 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The pack charges. It just never balances. — moistlab · Asif Logic</title>
+<meta name="description" content="A working notebook from the moistlab HV battery build: the charge ceiling that misses the cell-balancing window, what is settled, what is still soft, and one claim retracted the same day it was published." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#x1F50B;</text></svg>" />
+<style>*{box-sizing:border-box}html,body{margin:0;padding:0}</style>
+</head>
+<body>
+  <div style="max-width:78ch;margin:0 auto;padding:1.6rem 1.5rem 0;font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em"><a href="/" style="color:#6B7A7C;text-decoration:none">Asif Logic</a> &middot; <span style="color:#1F6F6B;font-weight:600">moistlab &mdash; HV battery notebook</span></div>
+<title>HV BMS — working notebook</title>
+
+<style>
+  :root {
+    --ground:      #EDF1EF;
+    --ground-sunk: #E2E8E5;
+    --card:        #F7FAF8;
+    --ink:         #10191B;
+    --ink-soft:    #3C4A4D;
+    --ink-faint:   #6B7A7C;
+    --rule:        #C9D4D0;
+    --measured:    #1F6F6B;
+    --inferred:    #A9761C;
+    --guess:       #7A6E6B;
+    --miss:        #A33B32;
+    --copper:      #A9581F;
+    --band:        rgba(31, 111, 107, 0.10);
+    --serif: "Iowan Old Style", "Charter", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, "Cascadia Mono", "Roboto Mono", Menlo, Consolas, monospace;
+    --measure: 68ch;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:      #0F1618;
+      --ground-sunk: #0A1012;
+      --card:        #161F21;
+      --ink:         #E4EBE9;
+      --ink-soft:    #AFBDBB;
+      --ink-faint:   #7C8C8A;
+      --rule:        #263133;
+      --measured:    #4FB3AC;
+      --inferred:    #D9A945;
+      --guess:       #8E8683;
+      --miss:        #D96A5E;
+      --copper:      #D3853F;
+      --band:        rgba(79, 179, 172, 0.13);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #0F1618;
+    --ground-sunk: #0A1012;
+    --card:        #161F21;
+    --ink:         #E4EBE9;
+    --ink-soft:    #AFBDBB;
+    --ink-faint:   #7C8C8A;
+    --rule:        #263133;
+    --measured:    #4FB3AC;
+    --inferred:    #D9A945;
+    --guess:       #8E8683;
+    --miss:        #D96A5E;
+    --copper:      #D3853F;
+    --band:        rgba(79, 179, 172, 0.13);
+  }
+  :root[data-theme="light"] {
+    --ground:      #EDF1EF;
+    --ground-sunk: #E2E8E5;
+    --card:        #F7FAF8;
+    --ink:         #10191B;
+    --ink-soft:    #3C4A4D;
+    --ink-faint:   #6B7A7C;
+    --rule:        #C9D4D0;
+    --measured:    #1F6F6B;
+    --inferred:    #A9761C;
+    --guess:       #7A6E6B;
+    --miss:        #A33B32;
+    --copper:      #A9581F;
+    --band:        rgba(31, 111, 107, 0.10);
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 78ch; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  @media (max-width: 640px) { .wrap { padding: 2.5rem 1.15rem 4rem; } }
+
+  h1, h2, h3 { text-wrap: balance; line-height: 1.18; margin: 0; }
+  h1 { font-size: clamp(2rem, 5.5vw, 2.9rem); font-weight: 600; letter-spacing: -0.015em; }
+  h2 {
+    font-size: 1.42rem; font-weight: 600; letter-spacing: -0.01em;
+    padding-top: 0.6rem; border-top: 1px solid var(--rule);
+  }
+  h3 { font-size: 1.06rem; font-weight: 600; }
+  p { margin: 0; max-width: var(--measure); }
+  .stack { display: flex; flex-direction: column; gap: 1.05rem; }
+  .stack-lg { display: flex; flex-direction: column; gap: 3.1rem; }
+  .stack-sm { display: flex; flex-direction: column; gap: 0.62rem; }
+
+  .eyebrow {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .lede { font-size: 1.14rem; color: var(--ink-soft); max-width: 62ch; }
+  .num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  code {
+    font-family: var(--mono); font-size: 0.85em;
+    background: var(--ground-sunk); padding: 0.1em 0.35em; border-radius: 2px;
+  }
+  strong { font-weight: 650; }
+  a { color: var(--copper); }
+  a:focus-visible, button:focus-visible {
+    outline: 2px solid var(--copper); outline-offset: 3px;
+  }
+
+  /* provenance chips — the repo's own epistemic marks, used as the color system */
+  .chip {
+    font-family: var(--mono); font-size: 0.66rem; font-weight: 600;
+    letter-spacing: 0.08em; padding: 0.14em 0.44em; border-radius: 2px;
+    border: 1px solid currentColor; white-space: nowrap;
+  }
+  .m { color: var(--measured); }
+  .i { color: var(--inferred); }
+  .x { color: var(--guess); }
+
+  .masthead { display: flex; flex-direction: column; gap: 1.1rem; margin-bottom: 3.4rem; }
+  .rule-heavy { height: 3px; background: var(--ink); width: 3.5rem; }
+
+  .statline {
+    display: flex; flex-wrap: wrap; gap: 0.45rem 1.4rem;
+    font-family: var(--mono); font-size: 0.76rem; color: var(--ink-faint);
+    padding-top: 0.9rem; border-top: 1px solid var(--rule);
+  }
+  .statline b { color: var(--ink-soft); font-weight: 600; }
+
+  figure { margin: 0; display: flex; flex-direction: column; gap: 0.85rem; }
+  .chartbox {
+    background: var(--card); border: 1px solid var(--rule);
+    border-radius: 3px; padding: 1.1rem 1rem 0.7rem;
+  }
+  canvas { display: block; width: 100%; height: auto; }
+  figcaption {
+    font-family: var(--mono); font-size: 0.75rem; line-height: 1.55;
+    color: var(--ink-faint); max-width: 70ch;
+  }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 0.35rem 1.15rem; font-family: var(--mono); font-size: 0.72rem; }
+  .legend span { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--ink-soft); }
+  .swatch { width: 1.5rem; height: 0; border-top-width: 2px; border-top-style: solid; }
+
+  .scroller { overflow-x: auto; border: 1px solid var(--rule); border-radius: 3px; background: var(--card); }
+  table { border-collapse: collapse; width: 100%; font-family: var(--mono); font-size: 0.79rem; }
+  th, td { text-align: left; padding: 0.5rem 0.85rem; white-space: nowrap; border-bottom: 1px solid var(--rule); }
+  th { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; }
+  tbody tr:last-child td { border-bottom: none; }
+  td.v { font-variant-numeric: tabular-nums; }
+
+  .findings { display: flex; flex-direction: column; gap: 0; border-top: 1px solid var(--rule); }
+  .finding {
+    display: grid; grid-template-columns: 4.6rem 1fr; gap: 0 1.1rem;
+    padding: 0.95rem 0; border-bottom: 1px solid var(--rule); align-items: start;
+  }
+  .finding > div:last-child { display: flex; flex-direction: column; gap: 0.3rem; }
+  .finding p { font-size: 0.95rem; color: var(--ink-soft); }
+  @media (max-width: 560px) {
+    .finding { grid-template-columns: 1fr; gap: 0.45rem; }
+  }
+
+  .shaky {
+    border-left: 3px solid var(--miss); padding: 0.15rem 0 0.15rem 1.15rem;
+    display: flex; flex-direction: column; gap: 0.9rem;
+  }
+  .shaky h3 { color: var(--miss); }
+
+  .gapnum {
+    font-family: var(--mono); font-variant-numeric: tabular-nums;
+    font-size: clamp(2.4rem, 8vw, 3.6rem); font-weight: 600;
+    color: var(--miss); line-height: 1; letter-spacing: -0.02em;
+  }
+  .gapgrid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 1.6rem 2rem; padding: 0.4rem 0;
+  }
+  .gapgrid > div { display: flex; flex-direction: column; gap: 0.3rem; }
+  .gapgrid .lbl { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); }
+  .gapgrid .sub { font-size: 0.85rem; color: var(--ink-soft); }
+
+  ul { margin: 0; padding-left: 1.15rem; max-width: var(--measure); }
+  li { margin-bottom: 0.42rem; }
+  li::marker { color: var(--ink-faint); }
+
+  footer { margin-top: 4rem; padding-top: 1.2rem; border-top: 1px solid var(--rule); }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="rule-heavy"></div>
+    <div class="stack-sm">
+      <div class="eyebrow">Working notebook &middot; not a spec &middot; 30 July 2026</div>
+      <h1>The pack charges. It just never balances.</h1>
+    </div>
+    <p class="lede">
+      A high-voltage BMS controller, mid-build. This page exists so the state of the
+      work is legible from outside it — including the parts that are still soft.
+      Every claim below carries the mark it earned.
+    </p>
+    <div class="statline">
+      <span><b>System</b> GoodWe GW7600A-ES + CATL/ZN stack</span>
+      <span><b>Pile</b> ~768 kWh LFP, unbuilt</span>
+      <span><b>Phase</b> decisions made, bench gate open</span>
+    </div>
+  </header>
+
+  <div class="stack-lg">
+
+    <section class="stack">
+      <h2>The finding</h2>
+      <p>
+        The inverter is configured to charge this pack to <span class="num">116.8&nbsp;V</span>.
+        It stops at <span class="num">108.3&nbsp;V</span>. That is not a fault, nothing
+        alarms, and almost no capacity is lost — which is exactly why it went unnoticed.
+      </p>
+      <p>
+        The cost is hidden one layer down. The cell balancers only switch on above
+        roughly <span class="num">3.40&nbsp;V</span> per cell. The pack tops out at
+        <span class="num">3.39</span>. It approaches the threshold and never crosses it,
+        so the balancers have — as far as the data goes — never run.
+      </p>
+
+      <figure>
+        <div class="chartbox">
+          <canvas id="chart-ceiling" width="1200" height="620" role="img"
+            aria-label="Charge curve rising and flattening at 3.39 volts per cell, just below the 3.40 volt threshold where balancing engages. The balance window between 3.40 and 3.65 volts is shaded and never entered."></canvas>
+        </div>
+        <div class="legend">
+          <span><i class="swatch" style="border-color: var(--copper)"></i> cell voltage, charging</span>
+          <span><i class="swatch" style="border-color: var(--measured); border-top-style: dashed"></i> balancer engages &mdash; 3.40&nbsp;V</span>
+          <span><i class="swatch" style="border-color: var(--ink-faint); border-top-style: dotted"></i> configured limit &mdash; 3.65&nbsp;V</span>
+        </div>
+        <figcaption>
+          Charge approach, one cycle. The curve is the shape the measurements imply, not a
+          logged trace &mdash; the per-minute logger started today. Threshold and ceiling
+          values are measured. <span class="chip i">I</span> curve shape
+          <span class="chip m">M</span> ceiling, limit, threshold
+        </figcaption>
+      </figure>
+
+      <div class="gapgrid">
+        <div>
+          <div class="lbl">Configured</div>
+          <div class="num" style="font-size:1.9rem; font-weight:600;">116.8 V</div>
+          <div class="sub">register <code>45352</code> = 1168 &mdash; 3.65 V/cell</div>
+        </div>
+        <div>
+          <div class="lbl">Reached</div>
+          <div class="num" style="font-size:1.9rem; font-weight:600;">108.3 V</div>
+          <div class="sub">at 99&nbsp;% SoC, still taking &minus;5.6&nbsp;A</div>
+        </div>
+        <div>
+          <div class="lbl">Short by</div>
+          <div class="gapnum">8.5 V</div>
+          <div class="sub">0.26 V per cell &mdash; the whole balance window</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack">
+      <h2>The part I got wrong</h2>
+      <p>
+        LFP's charge curve is famously flat, so a coulomb-counting module BMS reaches
+        "100&nbsp;%" while its cells are still near <span class="num">3.39&nbsp;V</span>.
+        The inverter believes the state of charge and tapers off. That much holds.
+      </p>
+      <p>
+        The first version of this page went further and claimed the cells were visibly
+        drifting apart as a result — <span class="num">12&nbsp;mV</span> to
+        <span class="num">33&nbsp;mV</span> in four days. <strong>That comparison was
+        invalid and the claim is withdrawn.</strong> One sample was taken while
+        charging, the other while discharging, at different states of charge. Cell
+        spread moves with current and position on the curve, so those two numbers were
+        never comparable to begin with.
+      </p>
+
+      <figure>
+        <div class="chartbox">
+          <canvas id="chart-spread" width="1200" height="360" role="img"
+            aria-label="Three cell-spread samples. Two charging samples at similar current read 12 and 5 millivolts. A third, discharging at a different state of charge, reads 33 millivolts and is not comparable to the others."></canvas>
+        </div>
+        <figcaption>
+          Same registers, same pack, three conditions. Only the two charging samples can
+          be compared &mdash; and between them the spread went <em>down</em>, not up.
+          The discharging sample is the one the retracted claim leaned on.
+          <span class="chip m">M</span> all three values and their conditions
+          <span class="chip x">X</span> whether imbalance is growing at all
+        </figcaption>
+      </figure>
+
+      <p>
+        What survives is the ceiling itself, which is measured: the pack does not reach
+        the voltage at which its balancers switch on. What does not survive is any claim
+        about the <em>consequence</em>. Whether the imbalance is actually growing is now
+        an open question needing a series recorded at matched current and state of
+        charge — which is what the monitor now records every minute.
+      </p>
+      <p>
+        The design consequence is unchanged and still holds. The controller being built
+        aggregates many modules and reports a deliberately conservative state of charge
+        while charging. That policy terminates a charge <em>earlier</em> than the factory
+        system does, so it would deepen this problem rather than fix it, unless charge
+        termination carries an explicit condition to hold until the balance window is
+        actually reached.
+      </p>
+    </section>
+
+    <section class="stack">
+      <h2>Settled this week</h2>
+      <div class="findings">
+        <div class="finding">
+          <span class="chip m">M</span>
+          <div>
+            <h3>It speaks GoodWe's own protocol</h3>
+            <p>
+              Not Pylontech HV, which was the working hypothesis. Pylontech HV is 29-bit
+              frames at 500&nbsp;kbps; this bus is 11-bit at 250&nbsp;kbps, and the
+              Pylontech ID space has no <code>0x456</code>. Three independent mismatches.
+            </p>
+          </div>
+        </div>
+        <div class="finding">
+          <span class="chip m">M</span>
+          <div>
+            <h3>The menu multiplier is a voltage divided by 48</h3>
+            <p>
+              The cryptic <code>Default&#42;N</code> setting is GoodWe's module count:
+              nominal volts &divide; 48, integer part. 102.4 &divide; 48 = 2.13 &rarr; 2.
+              The inverter's own register reads <span class="num">2</span>. Matches three
+              field reports out of three.
+            </p>
+          </div>
+        </div>
+        <div class="finding">
+          <span class="chip m">M</span>
+          <div>
+            <h3>Two battery families, not interchangeable</h3>
+            <p>
+              The salvage market conflates them constantly — listings carry one family's
+              part number under the other's name. The auction split 355 controller heads
+              of one kind from 694 of the other, and the modules went to separate lots.
+            </p>
+          </div>
+        </div>
+        <div class="finding">
+          <span class="chip i">I</span>
+          <div>
+            <h3>The unlisted battery was never hiding</h3>
+            <p>
+              Absence from the compatibility list looked like a mystery. The manufacturer's
+              own preamble says unlisted batteries speaking its protocol exist. It didn't
+              need a listing.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack">
+      <h2>Where it is soft</h2>
+      <p>
+        The rest of this page reads tidier than the work is. These are the places a
+        reader should keep their weight off.
+      </p>
+
+      <div class="shaky">
+        <div class="stack-sm">
+          <h3>The first backup was fiction</h3>
+          <p>
+            Reading a block of settings from an address I chose myself returned neatly
+            formatted filler — values that looked exactly like configuration and were
+            not. Caught only by overlapping two reads that disagreed. The file is kept,
+            renamed so it cannot be restored by accident.
+          </p>
+        </div>
+        <div class="stack-sm">
+          <h3>194 registers still unread</h3>
+          <p>
+            The good backup covers the settings that matter and is verified read-for-read.
+            It is not a complete image, and calling it one would be the same mistake in a
+            different coat.
+          </p>
+        </div>
+        <div class="stack-sm">
+          <h3>Some of the instrument trouble was self-inflicted</h3>
+          <p>
+            Two of my own processes were contending for one half-duplex serial port and I
+            read the resulting dropouts as hardware flakiness for longer than I should have.
+          </p>
+        </div>
+        <div class="stack-sm">
+          <h3>A corroborating number was retracted the same day</h3>
+          <p>
+            The cell-drift figure above was published, then withdrawn hours later when
+            the two samples turned out to have been taken in opposite states. It was
+            caught by a monitor that now records the conditions alongside every reading
+            — which is the only reason it was caught at all.
+          </p>
+        </div>
+        <div class="stack-sm">
+          <h3>The ceiling's cause is not yet separated</h3>
+          <p>
+            Whether the pack stops at 108&nbsp;V because the battery advertises that limit,
+            or simply because current tapers away, is undetermined. A per-minute logger is
+            now running to settle it against daylight.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack">
+      <h2>What landing it looks like</h2>
+      <p>
+        The shape of the finished thing is not in doubt; the evidence under it is what's
+        being assembled. Three commitments carry over from the parts already decided.
+      </p>
+      <ul>
+        <li>
+          <strong>Every load-bearing claim becomes a test that can fail.</strong> The
+          balance-window miss above is being written as a check with the factory
+          behaviour frozen as its counter-example — a real bug found in the field, not
+          an invented one.
+        </li>
+        <li>
+          <strong>Protection does not rest on software.</strong> The disconnect fails
+          open in hardware; firmware supplies a heartbeat and an intention, never the
+          last word.
+        </li>
+        <li>
+          <strong>Nothing is its own witness.</strong> The aggregation logic is built
+          twice, in two languages, and checked against the other — the same reason the
+          bad backup was caught at all.
+        </li>
+      </ul>
+      <p>
+        Robustness here means the page you're reading gets shorter in the soft section
+        and longer in the settled one, and that the difference is always visible.
+      </p>
+    </section>
+
+  </div>
+
+  <footer>
+    <div class="legend">
+      <span><span class="chip m">M</span> measured — read from the hardware or a primary document</span>
+      <span><span class="chip i">I</span> inferred — reasoning over something measured</span>
+      <span><span class="chip x">X</span> unknown — stated so it cannot pass as fact</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function tok(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+  function setup(cv) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = cv.clientWidth || 900;
+    var h = Math.round(w * (cv.height / cv.width));
+    cv.style.height = h + "px";
+    cv.width = Math.round(w * dpr);
+    cv.height = Math.round(h * dpr);
+    var g = cv.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return { g: g, w: w, h: h };
+  }
+
+  // ---- charge-approach chart -------------------------------------------------
+  var VMIN = 3.20, VMAX = 3.72, ENGAGE = 3.40, LIMIT = 3.65, CEIL = 3.39;
+
+  function curve(t) {
+    // steep early rise then an asymptotic approach to CEIL
+    var a = 1 - Math.exp(-3.4 * t);
+    var b = 1 - Math.exp(-11 * t);
+    return VMIN + (CEIL - VMIN) * (0.72 * a + 0.28 * b);
+  }
+
+  function drawCeiling(progress) {
+    var cv = document.getElementById("chart-ceiling");
+    if (!cv) return;
+    var s = setup(cv), g = s.g, W = s.w, H = s.h;
+    var padL = 58, padR = 108, padT = 20, padB = 34;
+    if (W < 560) { padR = 66; padL = 46; }
+    var x0 = padL, x1 = W - padR, y0 = padT, y1 = H - padB;
+    var ink = tok("--ink"), faint = tok("--ink-faint"), rule = tok("--rule");
+    var meas = tok("--measured"), copper = tok("--copper"), band = tok("--band");
+    var miss = tok("--miss");
+    var mono = '11px ' + tok("--mono").split(",")[0];
+
+    var Y = function (v) { return y1 - (v - VMIN) / (VMAX - VMIN) * (y1 - y0); };
+    var X = function (t) { return x0 + t * (x1 - x0); };
+
+    g.clearRect(0, 0, W, H);
+
+    // the balance window — the thing never entered
+    g.fillStyle = band;
+    g.fillRect(x0, Y(LIMIT), x1 - x0, Y(ENGAGE) - Y(LIMIT));
+
+    // gridlines
+    g.strokeStyle = rule; g.lineWidth = 1; g.font = mono; g.textBaseline = "middle";
+    [3.20, 3.30, 3.40, 3.50, 3.60, 3.70].forEach(function (v) {
+      var y = Math.round(Y(v)) + 0.5;
+      g.globalAlpha = 0.55;
+      g.beginPath(); g.moveTo(x0, y); g.lineTo(x1, y); g.stroke();
+      g.globalAlpha = 1;
+      g.fillStyle = faint; g.textAlign = "right";
+      g.fillText(v.toFixed(2), x0 - 9, y);
+    });
+
+    // axis frame
+    g.strokeStyle = rule;
+    g.beginPath(); g.moveTo(x0 + 0.5, y0); g.lineTo(x0 + 0.5, y1); g.lineTo(x1, y1); g.stroke();
+
+    // configured limit
+    g.setLineDash([2, 4]); g.strokeStyle = faint; g.lineWidth = 1.5;
+    g.beginPath(); g.moveTo(x0, Y(LIMIT)); g.lineTo(x1, Y(LIMIT)); g.stroke();
+
+    // engage threshold
+    g.setLineDash([7, 5]); g.strokeStyle = meas; g.lineWidth = 2;
+    g.beginPath(); g.moveTo(x0, Y(ENGAGE)); g.lineTo(x1, Y(ENGAGE)); g.stroke();
+    g.setLineDash([]);
+
+    // right-hand labels
+    g.textAlign = "left"; g.font = mono;
+    g.fillStyle = faint; g.fillText("3.65  limit", x1 + 8, Y(LIMIT));
+    g.fillStyle = meas;  g.fillText("3.40  balances", x1 + 8, Y(ENGAGE));
+
+    // the curve
+    g.strokeStyle = copper; g.lineWidth = 2.6;
+    g.lineJoin = "round"; g.lineCap = "round";
+    g.beginPath();
+    var N = 240, lastX = x0, lastY = Y(VMIN);
+    for (var i = 0; i <= N * progress; i++) {
+      var t = i / N, xx = X(t), yy = Y(curve(t));
+      if (i === 0) g.moveTo(xx, yy); else g.lineTo(xx, yy);
+      lastX = xx; lastY = yy;
+    }
+    g.stroke();
+
+    // endpoint + the gap it never closes
+    if (progress > 0.985) {
+      g.fillStyle = copper;
+      g.beginPath(); g.arc(lastX, lastY, 3.6, 0, Math.PI * 2); g.fill();
+
+      var gx = lastX - 26;
+      g.strokeStyle = miss; g.lineWidth = 1.6; g.setLineDash([3, 3]);
+      g.beginPath(); g.moveTo(gx, lastY); g.lineTo(gx, Y(ENGAGE)); g.stroke();
+      g.setLineDash([]);
+      g.fillStyle = miss; g.textAlign = "right"; g.font = mono;
+      g.fillText("stops here — 3.39", gx - 7, (lastY + Y(ENGAGE)) / 2 + 1);
+    }
+
+    g.fillStyle = faint; g.textAlign = "left"; g.textBaseline = "top";
+    g.fillText("charge →", x0, y1 + 11);
+    g.save();
+    g.translate(15, (y0 + y1) / 2); g.rotate(-Math.PI / 2);
+    g.textAlign = "center"; g.fillText("volts per cell", 0, 0);
+    g.restore();
+  }
+
+  // ---- spread chart: three samples, only two of them comparable ---------------
+  var SAMPLES = [
+    { label: "26 Jul", mV: 12, cond: "charging −5.6 A", soc: "SoC 99%", cmp: true },
+    { label: "30 Jul", mV: 5,  cond: "charging −4.7 A", soc: "SoC 83%", cmp: true },
+    { label: "30 Jul", mV: 33, cond: "DIScharging +0.8 A", soc: "SoC 79%", cmp: false }
+  ];
+
+  function drawSpread(progress) {
+    var cv = document.getElementById("chart-spread");
+    if (!cv) return;
+    var s = setup(cv), g = s.g, W = s.w, H = s.h;
+    var padL = 58, padR = 24, padT = 26, padB = 62;
+    if (W < 560) { padL = 46; }
+    var x0 = padL, x1 = W - padR, y0 = padT, y1 = H - padB;
+    var faint = tok("--ink-faint"), rule = tok("--rule"), miss = tok("--miss");
+    var meas = tok("--measured"), ink = tok("--ink"), band = tok("--band");
+    var mono = '11px ' + tok("--mono").split(",")[0];
+    var MAXS = 40;
+    var Y = function (v) { return y1 - (v / MAXS) * (y1 - y0); };
+
+    g.clearRect(0, 0, W, H);
+
+    // the comparable pair sits inside a tinted field; the odd one out does not
+    var slot = (x1 - x0) / SAMPLES.length;
+    g.fillStyle = band;
+    g.fillRect(x0, y0, slot * 2, y1 - y0);
+
+    g.font = mono; g.textBaseline = "middle"; g.strokeStyle = rule; g.lineWidth = 1;
+    [0, 10, 20, 30, 40].forEach(function (v) {
+      var y = Math.round(Y(v)) + 0.5;
+      g.globalAlpha = 0.55;
+      g.beginPath(); g.moveTo(x0, y); g.lineTo(x1, y); g.stroke();
+      g.globalAlpha = 1;
+      g.fillStyle = faint; g.textAlign = "right"; g.fillText(v + "", x0 - 9, y);
+    });
+
+    SAMPLES.forEach(function (smp, i) {
+      var cx = x0 + slot * (i + 0.5);
+      var bw = Math.min(52, slot * 0.34);
+      var val = smp.mV * progress;
+      var top = Y(val);
+      g.fillStyle = smp.cmp ? meas : miss;
+      g.globalAlpha = smp.cmp ? 0.9 : 0.55;
+      g.fillRect(cx - bw / 2, top, bw, y1 - top);
+      g.globalAlpha = 1;
+
+      g.fillStyle = ink; g.textAlign = "center"; g.font = "600 " + mono;
+      g.fillText(Math.round(val) + " mV", cx, top - 11);
+
+      g.fillStyle = faint; g.font = mono; g.textBaseline = "top";
+      g.fillText(smp.label, cx, y1 + 8);
+      g.fillStyle = smp.cmp ? meas : miss;
+      g.fillText(smp.cond, cx, y1 + 23);
+      g.fillStyle = faint;
+      g.fillText(smp.soc, cx, y1 + 38);
+      g.textBaseline = "middle";
+    });
+
+    g.fillStyle = meas; g.textAlign = "left"; g.textBaseline = "top"; g.font = mono;
+    g.fillText("comparable pair — spread went DOWN", x0 + 6, y0 + 5);
+    g.fillStyle = miss; g.textAlign = "right";
+    g.fillText("not comparable", x1 - 6, y0 + 5);
+
+    g.fillStyle = faint;
+    g.save();
+    g.translate(15, (y0 + y1) / 2); g.rotate(-Math.PI / 2);
+    g.textAlign = "center"; g.textBaseline = "middle";
+    g.fillText("cell spread, mV", 0, 0);
+    g.restore();
+  }
+
+  var started = false;
+  function animate() {
+    if (started) return;
+    started = true;
+    if (reduced) { drawCeiling(1); drawSpread(1); return; }
+    var t0 = null, DUR = 1500;
+    function frame(ts) {
+      if (t0 === null) t0 = ts;
+      var p = Math.min((ts - t0) / DUR, 1);
+      var e = 1 - Math.pow(1 - p, 3);
+      drawCeiling(e); drawSpread(e);
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function redraw() { drawCeiling(started ? 1 : 0); drawSpread(started ? 1 : 0); }
+
+  window.addEventListener("resize", redraw);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", redraw);
+  new MutationObserver(redraw).observe(document.documentElement, {
+    attributes: true, attributeFilter: ["data-theme"]
+  });
+
+  drawCeiling(0); drawSpread(0);
+  var target = document.getElementById("chart-ceiling");
+  if ("IntersectionObserver" in window && target) {
+    new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { animate(); obs.disconnect(); }
+      });
+    }, { threshold: 0.25 }).observe(target);
+  } else {
+    animate();
+  }
+})();
+</script>
+
+</body>
+</html>

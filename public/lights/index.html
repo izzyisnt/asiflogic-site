@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lion post orb lighting — drawing set · Asif Logic</title>
+  <meta name="description" content="Three-sheet drawing set for a battery-fed lamp post lighting system: 204.8 V pack stepped down once at the source, four addressable orb discs per post. Every load-bearing claim is a machine-checked proof with a deliberately broken control." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
+  <style>
+    :root{--bg:#070c0e;--surface:#0b1214;--ink:#eaf1ef;--ink2:#9fb2ad;--muted:#5e716d;--line:#182422;
+      --teal:#4fc4c4;--amber:#e6a23c;--live:#37c08a;--die:#e0645f;--talin:#b57fa0}
+    *{box-sizing:border-box}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+    .wrap{max-width:860px;margin:0 auto;padding:30px 20px 70px}
+    .nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em;margin-bottom:24px}
+    .nav a{color:var(--muted);text-decoration:none} .nav a.on{color:var(--teal);font-weight:600} .nav a:hover{color:var(--ink2)}
+    .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 12px}
+    h1{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;font-weight:600;text-wrap:balance}
+    h1 em{font-style:normal;color:var(--amber)}
+    .lead{font-size:19px;color:var(--ink2);margin:0 0 28px;max-width:62ch;text-wrap:pretty}
+
+    .stamp{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 44px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+    .stamp span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink2);background:var(--surface)}
+    .stamp b{color:var(--teal);font-weight:600}
+
+    .sheet{margin:0 0 46px}
+    .sheet-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:18px}
+    .sheet-no{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.1em;color:var(--amber);font-weight:600;white-space:nowrap}
+    .sheet-head h2{margin:0;font-size:18px;font-weight:650;letter-spacing:-.01em}
+    .draw{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;overflow-x:auto}
+    .draw svg{display:block;min-width:520px;width:100%;height:auto}
+    .cap{margin:14px 0 0;font-size:14.5px;color:var(--ink2);max-width:66ch}
+    .cap b{color:var(--ink)}
+
+    .flag{margin:16px 0 0;border:1px solid #3a2422;border-left:3px solid var(--die);border-radius:10px;background:#130f0f;padding:13px 16px;font-size:14px;color:var(--ink2)}
+    .flag b{color:var(--die);font-weight:650;letter-spacing:.04em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+
+    .prov{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+    .m{color:var(--live)} .i{color:var(--amber)} .x{color:var(--die)}
+
+    .foot{color:var(--muted);font-size:12.5px;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;max-width:70ch;margin-top:40px}
+    .foot b{color:var(--ink2)}
+
+    /* drawing primitives, in the site palette */
+    .s{stroke:var(--ink2);fill:none;stroke-width:1.4}
+    .thin{stroke:var(--muted);fill:none;stroke-width:1}
+    .dash{stroke:var(--muted);fill:none;stroke-width:1;stroke-dasharray:4 3}
+    .hv{stroke:var(--die);fill:none;stroke-width:2}
+    .box{fill:#0d1719;stroke:var(--ink2);stroke-width:1.4}
+    .lbl{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;fill:var(--ink)}
+    .sub{font-family:ui-monospace,Menlo,monospace;font-size:9px;fill:var(--muted)}
+    .red{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;fill:var(--die);font-weight:600}
+    .globe{fill:#20211a;stroke:var(--amber);stroke-width:1.4}
+    .pix{fill:var(--teal)}
+    .wht{fill:var(--amber)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a href="/kill-switch/">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a> · <a class="on">lights</a></div>
+
+  <div class="eyebrow">Drawing set · rev A</div>
+  <h1>Two lion posts, eight orbs, <em>one battery</em>.</h1>
+  <p class="lead">A pair of cast lion lamp posts arrived with no sockets in them. Rather than fit bulbs, each of the eight diffuser spheres gets a circuit board: a ring of individually addressable pixels for effect, a warm-white cluster for actual light. Power comes off a 20 kWh battery pack — which is the part that makes this an engineering problem rather than a shopping trip.</p>
+
+  <div class="stamp">
+    <span><b>11</b> proofs passing</span>
+    <span><b>14</b> failing controls</span>
+    <span><b>74</b> tests green</span>
+    <span><b>90 W</b> both posts, worst case</span>
+    <span>status: <b>design review</b></span>
+  </div>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">SHEET 1 / 3</span><h2>Power — convert once, at the pack</h2></div>
+    <div class="draw"><svg viewBox="0 0 640 235" role="img" aria-label="One-line power diagram from the battery pack through a fuse and converter to two lamp posts">
+      <rect x="8" y="18" width="292" height="152" rx="8" class="dash"/>
+      <text x="18" y="36" class="red">HIGH VOLTAGE — 160–233.6 VDC · exists on this plate only</text>
+      <rect x="22" y="58" width="90" height="72" rx="4" class="box"/>
+      <text x="36" y="86" class="lbl">KOHLER</text>
+      <text x="36" y="100" class="lbl">20 kWh LFP</text>
+      <text x="36" y="115" class="sub">64s · 204.8 V</text>
+      <line x1="112" y1="94" x2="150" y2="94" class="hv"/>
+      <line x1="150" y1="94" x2="178" y2="94" class="s"/>
+      <rect x="152" y="87" width="24" height="14" rx="2" class="box"/>
+      <text x="138" y="78" class="lbl">F_HV 4 A</text>
+      <text x="132" y="122" class="sub">DC-rated cartridge</text>
+      <line x1="178" y1="94" x2="202" y2="94" class="hv"/>
+      <rect x="202" y="64" width="90" height="62" rx="4" class="box"/>
+      <text x="212" y="86" class="lbl">LRS-150F-24</text>
+      <text x="212" y="101" class="sub">120–370 VDC in</text>
+      <text x="212" y="115" class="sub">24 V · 6.5 A out</text>
+      <line x1="292" y1="94" x2="332" y2="94" class="s"/>
+      <text x="300" y="86" class="lbl">24 V</text>
+      <line x1="332" y1="58" x2="332" y2="130" class="s"/>
+      <rect x="332" y="51" width="24" height="14" rx="2" class="box"/>
+      <rect x="332" y="123" width="24" height="14" rx="2" class="box"/>
+      <text x="322" y="42" class="sub">F_P1 5 A</text>
+      <text x="322" y="152" class="sub">F_P2 5 A</text>
+      <line x1="356" y1="58" x2="472" y2="58" class="s"/>
+      <line x1="356" y1="130" x2="472" y2="130" class="s"/>
+      <text x="372" y="50" class="sub">buried 14 AWG</text>
+      <text x="372" y="123" class="sub">buried 14 AWG</text>
+      <rect x="472" y="36" width="118" height="44" rx="4" class="box"/>
+      <text x="484" y="55" class="lbl">POST 1</text>
+      <text x="484" y="70" class="sub">4 orbs + controller</text>
+      <rect x="472" y="108" width="118" height="44" rx="4" class="box"/>
+      <text x="484" y="127" class="lbl">POST 2</text>
+      <text x="484" y="142" class="sub">4 orbs + controller</text>
+      <text x="18" y="196" class="sub">Both posts flat out: 90.4 W = 3.8 A at 24 V — 58 % of the converter, passes derated.</text>
+      <text x="18" y="212" class="sub">Nothing buried or in-post carries more than 24 V.</text>
+    </svg></div>
+    <p class="cap">The pack runs at <b>204.8 volts</b>. Feeding that to garden lighting would be both a parts problem — a check against the real bus voltage convicted five of six components outright — and a safety one, since a fault at that voltage sustains an arc. So the voltage is stepped down <b>once, at the battery</b>, by a single converter, and everything from there out is low-voltage. The fuse ahead of it is rated to break DC at that voltage; the common automotive blade fuse is not, and would open into an arc while looking like protection.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">SHEET 2 / 3</span><h2>The post — four spheres, one brain</h2></div>
+    <div class="draw"><svg viewBox="0 0 640 320" role="img" aria-label="Lamp post elevation showing four globes, base electronics, and radar coverage">
+      <line x1="30" y1="288" x2="610" y2="288" class="s"/>
+      <line x1="330" y1="288" x2="330" y2="92" class="s" style="stroke-width:5"/>
+      <line x1="330" y1="122" x2="252" y2="102" class="s"/>
+      <line x1="330" y1="122" x2="408" y2="102" class="s"/>
+      <line x1="330" y1="152" x2="282" y2="170" class="thin"/>
+      <circle cx="330" cy="66" r="23" class="globe"/>
+      <circle cx="252" cy="82" r="19" class="globe"/>
+      <circle cx="408" cy="82" r="19" class="globe"/>
+      <circle cx="282" cy="150" r="17" class="globe"/>
+      <circle cx="330" cy="66" r="8" class="wht" opacity=".5"/>
+      <circle cx="252" cy="82" r="7" class="pix" opacity=".5"/>
+      <circle cx="408" cy="82" r="7" class="wht" opacity=".5"/>
+      <circle cx="282" cy="150" r="6" class="pix" opacity=".5"/>
+      <text x="440" y="62" class="lbl">4 × polyethylene sphere</text>
+      <text x="440" y="77" class="sub">one orb disc inside each</text>
+      <text x="440" y="91" class="sub">warm white + colour, independent</text>
+      <line x1="337" y1="248" x2="337" y2="104" class="dash"/>
+      <text x="346" y="196" class="sub">riser carries 4 wires:</text>
+      <text x="346" y="209" class="sub">24 V · GND · data · dim</text>
+      <text x="346" y="222" class="sub">discs chain sphere to sphere</text>
+      <rect x="282" y="248" width="96" height="40" rx="4" class="box"/>
+      <text x="291" y="264" class="sub">controller</text>
+      <text x="291" y="278" class="sub">in the base</text>
+      <rect x="52" y="206" width="164" height="82" rx="6" class="box"/>
+      <text x="64" y="225" class="lbl">BASE CONTROLLER</text>
+      <text x="64" y="241" class="sub">ESP32 running WLED</text>
+      <text x="64" y="255" class="sub">mmWave presence radar</text>
+      <text x="64" y="269" class="sub">5 V data buffer</text>
+      <text x="64" y="283" class="sub">24 → 5 V supply</text>
+      <line x1="216" y1="250" x2="282" y2="262" class="thin"/>
+      <path d="M 378 270 L 486 236 L 486 286 Z" class="dash"/>
+      <text x="452" y="304" class="sub">approach detection</text>
+      <text x="240" y="308" class="sub">cast aluminium lion post</text>
+    </svg></div>
+    <p class="cap">Each post carries its own small computer. It drives the four spheres as four independent zones, so the everyday look can be a warm gas-lamp flicker while any sphere is free to do something else. The posts talk to each other over Wi-Fi and stay in step. A radar module — which sees people through weather that defeats the usual motion sensors — lifts the post from a dim idle to full output as you approach.</p>
+    <div class="flag"><b>Open item — carried, not solved</b>
+      The post is a metal casting, which is a poor place to put two radios. Radar will not see through aluminium at all, and Wi-Fi is badly attenuated by it. Both need a non-metallic window: the radar behind a plastic aperture or riding inside the lowest sphere, and an external antenna for the controller. This is unresolved in rev A and is the reason the drawing set is not released for build.</div>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">SHEET 3 / 3</span><h2>The orb disc — one per sphere</h2></div>
+    <div class="draw"><svg viewBox="0 0 640 300" role="img" aria-label="Round circuit board: sixteen addressable pixels around the rim, warm-white cluster at the centre">
+      <circle cx="196" cy="146" r="114" class="box"/>
+      <circle cx="196" cy="146" r="92" class="thin" opacity=".5"/>
+      <g class="pix">
+        <circle cx="288" cy="146" r="5.5"/><circle cx="281" cy="181" r="5.5"/>
+        <circle cx="261" cy="211" r="5.5"/><circle cx="231" cy="231" r="5.5"/>
+        <circle cx="196" cy="238" r="5.5"/><circle cx="161" cy="231" r="5.5"/>
+        <circle cx="131" cy="211" r="5.5"/><circle cx="111" cy="181" r="5.5"/>
+        <circle cx="104" cy="146" r="5.5"/><circle cx="111" cy="111" r="5.5"/>
+        <circle cx="131" cy="81" r="5.5"/><circle cx="161" cy="61" r="5.5"/>
+        <circle cx="196" cy="54" r="5.5"/><circle cx="231" cy="61" r="5.5"/>
+        <circle cx="261" cy="81" r="5.5"/><circle cx="281" cy="111" r="5.5"/>
+      </g>
+      <circle cx="196" cy="146" r="27" class="thin"/>
+      <g class="wht">
+        <circle cx="184" cy="134" r="4.5"/><circle cx="208" cy="134" r="4.5"/>
+        <circle cx="172" cy="146" r="4.5"/><circle cx="196" cy="146" r="4.5"/>
+        <circle cx="220" cy="146" r="4.5"/><circle cx="184" cy="158" r="4.5"/>
+        <circle cx="208" cy="158" r="4.5"/><circle cx="196" cy="122" r="4.5"/>
+        <circle cx="196" cy="170" r="4.5"/><circle cx="172" cy="122" r="4.5"/>
+      </g>
+      <rect x="146" y="190" width="36" height="15" rx="2" class="box"/>
+      <rect x="212" y="190" width="36" height="15" rx="2" class="box"/>
+      <text x="150" y="201" class="sub">U1</text>
+      <text x="216" y="201" class="sub">U2</text>
+      <line x1="288" y1="146" x2="368" y2="72" class="thin"/>
+      <text x="376" y="68" class="lbl">16 addressable RGBW pixels</text>
+      <text x="376" y="83" class="sub">each pixel carries its own driver —</text>
+      <text x="376" y="96" class="sub">the ring needs no external one</text>
+      <line x1="223" y1="146" x2="368" y2="132" class="thin"/>
+      <text x="376" y="128" class="lbl">10 warm-white 2700 K</text>
+      <text x="376" y="143" class="sub">on a constant-current driver, so</text>
+      <text x="376" y="156" class="sub">brightness never tracks the battery</text>
+      <line x1="248" y1="198" x2="368" y2="192" class="thin"/>
+      <text x="376" y="188" class="lbl">both supplies ride the disc</text>
+      <text x="376" y="203" class="sub">5 V is made here, at the sphere —</text>
+      <text x="376" y="216" class="sub">only 24 V travels between boards</text>
+      <line x1="82" y1="146" x2="42" y2="146" class="s"/>
+      <text x="16" y="134" class="sub">4-wire pigtail</text>
+      <line x1="82" y1="272" x2="310" y2="272" class="thin"/>
+      <line x1="82" y1="266" x2="82" y2="278" class="thin"/>
+      <line x1="310" y1="266" x2="310" y2="278" class="thin"/>
+      <text x="172" y="289" class="lbl">⌀ 80 mm</text>
+    </svg></div>
+    <p class="cap">One board per sphere, carrying both channels. The rim does colour; the centre does light. The two are separately supplied on the same disc, which is the point of the layout: <b>five volts does not travel</b>, so it is generated at each sphere rather than sent up the post. Feeding all four rings from a single supply in the base — the obvious economy — loses a fifth of the rail before the first pixel and is kept in the codebase as a test that must fail.</p>
+  </section>
+
+  <p class="foot">
+    <b>How to read this.</b> Every number above comes from a design held in code, where each load-bearing claim is a check that must pass on the real design <b>and</b> fail on a deliberately broken version of it — a wrongly-rated part, a fuse that cannot break its bus, a shortcut that looks like a simplification. Fourteen such controls are kept alive alongside eleven proofs.
+    <br><br>
+    <span class="prov">Provenance: <span class="m">[M]</span> read from a primary source · <span class="i">[I]</span> inferred or vendor copy · <span class="x">[X]</span> assumed, unmeasured.</span>
+    Component ratings here are <span class="i">[I]</span> pending a datasheet transcription pass, and the battery's charge setpoint is <span class="x">[X]</span> until measured. Both gate ordering. Rev A · August 2026 · design review, not released for build.
+  </p>
+</div>
+</body>
+</html>

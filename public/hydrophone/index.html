@@ -113,6 +113,115 @@ was found by attacking our own design, which is the house method.</p>
 <span class="tag I">[I]</span>, not yet a measured field perturbation.</p>
 </div>
 
+<h2>The front end, beyond prose</h2>
+<p>The charge amplifier, drawn and netlisted. Component values are not
+hand-picked: they are <em>emitted by the same Python model the noise
+proofs run on</em> (C<sub>f</sub> sized to the source for a 4× noise
+gain, R<sub>f</sub> for a 2 Hz high-pass, realized as a T-network on the
+board). The worst-case 0.82 Pa noise floor quoted above is a property of
+exactly this network.</p>
+
+<svg viewBox="0 0 640 240" style="width:100%;max-width:640px;display:block;margin:1rem auto"
+ stroke="currentColor" fill="none" stroke-width="1.5" font-family="ui-monospace,monospace" font-size="12">
+<!-- piezo: charge source Cq into summing node -->
+<text x="8" y="104" fill="currentColor" stroke="none">disc</text>
+<text x="8" y="118" fill="currentColor" stroke="none">1 Pa≡1 V</text>
+<circle cx="60" cy="110" r="14"/><text x="54" y="114" fill="currentColor" stroke="none">~</text>
+<line x1="74" y1="110" x2="110" y2="110"/>
+<line x1="110" y1="102" x2="110" y2="118"/><line x1="118" y1="102" x2="118" y2="118"/>
+<text x="94" y="94" fill="currentColor" stroke="none">Cq 0.54 fC/Pa</text>
+<line x1="118" y1="110" x2="250" y2="110"/>
+<!-- shunts at summing node -->
+<line x1="160" y1="110" x2="160" y2="140"/>
+<line x1="152" y1="140" x2="168" y2="140"/><line x1="152" y1="148" x2="168" y2="148"/>
+<line x1="160" y1="148" x2="160" y2="170"/><line x1="150" y1="170" x2="170" y2="170"/>
+<text x="126" y="188" fill="currentColor" stroke="none">Ce 450p</text>
+<line x1="215" y1="110" x2="215" y2="140"/>
+<line x1="207" y1="140" x2="223" y2="140"/><line x1="207" y1="148" x2="223" y2="148"/>
+<line x1="215" y1="148" x2="215" y2="170"/><line x1="205" y1="170" x2="225" y2="170"/>
+<text x="192" y="188" fill="currentColor" stroke="none">coax 100p</text>
+<!-- opamp -->
+<polygon points="290,85 290,135 345,110"/>
+<text x="296" y="106" fill="currentColor" stroke="none">−</text>
+<text x="296" y="126" fill="currentColor" stroke="none">+</text>
+<line x1="250" y1="110" x2="270" y2="110"/><line x1="270" y1="110" x2="270" y2="100"/><line x1="270" y1="100" x2="290" y2="100"/>
+<line x1="270" y1="120" x2="290" y2="120"/><line x1="270" y1="120" x2="270" y2="130"/>
+<line x1="262" y1="130" x2="278" y2="130"/><line x1="270" y1="130" x2="270" y2="130"/>
+<text x="238" y="146" fill="currentColor" stroke="none">gnd</text>
+<line x1="345" y1="110" x2="420" y2="110"/>
+<!-- feedback -->
+<line x1="270" y1="100" x2="270" y2="52"/><line x1="270" y1="52" x2="390" y2="52"/><line x1="390" y1="52" x2="390" y2="110"/>
+<line x1="300" y1="44" x2="300" y2="60"/><line x1="308" y1="44" x2="308" y2="60"/>
+<text x="282" y="36" fill="currentColor" stroke="none">Cf 190p</text>
+<rect x="330" y="45" width="34" height="14"/>
+<text x="326" y="76" fill="currentColor" stroke="none">Rf 419M (T-net)</text>
+<!-- output -->
+<circle cx="430" cy="110" r="5"/>
+<text x="444" y="114" fill="currentColor" stroke="none">BNC → AD3 / capture</text>
+<text x="360" y="132" fill="currentColor" stroke="none">3–4 nV JFET</text>
+<text x="360" y="146" fill="currentColor" stroke="none">(AD743-class)</text>
+</svg>
+
+<p>The generated ngspice deck, verbatim — runnable with
+<code>ngspice -b needle_charge_amp.cir</code>, and checkable against the
+model's own <code>transfer()</code>:</p>
+<pre>* hydrophone preamp (charge topology), emitted from the proven model
+* Ce*Moc (charge sensitivity) = 5.4000e-16 C/Pa  [worst-case envelope]
+.subckt opamp inp inn out
+  Rin inp inn 1.000e+12
+  Cin inp inn 2.000e-11
+  Eol nint 0 inp inn 1.000e+06
+  Rpole nint npole 1.000e+00
+  Cpole npole 0 3.537e-02
+  Ebuf nbuf 0 npole 0 1.0
+  Rout nbuf out 7.500e+01
+.ends opamp
+
+Vp press 0 AC 1.000e+00
+Cq press inn 5.4000e-16
+Ce inn 0 4.500e-10
+Re inn 0 1.000e+11
+Ccable inn 0 1.000e-10
+Cf out inn 1.900e-10
+Rf out inn 4.188e+08
+Xoa 0 inn out opamp
+
+.ac dec 50 1 10meg
+.end</pre>
+<p>Next artifact on this path: KiCad capture of this netlist for the
+dry-end board, once the op-amp sourcing question (AD743 legacy vs a
+modern 3–4 nV JFET) is settled at order time.</p>
+
+<h2>The absolute-pressure path (dosimetry)</h2>
+<p>Mapping needs only <em>where</em> the field is silent; dosimetry —
+"how many pascals did the sample actually receive" — needs an absolute
+probe, and below 100 kHz that is a genuine metrology desert: commercial
+precision hydrophone calibrations start at 0.25–0.5 MHz, the one
+cavitation probe covering our band publishes no uncertainty figure, and
+even NPL's primary method carries 7–12%. Our answer is a calibration
+chain traceable to <em>geometry and electrical measurement only</em> —
+no calibrated reference anywhere in it:</p>
+<pre>
+ rung 0  reciprocity itself: machine-proved from energy conservation
+         (piezo_theory rung 3) — the theorem the method leans on
+ rung 1  closed rigid water cavity, every dimension ≪ λ:
+         p/Q = K_water/(jωV) — impedance fixed by GEOMETRY [M]
+         two-transducer reciprocity in the coupler, 1–8 kHz
+ rung 2  built-in pistonphone: micrometer piston, known ΔV
+         → p = K·ΔV/V — a second absolute route, same cavity
+ rung 3  transfer 1–8 kHz → 32.2 kHz via the measured BVD model;
+         verify free-field against the cylinder probe at range
+         (reciprocity again: J = 2r/ρf — geometry again)
+</pre>
+<p>This ladder is what collapses the needle's 1.2–10 µV/Pa sensitivity
+envelope to a number with an uncertainty budget. It runs in
+<em>parallel</em> with the mapping build — machining the coupler is the
+long pole — and it is the instrumentation core of the Asiflogic
+program: absolute in-situ dosimetry for low-frequency ultrasound.
+(Known trap, learned on the cylinder probe and written down so it stays
+learned: a slow-dunk static check works on a high-impedance buffer but
+a charge amp high-passes it away — the coupler rungs are the road.)</p>
+
 <h2>Context</h2>
 <p>Commercial needle hydrophones (0.5–1 mm elements) are specified for
 0.25–10 MHz — above our band. The calibrated cavitation probe that

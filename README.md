@@ -3,6 +3,17 @@
 Static site for **asiflogic.net** / **www.asiflogic.net**. Plain HTML/CSS in
 [`public/`](./public) — no build step.
 
+> [!IMPORTANT]
+> **Neither deploy path below is live.** Production `asiflogic.net` is served by
+> **Caddy + cloudflared on laptop4**, not by the Worker and not by Pages. As of
+> 2026-08-01 the centralized Cloudflare token has no Workers permission, and the
+> CI workflow this README describes (`.github/workflows/deploy.yml`) **does not
+> exist in this repo** — pushing to `main` deploys nothing.
+>
+> To actually publish a page, see **`moistlabpower/docs/WEB_EDGE.md`** (source of
+> truth) or run `moistlabpower/deploy/publish-page.sh` on the edge box. Commit
+> here regardless: this repo is the record, the box's disk is what serves.
+
 ## Two ways it is exposed via the Cloudflare surface
 
 Both are driven from the `jldos` repo's `sdf cloudflare` surface

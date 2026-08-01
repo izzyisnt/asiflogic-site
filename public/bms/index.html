@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Second-life battery storage — design brief · Asif Logic</title>
+  <meta name="description" content="Grid-scale-adjacent storage built from self-managing LFP modules: an open-firmware controller that aggregates N modules into one battery, every safety rule a machine-checked proof with a deliberately broken control. No cloud. No orphaning." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>▚</text></svg>" />
+  <style>
+    :root{--bg:#070c0e;--surface:#0b1214;--ink:#eaf1ef;--ink2:#9fb2ad;--muted:#5e716d;--line:#182422;
+      --teal:#4fc4c4;--amber:#e6a23c;--live:#37c08a;--die:#e0645f}
+    *{box-sizing:border-box}
+    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+    .wrap{max-width:860px;margin:0 auto;padding:30px 20px 70px}
+    .nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em;margin-bottom:24px}
+    .nav a{color:var(--muted);text-decoration:none} .nav a.on{color:var(--teal);font-weight:600} .nav a:hover{color:var(--ink2)}
+    .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 12px}
+    h1{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;font-weight:600;text-wrap:balance}
+    h1 em{font-style:normal;color:var(--amber)}
+    .lead{font-size:19px;color:var(--ink2);margin:0 0 28px;max-width:62ch;text-wrap:pretty}
+    .stamp{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 44px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+    .stamp span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink2);background:var(--surface)}
+    .stamp b{color:var(--teal);font-weight:600}
+    .sheet{margin:0 0 46px}
+    .sheet-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:18px}
+    .sheet-no{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.1em;color:var(--amber);font-weight:600;white-space:nowrap}
+    .sheet-head h2{margin:0;font-size:18px;font-weight:650;letter-spacing:-.01em}
+    .cap{margin:0 0 14px;font-size:15px;color:var(--ink2);max-width:66ch}
+    .cap b{color:var(--ink)}
+    .draw{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;overflow-x:auto}
+    .draw svg{display:block;min-width:520px;width:100%;height:auto}
+    table{width:100%;border-collapse:collapse;font-size:14.5px;margin:0 0 14px}
+    th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+    th{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+    td b{color:var(--ink)}
+    .rule{border:1px solid var(--line);border-left:3px solid var(--teal);border-radius:10px;background:var(--surface);padding:13px 16px;margin:0 0 12px;font-size:14.5px;color:var(--ink2)}
+    .rule b{color:var(--ink);display:block;margin-bottom:3px}
+    .flag{margin:16px 0 0;border:1px solid #3a2422;border-left:3px solid var(--die);border-radius:10px;background:#130f0f;padding:13px 16px;font-size:14px;color:var(--ink2)}
+    .flag b{color:var(--die);font-weight:650;letter-spacing:.04em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+    .prov{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+    .m{color:var(--live)} .i{color:var(--amber)} .x{color:var(--die)}
+    .foot{margin:52px 0 0;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--ink2);max-width:68ch}
+    .foot b{color:var(--ink)}
+    code{font-family:ui-monospace,Menlo,monospace;font-size:.92em;color:var(--teal)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a href="/kill-switch/">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a> · <a href="/lights/">lights</a> · <a class="on">storage</a></div>
+
+  <div class="eyebrow">Design brief · rev A</div>
+  <h1>Storage that <em>cannot be orphaned</em>.</h1>
+  <p class="lead">Second-life LFP modules, assembled into outdoor-rated systems by an open-firmware controller. The interesting engineering is not the cells — it is what folds a stack of independent modules into one battery an inverter will trust, and what that fold does when a module stops answering.</p>
+
+  <div class="stamp">
+    <span>chemistry <b>LFP</b></span>
+    <span>string <b>80–495 V DC</b></span>
+    <span>firmware <b>GPL-3.0, no cloud</b></span>
+    <span>field HV connections <b>zero</b></span>
+    <span>proofs <b>27, each with a control</b></span>
+  </div>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">01</span><h2>Why this exists</h2></div>
+    <p class="cap">A working battery system was bought, installed, and then <b>orphaned when its manufacturer went under</b>. The hardware was fine. The cloud service it phoned home to was not, and a battery management board that waits for a dead company's server is a very expensive brick. That failure is the design input here, not an anecdote.</p>
+    <p class="cap">So the premise is inverted. The pitch is not <em>trust us to still be here in ten years</em>. It is <b>you will never need us</b>: open firmware, commodity parts, documented ratings, and per-unit evidence that stays readable whoever is or is not still trading.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">02</span><h2>The architecture, in three layers</h2></div>
+    <div class="draw">
+      <svg viewBox="0 0 720 210" role="img" aria-label="Block diagram: N self-managing modules report on CAN to an aggregator, which presents one battery to an inverter emulation layer.">
+        <defs><marker id="a" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0 0 L9 3.5 L0 7 z" fill="#4fc4c4"/></marker></defs>
+        <g font-family="ui-monospace,Menlo,monospace" font-size="11">
+          <g fill="#0b1214" stroke="#182422">
+            <rect x="8" y="18" width="120" height="30" rx="6"/><rect x="8" y="56" width="120" height="30" rx="6"/>
+            <rect x="8" y="94" width="120" height="30" rx="6"/><rect x="8" y="146" width="120" height="30" rx="6"/>
+          </g>
+          <g fill="#9fb2ad"><text x="20" y="37">module 1</text><text x="20" y="75">module 2</text><text x="20" y="113">module 3</text><text x="20" y="165">module N</text></g>
+          <text x="60" y="139" fill="#5e716d">⋮</text>
+          <g stroke="#4fc4c4" fill="none" marker-end="url(#a)">
+            <path d="M128 33 H190 V95"/><path d="M128 71 H190"/><path d="M128 109 H190 V97"/><path d="M128 161 H190 V101"/>
+          </g>
+          <text x="140" y="120" fill="#5e716d" font-size="10">CAN</text>
+          <rect x="200" y="60" width="150" height="80" rx="8" fill="#0b1214" stroke="#4fc4c4"/>
+          <text x="216" y="88" fill="#eaf1ef">aggregation</text>
+          <text x="216" y="106" fill="#5e716d" font-size="10">N states → 1 battery</text>
+          <text x="216" y="122" fill="#5e716d" font-size="10">min · veto · staleness</text>
+          <path d="M350 100 H408" stroke="#4fc4c4" fill="none" marker-end="url(#a)"/>
+          <rect x="418" y="60" width="140" height="80" rx="8" fill="#0b1214" stroke="#182422"/>
+          <text x="434" y="88" fill="#eaf1ef">emulation</text>
+          <text x="434" y="106" fill="#5e716d" font-size="10">standard battery</text>
+          <text x="434" y="122" fill="#5e716d" font-size="10">protocol, unmodified</text>
+          <path d="M558 100 H616" stroke="#4fc4c4" fill="none" marker-end="url(#a)"/>
+          <rect x="626" y="70" width="86" height="60" rx="8" fill="#0b1214" stroke="#182422"/>
+          <text x="642" y="96" fill="#eaf1ef">inverter</text>
+          <text x="642" y="113" fill="#5e716d" font-size="10">off the shelf</text>
+        </g>
+      </svg>
+    </div>
+    <p class="cap" style="margin-top:14px">Each module already senses its own cells, balances them, and reports over CAN — that safety responsibility stays where the manufacturer put it, inside the module. The controller never takes it back. Its job is the middle box: <b>fold N independent reports into the single battery an inverter expects</b>, and be conservative about it.</p>
+    <p class="cap">The emulation layer is an existing GPL-3.0 project used unmodified, which is deliberate — it is reviewed by more people than we are, and it already speaks the protocols mainstream inverters accept.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">03</span><h2>The fold, and what it does when something goes wrong</h2></div>
+    <p class="cap">These are the rules that decide whether the system is safe. Each one is a test in the codebase that must pass on the real implementation <b>and fail on a deliberately broken version of it</b> — because a check that cannot fail is not a check.</p>
+    <div class="rule"><b>The string's limit is the weakest module's limit.</b> Charge and discharge current are the minimum across every module, never an average and never the strongest. A series string carries every amp through its weakest link.</div>
+    <div class="rule"><b>Any module in fault stops the string.</b> Not de-rates it — stops it. A faulted module contributes zero to the minimum, so one module's problem is the whole string's problem.</div>
+    <div class="rule"><b>A silent module is a faulted module.</b> If a module misses its reporting window, its last known values are discarded rather than held. Stale data that looks healthy is worse than no data.</div>
+    <div class="rule"><b>A missing module never averages away.</b> If the controller expects twelve modules and hears eleven, the string goes to zero — it does not quietly re-normalise to a healthy eleven-module string. Those cells are still in series and now unmonitored.</div>
+    <div class="rule"><b>Cell extremes are global, never averaged.</b> The reported maximum is the highest cell anywhere in the string and the minimum is the lowest, because the mean hides exactly the outlier that protection exists to act on.</div>
+    <div class="rule"><b>State of charge comes from the modules, never from voltage.</b> LFP has a famously flat discharge curve; inferring charge from voltage is unreliable on this chemistry, and one widely-copied open-source implementation gets it wrong in a way that reads a <em>full</em> LFP cell as nearly empty. That specific bug is kept in our test suite as a control the design must fail.</div>
+    <div class="flag"><b>Stated plainly</b>Contactor fail-safe is enforced in hardware — a watchdog in the coil drive — not in firmware. Firmware supplies the heartbeat and the intent; losing the heartbeat opens the contactor regardless of what firmware believes. A firmware fail-safe fails at precisely the moment firmware is what failed.</div>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">04</span><h2>Built as an appliance, not a kit</h2></div>
+    <table>
+      <tr><th>Boundary</th><th>Made where</th><th>By whom</th></tr>
+      <tr><td>Module-to-module series links</td><td><b>Shop</b> — torqued, proved, sealed</td><td>nobody afterwards</td></tr>
+      <tr><td>String to controller and contactor</td><td><b>Shop</b></td><td>nobody afterwards</td></tr>
+      <tr><td>String to inverter DC input</td><td><b>Shop</b>, pre-terminated harness</td><td>nobody afterwards</td></tr>
+      <tr><td>Inverter to AC</td><td>Field</td><td>licensed electrician where required</td></tr>
+      <tr><td>Comms and antenna</td><td>Field — low voltage, keyed</td><td>anyone</td></tr>
+      <tr><td>Commissioning</td><td>Field</td><td>the owner, from a phone</td></tr>
+    </table>
+    <p class="cap"><b>No installer, owner, or operator ever makes a high-voltage DC connection in the field.</b> Field-made HV terminations, under time pressure and bad light, are where the risk in this class of system actually lives. Removing them from the installation removes most of the hazard — and it is the only honest version of the phrase <em>plug and play</em>. A system whose instructions include "land the positive on the busbar" is not one.</p>
+    <p class="cap">It also means every connection can be measured, torqued, and <b>proved before it ships</b>, with the evidence attached to that unit's serial number. A field-made joint cannot be.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">05</span><h2>Outdoors is the default, not an option</h2></div>
+    <p class="cap">Batteries live outside on purpose: it is the right answer for fire separation from anything occupied, and LFP tolerates the thermal range. The inverter is the component that sets the siting rules, and its manufacturer is unambiguous about them <span class="prov"><span class="m">[M]</span></span>:</p>
+    <table>
+      <tr><th>Spec</th><th>Value</th></tr>
+      <tr><td>Ingress protection</td><td><b>NEMA Type 4X</b></td></tr>
+      <tr><td>Cooling</td><td><b>Natural convection</b> — sealed case, no vents, the enclosure is the heatsink</td></tr>
+      <tr><td>Operating range</td><td>−35 °C to +60 °C, 0–95 % RH</td></tr>
+      <tr><td>Mounting</td><td>≥600 mm off the ground, well ventilated for heat radiation</td></tr>
+    </table>
+    <p class="cap">The manual's own words are <em>"install the equipment in a sheltered place to avoid direct sunlight, rain, and snow. Build a sunshade if it is needed."</em> So a shade structure is not our embellishment — it is a manufacturer-stated installation condition, and it is specified into the product rather than left to the site. The practical consequence runs opposite to intuition: a sealed convection-cooled enclosure wants <b>shade and free air, not a box</b>. Enclosing it to "weatherproof" something already weatherproof only chokes its cooling.</p>
+    <p class="cap">Every cable penetration is glanded per cable. A single cord grip seals one cable of a stated diameter; run a bundle through it and it closes around the bundle's outline, leaving the gaps between cables open — a leak path that still looks terminated. Sealant is not a fix for that, and pressure equalisation is a separate membrane, not a gland.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">06</span><h2>One light, no buttons</h2></div>
+    <p class="cap">The whole user interface is a black disc with a glowing rim, and a phone. A slow amber breath means running; a dim ember means idle; a deep red bite out of the ring means a fault; a cool violet shimmer means it wants commissioning. No numbers on the enclosure, no screen to break, no buttons to press on a live battery. Setup is a QR code, a phone joining the unit's own network, and a browser — no app to install, and none to be abandoned later.</p>
+    <p class="cap">Detail readings — per-cell voltages, temperatures, limits, history — are all there, on the phone, for anyone who wants them. They are simply not on the box.</p>
+  </section>
+
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">07</span><h2>Where this is honestly not finished</h2></div>
+    <p class="cap">Stating gaps is the same discipline as stating specifications, so:</p>
+    <div class="rule"><b>Module decode is not complete.</b> The aggregation layer above is built and tested against synthetic module states. Reading the specific CAN dialect of the target modules requires bench work against a live module, and that work is not done. Nothing here claims otherwise.</div>
+    <div class="rule"><b>Module electrical ratings are not yet transcribed.</b> Until they come off the manufacturer's datasheet they are reported by the tooling as <em>not checked</em> — never as acceptable. An unknown that reads as "fine" is how rating bugs survive review.</div>
+    <div class="rule"><b>Listing and permitting are not claimed.</b> These systems are not UL-listed assemblies. That makes them appropriate for off-grid and non-grid-interactive applications — cabins, shops, barns, workshops, pumping, standby — and not appropriate for a permitted grid-tied residential interconnection. If someone needs the latter, they should buy a listed product, and we will say so.</div>
+  </section>
+
+  <p class="foot">
+    <b>How to read this page.</b> Every load-bearing claim above is held in code as a check that must pass on the real design <b>and</b> fail on a deliberately broken version of it — a wrongly-rated part, a relay that cannot interrupt the current it is switching, an aggregator that quietly averages away a missing module. Twenty-seven such proofs and their controls run on every change, alongside about thirteen hundred other tests.
+    <br><br>
+    <span class="prov">Provenance: <span class="m">[M]</span> read from a primary source · <span class="i">[I]</span> inferred or vendor copy · <span class="x">[X]</span> assumed, unmeasured.</span>
+    Inverter specifications above are <span class="m">[M]</span> from the manufacturer's user manual. Module-level electrical figures are <span class="x">[X]</span> pending datasheet transcription and gate any sizing claim.
+    <br><br>
+    Rev A · August 2026 · design brief, not a released product specification. Nothing on this page is an offer of a listed or certified assembly.
+  </p>
+</div>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Needle Hydrophone — Asiflogic design note</title>
+<style>
+:root{--bg:#faf9f6;--fg:#1e2228;--mut:#5a6472;--line:#d8d4cc;--acc:#0a6e5c;--card:#f1efe9;--warn:#8a5a00}
+@media(prefers-color-scheme:dark){:root{--bg:#14171b;--fg:#e6e3dc;--mut:#9aa3ae;--line:#333a42;--acc:#4fc3a1;--card:#1d2126;--warn:#d9a441}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);
+font:16px/1.55 Georgia,'Times New Roman',serif;padding:2rem 1rem}
+main{max-width:46rem;margin:0 auto}
+h1{font-size:1.7rem;margin:.2rem 0 0}h2{font-size:1.15rem;margin:2rem 0 .5rem;color:var(--acc)}
+.sub{color:var(--mut);font-style:italic;margin:.2rem 0 1.4rem}
+table{border-collapse:collapse;width:100%;font-size:.85rem;font-family:ui-monospace,Menlo,Consolas,monospace}
+th,td{border:1px solid var(--line);padding:.4rem .5rem;text-align:left;vertical-align:top}
+th{background:var(--card)}
+.tablewrap{overflow-x:auto}
+pre{background:var(--card);border:1px solid var(--line);padding:.8rem;overflow-x:auto;
+font-size:.78rem;line-height:1.35;font-family:ui-monospace,Menlo,Consolas,monospace}
+code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;background:var(--card);padding:0 .25em}
+.tag{font-family:ui-monospace,monospace;font-size:.78em;padding:0 .3em;border:1px solid var(--line);border-radius:3px}
+.M{color:var(--acc)}.I{color:var(--warn)}.X{color:var(--mut)}
+.note{border-left:3px solid var(--warn);padding:.1rem 0 .1rem .8rem;margin:1rem 0;color:var(--mut)}
+footer{margin-top:2.5rem;color:var(--mut);font-size:.82rem;border-top:1px solid var(--line);padding-top:.8rem}
+a{color:var(--acc)}
+</style>
+</head>
+<body><main>
+<h1>The Needle Hydrophone</h1>
+<p class="sub">Thin needle for dark noodle. — design note, 2026-08-01</p>
+
+<p>A sub-wavelength underwater probe for two jobs a conventional
+cylinder hydrophone is provably wrong at: reading the true peak of a
+focused ultrasound field, and mapping the fine structure — including the
+lines of perfect silence (acoustic vortices) — of a diffuse field at
+32&nbsp;kHz, where the wavelength in water is 47&nbsp;mm. Every
+load-bearing claim below is a machine-checked proof in our repository,
+each shipped with a deliberately broken control that its test must
+catch. Provenance labels:
+<span class="tag M">[M]</span> measured or transcribed from a primary
+source · <span class="tag I">[I]</span> inferred · <span class="tag X">[X]</span> modeled.</p>
+
+<h2>Anatomy</h2>
+<pre>
+   gantry grip / cable up
+        │
+  ┌─────┴──────┐  dry handle box: charge-amp PCB (~2×3 cm),
+  │ charge amp │  BNC out. All electronics live here, above
+  │  PCB + BNC │  the waterline — PCB size is unconstrained.
+  └─────┬──────┘
+        │          ~ waterline ~
+        │   stainless stem, ~6 mm OD × 250 mm,
+        │   micro-coax inside the bore
+  ┌─────┴─────┐
+  │ 5 mm disc │  tip: piezo element + potting ONLY
+  └───────────┘
+</pre>
+<p>Element: a 5&nbsp;×&nbsp;0.4&nbsp;mm PZT (SM111) disc with factory
+wire leads <span class="tag M">[M]</span>, radial resonance
+450&nbsp;±&nbsp;10&nbsp;kHz — seven times above our band, where the
+26&nbsp;mm cylinder it replaces resonates <em>inside</em> the band. The
+front end is a charge amplifier at the dry end: its scale factor is
+immune to the element's ±15% capacitance tolerance and to the cable —
+which is why the electronics can be evicted from the tip at all. (A
+tiny buffer <em>could</em> be potted at the tip, as our cylinder probe
+does inside its much roomier element — dry-end charge sensing is a
+choice for scale stability and a minimal tip, not a geometric
+necessity.)</p>
+
+<h2>The numbers</h2>
+<div class="tablewrap">
+<table>
+<tr><th>claim</th><th>needle (6 mm tip)</th><th>failing control</th><th>26 mm cylinder</th></tr>
+<tr><td>focal-peak loss to aperture averaging</td><td><b>0.44 dB</b></td><td>10 mm disc: 1.25 dB</td><td>12.1 dB</td></tr>
+<tr><td>in-band response ripple, 20–60 kHz (free element)</td><td><b>0.14 dB</b></td><td>cylinder element: +18 dB at its in-band 43 kHz mode</td><td>resonant in band</td></tr>
+<tr><td>vortex-map survival, slice of a 3-D field</td><td><b>100%</b></td><td>26 mm aperture: 79%</td><td>loses ~21%</td></tr>
+<tr><td>scattering size ka at 32.2 kHz</td><td><b>0.40</b> (Rayleigh)</td><td>26 mm body: 1.73</td><td>~350× more scatter <span class="tag I">[I]</span></td></tr>
+<tr><td>noise floor, worst-case sensitivity, 20–60 kHz</td><td><b>0.82 Pa</b></td><td>naive buffer + cable: 1.07 Pa</td><td>0.02 Pa (but colored + aperture-blind)</td></tr>
+</table>
+</div>
+<p>Modeled focal peak for scale: 9.3 kPa <span class="tag X">[X]</span> —
+worst-case signal-to-noise ≈ 81 dB.</p>
+
+<h2>Two aperture findings</h2>
+<p><b>1. For a wave field confined to a plane</b> (ripples on a water
+surface), a round sensor of <em>any</em> size multiplies the whole map
+by one Bessel factor, 2J₁(kR)/(kR) — it cannot move a single vortex.
+We measured the gain against that formula and it tracks to better than
+1% — including the spectacular part: at exactly R&nbsp;=&nbsp;0.61λ the
+factor crosses zero and the sensor goes completely deaf, with perfect
+maps on either side of the null. Ears and mouths obey the same math:
+run backwards as a source, that disc is mute along its own plane.</p>
+<p><b>2. For a plane slice of a 3-D field</b> — the real mapping
+mission — incidence angles spread the in-plane spectrum, the same
+kernel reweights it non-uniformly, and a 26 mm aperture destroys a
+fifth of the vortex map while the 6 mm tip keeps all of it. Finding 1
+cannot be extrapolated to finding 2; we tested both.</p>
+
+<h2>What is deliberately not claimed</h2>
+<div class="note">
+<p>Sensitivity is an <em>envelope</em>, 1.2–10 µV/Pa
+<span class="tag I">[I]</span>, until our reciprocity coupler measures
+it — where the built probe lands depends on the potting. Every absolute
+number above uses the worst case.</p>
+<p>Mounted on the tube, the disc becomes a rim-clamped <em>bender</em>
+with an estimated flexural mode near 111 kHz in water
+<span class="tag X">[X]</span> — close enough to color the band top by
+~3 dB. Our own flatness proof covers the free element only; the built
+probe gets an impedance sweep before its response is trusted. This flaw
+was found by attacking our own design, which is the house method.</p>
+<p>Scatter suppression is a Rayleigh (ka)⁴ scaling
+<span class="tag I">[I]</span>, not yet a measured field perturbation.</p>
+</div>
+
+<h2>Context</h2>
+<p>Commercial needle hydrophones (0.5–1 mm elements) are specified for
+0.25–10 MHz — above our band. The calibrated cavitation probe that
+covers 20 kHz–1.2 MHz publishes no uncertainty figure at low frequency.
+Sub-100-kHz underwater metrology is a calibration desert; this probe,
+and the geometry-traceable coupler that will calibrate it, are steps
+toward filling it. Anchors: Berry &amp; Dennis, <i>Proc.&nbsp;R.&nbsp;Soc.&nbsp;A</i>
+456, 2059 (2000); O'Holleran et&nbsp;al., <i>PRL</i> 100, 053902 (2008);
+Taylor &amp; Dennis, <i>J.&nbsp;Phys.&nbsp;A</i> 47, 465101 (2014) —
+all read in primary form <span class="tag M">[M]</span>.</p>
+
+<footer>Asiflogic — machine-checked instrumentation. A design here is a
+set of falsifiable proofs; a proof that cannot fail is not a proof.
+</footer>
+</main></body>
+</html>

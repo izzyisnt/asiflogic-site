@@ -98,6 +98,11 @@ function eth() {
   return window.ethereum;
 }
 
+// providers throw raw values (not Error objects) e.g. when a request is
+// already pending — never touch .message without a guard
+const emsg = e => (e && (e.message || String(e))) || "wallet request failed";
+let listening = false, connecting = false;
+
 async function updateChainUI() {
   const p = eth(); if (!p || !account) return;
   const chain = await p.request({method:"eth_chainId"});
@@ -111,14 +116,21 @@ async function updateChainUI() {
 }
 
 $("connectBtn").onclick = async () => {
-  const p = eth(); if (!p) return;
+  const p = eth(); if (!p || connecting) return;
+  connecting = true; $("connectBtn").disabled = true;
   try {
-    [account] = await p.request({method:"eth_requestAccounts"});
+    const accs = await p.request({method:"eth_requestAccounts"});
+    account = (accs && accs[0]) || null;
+    if (!account) { log("wallet returned no account — unlock it and try again", "warn"); return; }
     $("connectBtn").hidden = true;
-    p.on?.("chainChanged", updateChainUI);
-    p.on?.("accountsChanged", a => { account = a[0] || null; updateChainUI(); });
+    if (!listening) {
+      listening = true;
+      p.on?.("chainChanged", updateChainUI);
+      p.on?.("accountsChanged", a => { account = (a && a[0]) || null; updateChainUI(); });
+    }
     await updateChainUI();
-  } catch (e) { log(e.message, "err"); }
+  } catch (e) { log(emsg(e), "err"); }
+  finally { connecting = false; $("connectBtn").disabled = false; }
 };
 
 $("switchBtn").onclick = async () => {
@@ -126,12 +138,12 @@ $("switchBtn").onclick = async () => {
   try {
     await p.request({method:"wallet_switchEthereumChain", params:[{chainId: BASE_ID}]});
   } catch (e) {
-    if (e.code === 4902) {
+    if (e && e.code === 4902) {
       await p.request({method:"wallet_addEthereumChain", params:[{
         chainId: BASE_ID, chainName:"Base",
         nativeCurrency:{name:"Ether", symbol:"ETH", decimals:18},
         rpcUrls:[RPC], blockExplorerUrls:["https://basescan.org"]}]});
-    } else log(e.message, "err");
+    } else log(emsg(e), "err");
   }
   updateChainUI();
 };
@@ -148,7 +160,7 @@ $("sendBtn").onclick = async () => {
       params:[{from: account, to: AGENT, value: "0x" + wei.toString(16)}]});
     log(`sent: <a href="https://basescan.org/tx/${tx}" target="_blank" rel="noopener">${tx}</a>`, "ok");
     setTimeout(() => { refreshAgentBal(); updateChainUI(); }, 4000);
-  } catch (e) { log(e.message, "err"); }
+  } catch (e) { log(emsg(e), "err"); }
 };
 
 refreshAgentBal();

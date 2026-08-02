@@ -35,6 +35,8 @@
 
     .flag{margin:16px 0 0;border:1px solid #3a2422;border-left:3px solid var(--die);border-radius:10px;background:#130f0f;padding:13px 16px;font-size:14px;color:var(--ink2)}
     .flag b{color:var(--die);font-weight:650;letter-spacing:.04em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+    .flag.ok{border-color:#1d3a2e;border-left-color:var(--live);background:#0c1512}
+    .flag.ok b{color:var(--live)}
 
     .prov{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
     .m{color:var(--live)} .i{color:var(--amber)} .x{color:var(--die)}
@@ -60,16 +62,16 @@
 <div class="wrap">
   <div class="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a href="/kill-switch/">Piezo1</a> · <a href="/ratchet/">the ratchet</a> · <a href="/tpm2/">Tpm2.1</a> · <a class="on">lights</a></div>
 
-  <div class="eyebrow">Drawing set · rev A</div>
+  <div class="eyebrow">Drawing set · rev B</div>
   <h1>Two lion posts, eight orbs, <em>one battery</em>.</h1>
   <p class="lead">A pair of cast lion lamp posts arrived with no sockets in them. Rather than fit bulbs, each of the eight diffuser spheres gets a circuit board: a ring of individually addressable pixels for effect, a warm-white cluster for actual light. Power comes off a 20 kWh battery pack — which is the part that makes this an engineering problem rather than a shopping trip.</p>
 
   <div class="stamp">
-    <span><b>11</b> proofs passing</span>
-    <span><b>14</b> failing controls</span>
-    <span><b>74</b> tests green</span>
-    <span><b>90 W</b> both posts, worst case</span>
-    <span>status: <b>design review</b></span>
+    <span><b>15</b> proofs passing</span>
+    <span><b>18</b> failing controls</span>
+    <span><b>1325</b> tests green</span>
+    <span><b>97 W</b> both posts, worst case</span>
+    <span>rev <b>B</b> · design review</span>
   </div>
 
   <section class="sheet">
@@ -84,7 +86,7 @@
       <line x1="112" y1="94" x2="150" y2="94" class="hv"/>
       <line x1="150" y1="94" x2="178" y2="94" class="s"/>
       <rect x="152" y="87" width="24" height="14" rx="2" class="box"/>
-      <text x="138" y="78" class="lbl">F_HV 4 A</text>
+      <text x="138" y="78" class="lbl">F_HV 2 A</text>
       <text x="132" y="122" class="sub">DC-rated cartridge</text>
       <line x1="178" y1="94" x2="202" y2="94" class="hv"/>
       <rect x="202" y="64" width="90" height="62" rx="4" class="box"/>
@@ -108,10 +110,10 @@
       <rect x="472" y="108" width="118" height="44" rx="4" class="box"/>
       <text x="484" y="127" class="lbl">POST 2</text>
       <text x="484" y="142" class="sub">4 orbs + controller</text>
-      <text x="18" y="196" class="sub">Both posts flat out: 90.4 W = 3.8 A at 24 V — 58 % of the converter, passes derated.</text>
+      <text x="18" y="196" class="sub">Both posts flat out: 97.1 W = 4.05 A at 24 V — 62 % of the converter, passes derated.</text>
       <text x="18" y="212" class="sub">Nothing buried or in-post carries more than 24 V.</text>
     </svg></div>
-    <p class="cap">The pack runs at <b>204.8 volts</b>. Feeding that to garden lighting would be both a parts problem — a check against the real bus voltage convicted five of six components outright — and a safety one, since a fault at that voltage sustains an arc. So the voltage is stepped down <b>once, at the battery</b>, by a single converter, and everything from there out is low-voltage. The fuse ahead of it is rated to break DC at that voltage; the common automotive blade fuse is not, and would open into an arc while looking like protection.</p>
+    <p class="cap">The pack runs at <b>204.8 volts</b>. Feeding that to garden lighting would be both a parts problem — a check against the real bus voltage convicted five of six components outright — and a safety one, since a fault at that voltage sustains an arc. So the voltage is stepped down <b>once, at the battery</b>, by a single converter, and everything from there out is low-voltage. The fuse ahead of it is rated to break DC at that voltage; the common automotive blade fuse is not, and would open into an arc while looking like protection. Its <b>current</b> rating was also wrong, and stayed wrong until a check was written for it: the first figure was a guess of 4&nbsp;A, six times the real draw and well above the point where a fuse still protects anything. It is 2&nbsp;A now.</p>
   </section>
 
   <section class="sheet">
@@ -152,8 +154,8 @@
       <text x="240" y="308" class="sub">cast aluminium lion post</text>
     </svg></div>
     <p class="cap">Each post carries its own small computer. It drives the four spheres as four independent zones, so the everyday look can be a warm gas-lamp flicker while any sphere is free to do something else. The posts talk to each other over Wi-Fi and stay in step. A radar module — which sees people through weather that defeats the usual motion sensors — lifts the post from a dim idle to full output as you approach.</p>
-    <div class="flag"><b>Open item — carried, not solved</b>
-      The post is a metal casting, which is a poor place to put two radios. Radar will not see through aluminium at all, and Wi-Fi is badly attenuated by it. Both need a non-metallic window: the radar behind a plastic aperture or riding inside the lowest sphere, and an external antenna for the controller. This is unresolved in rev A and is the reason the drawing set is not released for build.</div>
+    <div class="flag ok"><b>Resolved in rev B — the failure no electrical check could see</b>
+      The post is a metal casting, which is a poor place to put two radios: radar does not see through aluminium at all, and Wi-Fi is badly attenuated. Every electrical check on the base plate passed while the radar sat in that cage detecting nothing. The fix is a polyethylene window let into the base with the radar behind it, and a controller with an external antenna at the same aperture; the fallback is to move the radar into the lowest sphere, which is already plastic. The requirement is now a check of its own, and mounting the radar tidily inside the casting is kept as a case that must fail.</div>
   </section>
 
   <section class="sheet">
@@ -206,10 +208,10 @@
   </section>
 
   <p class="foot">
-    <b>How to read this.</b> Every number above comes from a design held in code, where each load-bearing claim is a check that must pass on the real design <b>and</b> fail on a deliberately broken version of it — a wrongly-rated part, a fuse that cannot break its bus, a shortcut that looks like a simplification. Fourteen such controls are kept alive alongside eleven proofs.
+    <b>How to read this.</b> Every number above comes from a design held in code, where each load-bearing claim is a check that must pass on the real design <b>and</b> fail on a deliberately broken version of it — a wrongly-rated part, a fuse that cannot break its bus, a shortcut that looks like a simplification. Eighteen such controls are kept alive alongside fifteen proofs.
     <br><br>
     <span class="prov">Provenance: <span class="m">[M]</span> read from a primary source · <span class="i">[I]</span> inferred or vendor copy · <span class="x">[X]</span> assumed, unmeasured.</span>
-    Component ratings here are <span class="i">[I]</span> pending a datasheet transcription pass, and the battery's charge setpoint is <span class="x">[X]</span> until measured. Both gate ordering. Rev A · August 2026 · design review, not released for build.
+    Component ratings here are <span class="i">[I]</span> pending a datasheet transcription pass, and the battery's charge setpoint is <span class="x">[X]</span> until measured. Both gate ordering. Rev B · August 2026 · design review, not released for build.
   </p>
 </div>
 </body>

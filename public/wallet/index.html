@@ -115,23 +115,44 @@ async function updateChainUI() {
   if (!onBase) log("connected, but not on Base — switch to send", "warn"); else log("");
 }
 
+function gotAccount() {
+  $("connectBtn").hidden = true;
+  updateChainUI();
+}
+
+function attachListeners(p) {
+  if (listening) return;
+  listening = true;
+  p.on?.("chainChanged", updateChainUI);
+  p.on?.("accountsChanged", a => {
+    account = (a && a[0]) || null;
+    if (account) gotAccount();
+    else { $("connectBtn").hidden = false; $("sendRow").hidden = true; $("who").textContent = ""; }
+  });
+}
+
 $("connectBtn").onclick = async () => {
   const p = eth(); if (!p || connecting) return;
   connecting = true; $("connectBtn").disabled = true;
+  attachListeners(p);   // before the request: an unlock-then-approve arrives as accountsChanged
   try {
     const accs = await p.request({method:"eth_requestAccounts"});
     account = (accs && accs[0]) || null;
-    if (!account) { log("wallet returned no account — unlock it and try again", "warn"); return; }
-    $("connectBtn").hidden = true;
-    if (!listening) {
-      listening = true;
-      p.on?.("chainChanged", updateChainUI);
-      p.on?.("accountsChanged", a => { account = (a && a[0]) || null; updateChainUI(); });
-    }
-    await updateChainUI();
+    if (account) await gotAccount();
+    else log("wallet returned no account — unlock Brave Wallet and approve; this page will pick it up automatically", "warn");
   } catch (e) { log(emsg(e), "err"); }
   finally { connecting = false; $("connectBtn").disabled = false; }
 };
+
+// silent reconnect: if the site is already authorized, eth_accounts needs no prompt
+(async () => {
+  const p = window.ethereum; if (!p) return;
+  attachListeners(p);
+  try {
+    const a = await p.request({method:"eth_accounts"});
+    if (a && a[0]) { account = a[0]; gotAccount(); }
+  } catch (_) {}
+})();
 
 $("switchBtn").onclick = async () => {
   const p = eth(); if (!p) return;

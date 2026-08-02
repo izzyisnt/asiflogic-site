@@ -222,6 +222,32 @@ program: absolute in-situ dosimetry for low-frequency ultrasound.
 learned: a slow-dunk static check works on a high-impedance buffer but
 a charge amp high-passes it away — the coupler rungs are the road.)</p>
 
+<h2>Predictions, with confidence — scored later, in public</h2>
+<p>Labels say where a number came from; they don't say how much we'd
+bet on it. These are the designer's honest probabilities, registered
+2026-08-01 in the project's prediction ledger (entries 69–75)
+<em>before</em> parts were ordered, so they can be scored against the
+bench and not quietly forgotten. A well-calibrated list should get some
+of these wrong.</p>
+<div class="tablewrap">
+<table>
+<tr><th>#</th><th>prediction</th><th>p</th></tr>
+<tr><td>69</td><td>first disc's measured capacitance lands in the vendor band (383–518 pF), not near the 608 pF geometric estimate</td><td>0.70</td></tr>
+<tr><td>70</td><td>the bender is real: first potted probe's lowest in-water resonance falls below 250 kHz, so the free-element flatness does <em>not</em> transfer</td><td>0.80</td></tr>
+<tr><td>71</td><td>coupler-calibrated sensitivity lands inside the [1.2, 10] µV/Pa envelope (≈0.2 above it — bender gain; ≈0.1 below)</td><td>0.70</td></tr>
+<tr><td>72</td><td>AD743 is unobtainable-or-gouged at order time, forcing the modern-JFET sub or the shelf plan-B</td><td>0.70</td></tr>
+<tr><td>73</td><td>first vacuum-fill of the coupler passes the reciprocity check (Z<sub>AB</sub>=Z<sub>BA</sub> to 5%) without a re-fill</td><td>0.50</td></tr>
+<tr><td>74</td><td>first two-sheet scan campaign passes held-out-plane cross-validation at 3 dB rms (0.75 within two fixturing iterations)</td><td>0.40</td></tr>
+<tr><td>75</td><td>the payoff: the tank's measured vortex tangle lands in the simulated coexistence window with Brownian (worm-like-chain) statistics — real dark noodles, generic as predicted</td><td>0.60</td></tr>
+</table>
+</div>
+<p>Reading the list honestly: the single most likely failure is our own
+first build (the bender, 0.80 — we expect to fail our own flatness bar
+and measure our way out), and the hardest thing here is not the probe
+at all but the <em>scan campaign</em> (0.40 first try) — positioning,
+drift, and patience, the unglamorous physics. The probe's own numbers
+are the part we'd bet on.</p>
+
 <h2>Context</h2>
 <p>Commercial needle hydrophones (0.5–1 mm elements) are specified for
 0.25–10 MHz — above our band. The calibrated cavitation probe that

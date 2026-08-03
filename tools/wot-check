@@ -1,0 +1,48 @@
+#!/bin/sh
+# wot-check — assert the published web of trust: every key served by WKD
+# must carry a valid certification from the fleet root, ops@asiflogic.net.
+# Exit 0 = every published key is root-certified; exit 1 = at least one
+# key is published-but-uncertified (listed on stderr).
+#
+# The root itself passes by identity (it anchors the web; nothing above it).
+# Run after any wkd-publish. A key this flags was published without the
+# enrollment step: verify its fingerprint out-of-band, --quick-sign-key it
+# with ops@, and republish.
+
+set -eu
+
+ROOT_FP="38C6FB1004D11F8036B39FB0121C694E15632C79"
+ROOT_ID=$(printf %s "$ROOT_FP" | tail -c 16)
+
+SITE=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+HU="$SITE/public/.well-known/openpgpkey/hu"
+
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
+export GNUPGHOME="$TMP"
+chmod 700 "$TMP"
+
+# One shared keyring: certs verify only if the certifier's key is present,
+# which it is iff the root is itself published — also worth asserting.
+for f in "$HU"/*; do
+    [ -e "$f" ] || { echo "nothing published" >&2; exit 1; }
+    gpg -q --import "$f" 2>/dev/null
+done
+gpg --list-keys --with-colons | awk -F: '$1=="fpr" {print $10}' | grep -q "^$ROOT_FP$" \
+    || { echo "FAIL: root $ROOT_FP is not itself published" >&2; exit 1; }
+
+fail=0
+for f in "$HU"/*; do
+    fp=$(gpg --show-keys --with-colons "$f" | awk -F: '$1=="fpr" {print $10; exit}')
+    if [ "$fp" = "$ROOT_FP" ]; then
+        echo "ok   $(basename "$f")  $fp  (root)"
+        continue
+    fi
+    if gpg --check-sigs "$fp" 2>/dev/null | grep "^sig!" | grep -q "$ROOT_ID"; then
+        echo "ok   $(basename "$f")  $fp  root-certified"
+    else
+        echo "FAIL $(basename "$f")  $fp  published but NOT certified by root" >&2
+        fail=1
+    fi
+done
+exit $fail

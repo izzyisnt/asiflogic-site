@@ -90,7 +90,7 @@ tr.chosen td.nm{color:var(--live)}
 <a href="orb-1-pack-takeoff.kicad_sch" download>sheet 2 / 4 orb-1-pack-takeoff.kicad_sch <span>25 kB</span></a>
 <a href="orb-2-post-base.kicad_sch" download>sheet 3 / 4 orb-2-post-base.kicad_sch <span>70 kB</span></a>
 <a href="orb-3-orb-disc.kicad_sch" download>sheet 4 / 4 orb-3-orb-disc.kicad_sch <span>74 kB</span></a>
-<a href="orb-disc.kicad_pcb" download>board orb-disc.kicad_pcb <span>163 kB</span></a>
+<a href="orb-disc.kicad_pcb" download>board orb-disc.kicad_pcb <span>173 kB</span></a>
 </div>
 <section class="sheet">
 <div class="sheet-head"><span class="sheet-no">SHEET 1 / 4</span><h2>The system</h2></div>
@@ -151,12 +151,12 @@ tr.chosen td.nm{color:var(--live)}
 <figure><img loading="lazy" src="orb-disc-3d-iso.png" alt="3D render · 25° isometric" /><figcaption>3D render · 25° isometric</figcaption></figure>
 </div>
 <div class="gallery">
-<figure class="paper"><img loading="lazy" src="orb-disc-front.svg" alt="fab plot · front copper, silk, edge" /><figcaption>fab plot · front copper, silk, edge</figcaption></figure>
-<figure class="paper"><img loading="lazy" src="orb-disc-back.svg" alt="fab plot · back copper (mirrored)" /><figcaption>fab plot · back copper (mirrored)</figcaption></figure>
+<figure class="paper"><img loading="lazy" src="orb-disc-front.svg" alt="fab plot · front — copper, silk, body outlines + designators" /><figcaption>fab plot · front — copper, silk, body outlines + designators</figcaption></figure>
+<figure class="paper"><img loading="lazy" src="orb-disc-back.svg" alt="fab plot · back — same layers, mirrored for reading" /><figcaption>fab plot · back — same layers, mirrored for reading</figcaption></figure>
 </div>
 <div class="col">
 <div class="note"><b>what placing it found</b>The support parts <b>do not fit on the front</b>. With the pixel ring at R28&nbsp;mm and the white cluster inside it, the free annulus between them is about 8&nbsp;mm wide; the bulk capacitor is 9&nbsp;mm across and the screw terminal 8.4&nbsp;mm deep. So the front is the optical face and everything else is on the back — arithmetic, not preference. M3 mounting holes do not fit on the pixel radius either; they sit on the angular midpoints between pixels, the only place on this disc where a 4&nbsp;mm hole clears both the emitters and the routed edge, with 0.50&nbsp;mm to spare.</div>
-<div class="note open"><b>no component bodies in the render</b>KiCad's 3D model loader is a plugin at a compiled-in <code>/usr/lib</code> path, and this build box has KiCad unpacked into a user prefix without root. The models are present; the loader is not, so the renders show board, silkscreen and pads with no parts standing on them. Nothing about the outline, the ring or the placement depends on it.</div>
+<div class="note"><b>why earlier renders looked wrong</b>Three published passes of this board read as unphysical — scattered pads, no parts — and the diagnosis was chased through the silkscreen twice before the real causes surfaced. There were two. The build box's KiCad, unpacked without root, could not find its 3D model loader plugin, so every render was missing its component bodies. And the board emitter wrote every pad without its rotation angle — which KiCad's format defines as absolute — so every KiCad reading tilted every pad on every rotated part against its own package. This repo's own geometry checks model rotation correctly and stayed green the whole time: the bug lived exactly in the gap between the two readers, and it was KiCad's silk DRC, appearing and vanishing with placement angle alone, that finally convicted it. Six of the bodies below are declared stand-ins from neighbour packages — see provenance.</div>
 </div>
 <div class="col"><h2 class="sec">Mechanical — it has to go in a globe</h2>
 <p class="sub">The disc lives inside a printed core that sits in the globe's throat, and every dimension in that stack is decided by one measured number: the globe's bore, taken off the real part at <b>3.165&nbsp;in = 80.39&nbsp;mm</b>. Everything else is sized against it, and the margins below are what is left after the process tolerances are stacked — not nominal clearances.</p>

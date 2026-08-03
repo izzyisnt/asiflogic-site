@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fab demo — intent to order, end to end</title>
+<meta name="description" content="One part run end to end: an intent with provenance, three-state screening against every jlc* capability, proofs, KiCad drawings, emitted geometry, and the order that follows.">
+<style>
+:root{--bg:#070c0e;--surface:#0b1214;--ink:#eaf1ef;--ink2:#9fb2ad;--muted:#5e716d;
+  --line:#182422;--teal:#4fc4c4;--amber:#e6a23c;--live:#37c08a;--die:#e0645f;--paper:#f7f5ef}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:30px 20px 70px}
+.col{max-width:860px}
+.nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em;margin-bottom:24px}
+.nav a{color:var(--muted);text-decoration:none}
+.nav a.on{color:var(--teal);font-weight:600}
+.nav a:hover{color:var(--ink2)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 12px}
+h1{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;font-weight:600;text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber)}
+.lead{font-size:19px;color:var(--ink2);margin:0 0 26px;max-width:62ch;text-wrap:pretty}
+.stamp{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.stamp span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink2);background:var(--surface)}
+.stamp b{color:var(--teal);font-weight:600}
+.stamp .zero b{color:var(--live)}
+.dl{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 40px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.dl a{color:var(--teal);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:7px 13px;background:var(--surface)}
+.dl a:hover{border-color:var(--teal)}
+.dl a span{color:var(--muted)}
+.sheet{margin:0 0 54px}
+.sheet-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:16px}
+.sheet-no{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.1em;color:var(--amber);font-weight:600;white-space:nowrap}
+.sheet-head h2{margin:0;font-size:18px;font-weight:650;letter-spacing:-.01em}
+.draw{border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:10px;overflow-x:auto}
+.draw img{display:block;width:100%;min-width:900px;height:auto}
+.drawfoot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.drawfoot a{color:var(--teal);text-decoration:none}
+.cap{margin:14px 0 0;font-size:14.5px;color:var(--ink2);max-width:66ch;text-wrap:pretty}
+.cap b{color:var(--ink)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:0 0 8px}
+.gallery figure{margin:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px}
+.gallery figure.paper{background:var(--paper)}
+.gallery img{display:block;width:100%;height:auto;border-radius:8px}
+.gallery figcaption{margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+h2.sec{font-size:22px;margin:54px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--ink2);max-width:68ch;margin:0 0 20px}
+.gap{border:1px solid #3a2422;border-left:3px solid var(--die);border-radius:10px;background:#130f0f;padding:14px 16px;margin:0 0 12px;max-width:80ch}
+.gap h3{margin:0 0 5px;font-size:14px;color:var(--die);font-family:ui-monospace,Menlo,monospace;font-weight:650}
+.gap p{margin:0;font-size:14px;color:var(--ink2)}
+.gap .where{color:var(--muted);font-weight:400}
+table{border-collapse:collapse;width:100%;max-width:900px;font-size:13.5px;margin-bottom:8px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+td.ok{color:var(--live);font-family:ui-monospace,Menlo,monospace;white-space:nowrap}
+td.no{color:var(--die);font-family:ui-monospace,Menlo,monospace;white-space:nowrap}
+td.nm,td.num{font-family:ui-monospace,Menlo,monospace;color:var(--ink2);white-space:nowrap}
+tr.chosen td{background:#0c1512}
+tr.chosen td.nm{color:var(--live)}
+.note{border:1px solid #1d3a2e;border-left:3px solid var(--live);border-radius:10px;background:#0c1512;padding:14px 16px;margin:18px 0 0;font-size:14px;color:var(--ink2);max-width:80ch}
+.note b{color:var(--live);font-weight:650;letter-spacing:.04em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+.note.open{border-color:#3a3422;border-left-color:var(--amber);background:#14110c}
+.note.open b{color:var(--amber)}
+.foot{color:var(--muted);font-size:12.5px;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;max-width:74ch;margin-top:48px}
+.foot b{color:var(--ink2)}
+.foot code{font-family:ui-monospace,Menlo,monospace;color:var(--ink2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="nav"><a href="/">Asif Logic</a> · <a href="/solar/">solar</a> · <a class="on">fab demo</a> · <a href="/parts/">parts</a> · <a href="/inventory/">inventory</a></div>
+<div class="col">
+<div class="eyebrow">End-to-end demo · intent → verdicts → drawings → order · moistlab @ 530bba2</div>
+<h1>State what the part must do. <em>The catalogue answers.</em></h1>
+<p class="lead">A part here is not a drawing with hopes attached — it is an <b>intent</b>: every requirement an object carrying its value, the design story that put it there, and the provenance of the number. Screening it against a vendor gives three honest answers, because vendors have three: <b>MET</b>, <b>UNMET</b>, and <b>UNREAD</b> — nobody has read the page yet, which is a research task, not a verdict. Below, one real part (the globe core that holds a lamp-post orb’s LED disc) runs the whole chain: intent, the jlc* roster’s answer, the proofs, the KiCad drawings of the board it wraps, the emitted geometry, and the order that follows.</p>
+<div class="stamp">
+<span><b>14</b> capabilities on the roster</span>
+<span><b>4</b> jlc* services</span>
+<span><b>13</b> need kinds, none orphaned</span>
+<span class="zero"><b>1</b> maker admitted today</span>
+</div>
+<div class="dl">
+<a href="core_blank.stl?v=195def4239" download>core_blank.stl <span>· emitted below</span></a>
+<a href="orb-3-orb-disc.kicad_sch?v=67f3edae96" download>orb-disc .kicad_sch</a>
+<a href="orb-disc.kicad_pcb?v=3e88a34c23" download>orb-disc .kicad_pcb</a>
+</div>
+<h2 class="sec">1 · The intent</h2>
+<p class="sub">Six needs, each with its why and a provenance tag — [M] measured, [I] inferred, [X] placeholder. The aperture need carries its own correction history: the first bore reading was the centre pole.</p>
+<table><tr><th>need</th><th>value</th><th></th><th>why it exists</th></tr>
+<tr><td class=nm>envelope</td><td class=num>66×66×30 mm</td><td class=nm>[X]</td><td>must wrap the 70 mm disc yet still pass the bore assembled — the assembled check lives in fabfit.orb_fit, this is the bare part</td></tr>
+<tr><td class=nm>wall</td><td class=num>2.0 mm</td><td class=nm>[X]</td><td>thinnest section of the wrap-around ring</td></tr>
+<tr><td class=nm>fit</td><td class=num>0.5 mm</td><td class=nm>[X]</td><td>the disc must locate centred; ±0.5 mm of lateral slop is visible as an off-centre glow</td></tr>
+<tr><td class=nm>service_temp</td><td class=num>70.0 C</td><td class=nm>[I]</td><td>sits against the white cluster&#x27;s pour</td></tr>
+<tr><td class=nm>outdoor</td><td class=num>True</td><td class=nm>[I]</td><td>the posts live outside; the PE globe attenuates UV by an UNREAD amount, so the need stands until measured</td></tr>
+<tr><td class=nm>aperture</td><td class=num>101.6×3 mm</td><td class=nm>[M]</td><td>the mount ID measures 4.000 in [M operator, corrected 2026-08-02 — the first 3.165 in reading, which convicted the 80 mm draft, was the centre pole]</td></tr>
+</table>
+<h2 class="sec">2 · The roster answers</h2>
+<p class="sub">Every jlc* capability screens every need it can answer; a need it cannot answer blocks loudly instead of vanishing. One maker is admitted today — and it is not the right one. The right one is two page-reads away.</p>
+<table><tr><th>capability</th><th>service</th><th>verdict</th><th>stock / because</th></tr>
+<tr><td class=nm>SLA resin</td><td class=nm>jlc3dp</td><td class=nm>BLOCKED</td><td>unread: service_temp, outdoor</td></tr>
+<tr><td class=nm>MJF nylon</td><td class=nm>jlc3dp</td><td class=nm>BLOCKED</td><td>unread: service_temp, outdoor</td></tr>
+<tr><td class=nm>SLS nylon</td><td class=nm>jlc3dp</td><td class=nm>BLOCKED</td><td>unread: service_temp, outdoor</td></tr>
+<tr><td class=nm>FDM plastic</td><td class=nm>jlc3dp</td><td class=nm>BLOCKED</td><td>unread: outdoor</td></tr>
+<tr class="chosen"><td class=nm>SLM metal</td><td class=nm>jlc3dp</td><td class=ok>ADMITTED</td><td>316L stainless meets all 6 needs</td></tr>
+<tr><td class=nm>CNC machining</td><td class=nm>jlccnc</td><td class=nm>BLOCKED</td><td>unread: wall</td></tr>
+<tr><td class=nm>sheet metal</td><td class=nm>jlccnc</td><td class=nm>BLOCKED</td><td>unread: envelope, wall, fit, service_temp, outdoor</td></tr>
+<tr><td class=nm>EDM / wire cutting</td><td class=nm>jlccnc</td><td class=nm>BLOCKED</td><td>unread: envelope, wall, fit, service_temp, outdoor</td></tr>
+</table>
+<p class="cap"><b>intent:has_a_maker</b>: (SLM metal)</p>
+<h2 class="sec">3 · The reading list</h2>
+<p class="sub">UNREAD never admits and never rejects. It is this list — the exact pages whose numbers would move a process between columns. Nylon (MJF) is the obviously right material for this part and sits blocked on two of them; the admitted alternative prices at ~$75 against nylon’s ~$5 <b>per blank, times eight globes</b> — the reading list, priced.</p>
+<div class="note open"><b>go read</b>MJF nylon: service_temp — PA11: service temp NOT READ from the material page</div>
+<div class="note open"><b>go read</b>MJF nylon: outdoor — PA11: UV stability NOT READ</div>
+<div class="note open"><b>go read</b>CNC machining: wall — CNC machining publishes NO wall minimum — unscreenable, see CNC_RULES_UNREAD; ask support or run their DFM</div>
+<h2 class="sec">4 · The evidence, for the admitted maker</h2>
+<p class="sub">A screen is not a shrug — it is a proof set. Every verdict prints measured vs expected; UNREAD verdicts land in the not-checked lane, never in the passes.</p>
+<table><tr><th>proof</th><th>claim</th><th>measured</th><th>needs</th><th></th></tr><tr><td class=nm>intent:slm:envelope</td><td>SLM metal meets &#x27;envelope&#x27; for globe core (holds one disc centred in its sphere)</td><td class=num>260 mm spare</td><td class=num>0 mm spare</td><td class=ok>PASS</td></tr><tr><td class=nm>intent:slm:wall</td><td>SLM metal meets &#x27;wall&#x27; for globe core (holds one disc centred in its sphere)</td><td class=num>2 mm</td><td class=num>1.5 mm</td><td class=ok>PASS</td></tr><tr><td class=nm>intent:slm:fit</td><td>SLM metal meets &#x27;fit&#x27; for globe core (holds one disc centred in its sphere)</td><td class=num>0.5 mm</td><td class=num>0.3 mm</td><td class=ok>PASS</td></tr><tr><td class=nm>intent:slm:aperture</td><td>SLM metal meets &#x27;aperture&#x27; for globe core (holds one disc centred in its sphere)</td><td class=num>17.8 mm/side</td><td class=num>3 mm/side</td><td class=ok>PASS</td></tr><tr><td class=nm>intent:slm:service_temp</td><td>SLM metal meets &#x27;service_temp&#x27; for globe core (holds one disc centred in its sphere)</td><td class=num>400 C</td><td class=num>70 C</td><td class=ok>PASS</td></tr><tr><td class=nm>intent:slm:outdoor</td><td>SLM metal meets &#x27;outdoor&#x27; for globe core (holds one disc centred in its sphere)</td><td class=num>1</td><td class=num>1</td><td class=ok>PASS</td></tr></table>
+<p class="cap">8 standing gaps ride along unchecked-and-labeled — CNC wall rules, sheet bend rules, per-material build volumes, outdoor life. A gap reported is a gap; a gap silently passed is a rubber stamp.</p>
+<h2 class="sec">5 · The board the core wraps</h2>
+<p class="sub">The disc has a demand side too: outline, layer count, three rails that must carry real current, and <i>somebody has to solder it</i>. Fab and assembly screen as the one order they are — fully met on copper, blocked only on assembly rules nobody has transcribed.</p>
+<table><tr><th>need</th><th>verdict</th><th>answer</th></tr>
+<tr><td class=nm>board</td><td class=ok>MET</td><td>70x70 mm, 2 layer vs 1020x600 mm window, 3 mm floor</td></tr>
+<tr><td class=nm>current:5V pixel rail</td><td class=ok>MET</td><td>1.024 A at 10 C rise wants a drawn trace &gt;= 0.39 mm at 1 oz (0.09 mm at 4.5 oz), etch derate included — realizable; hold the layout to prove_trace_carries_current</td></tr>
+<tr><td class=nm>current:24V bus in</td><td class=ok>MET</td><td>0.5 A at 10 C rise wants a drawn trace &gt;= 0.15 mm at 1 oz (0.03 mm at 4.5 oz), etch derate included — realizable; hold the layout to prove_trace_carries_current</td></tr>
+<tr><td class=nm>current:white string</td><td class=ok>MET</td><td>0.3 A at 10 C rise wants a drawn trace &gt;= 0.07 mm at 1 oz (0.02 mm at 4.5 oz), etch derate included — realizable; hold the layout to prove_trace_carries_current</td></tr>
+<tr><td class=nm>assembled</td><td class=nm>UNREAD</td><td>assembly-side rules — paste, MOQ, Extended-part reel fees, panelisation for a round outline, MSL bake windows — are quoted separately and NOT transcribed here</td></tr>
+</table>
+<div class="gallery">
+<figure class="paper"><img src="orb-3-orb-disc.svg?v=8ac4c62cd9" alt="the disc, as a real KiCad schematic — sheet 4 of the solar set, ERC-checked" loading="lazy"><figcaption>the disc, as a real KiCad schematic — sheet 4 of the solar set, ERC-checked</figcaption></figure>
+<figure><img src="orb-disc-3d-iso.png?v=5c52168dfe" alt="the same board, rendered by kicad-cli from the generated .kicad_pcb" loading="lazy"><figcaption>the same board, rendered by kicad-cli from the generated .kicad_pcb</figcaption></figure>
+</div>
+<div class="drawfoot"><span>full drawing set, with the power story: <a href="/solar/">/solar/</a></span><span>sources: boards/orb_sheets.py · boards/orb_layout.py</span></div>
+<h2 class="sec">6 · The seam — board in core, core through bore</h2>
+<p class="sub">Each part can pass every one of its own checks while the pair fails. The seam is its own object: tolerance stacks worst-case (two vendors, no shared process history, eight boards is not a population), and what passes the bore is the <i>assembly</i>, not the board.</p>
+<table><tr><th>proof</th><th>claim</th><th>measured</th><th>needs</th><th></th></tr><tr><td class=nm>fit:pocket</td><td>globe core&#x27;s pocket clears orb disc after tolerances</td><td class=num>0.5 mm/side</td><td class=num>0.4 mm/side</td><td class=ok>PASS</td></tr><tr><td class=nm>fit:mounting_holes</td><td>screws pass through the board into the enclosure&#x27;s bosses</td><td class=num>0.75 mm</td><td class=num>0.4 mm</td><td class=ok>PASS</td></tr><tr><td class=nm>fit:depth</td><td>the pocket is deep enough for standoffs, board and parts</td><td class=num>15.54 mm</td><td class=num>12.6 mm</td><td class=ok>PASS</td></tr><tr><td class=nm>fit:wall</td><td>globe core&#x27;s wall is makeable by MJF nylon</td><td class=num>2 mm</td><td class=num>1.76 mm</td><td class=ok>PASS</td></tr><tr><td class=nm>fit:aperture</td><td>the assembled board-in-enclosure passes the aperture</td><td class=num>12.65 mm/side</td><td class=num>2 mm/side</td><td class=ok>PASS</td></tr></table>
+<div class="gallery">
+<figure class="paper"><img src="orb-core-plan.svg?v=f43b1a4393" alt="the core, plan — three set screws at 120°" loading="lazy"><figcaption>the core, plan — three set screws at 120°</figcaption></figure>
+<figure class="paper"><img src="orb-core-section.svg?v=d1a3a389f6" alt="section through the pocket: standoff + board + tallest part under the lid" loading="lazy"><figcaption>section through the pocket: standoff + board + tallest part under the lid</figcaption></figure>
+</div>
+<h2 class="sec">7 · The hardware, sourced</h2>
+<p class="sub">The catalogue capability answers with its own trichotomy: a family hit is [I] until verified, a checked absence is a real no — and this repo’s no for heaters carries its correction: a heater is a PCB.</p>
+<table><tr><th>query</th><th>verdict</th><th>answer</th></tr>
+<tr><td class=nm>stocked:threaded insert</td><td class=ok>MET</td><td>&#x27;fasteners&#x27; family [I]. No minimum order quantity [I, jlcmc.com]. Same-day dispatch on in-stock lines, 2-5 day delivery. Ships with nothing else in the JLC fami</td></tr>
+<tr><td class=nm>stocked:heaters</td><td class=no>UNMET</td><td>checked deliberately and NOT stocked — Not a JLCMC line [M, checked 2026-08-02: the electrical category is relays, LEDs, fans, PLCs, terminal blocks, cable, pan</td></tr>
+</table>
+<h2 class="sec">8 · Geometry out, order in</h2>
+<p class="sub">The blank ring above the downloads — OD 76 / ID 72 / h 16 mm — is emitted from the same fabfit constants the seam proofs check, so the file cannot disagree with the evidence. Through the measured 4.000 in bore it keeps 12.8 mm a side. Price bands are [I] on the ring’s 7.4 cm³: MJF ~$5, SLM ~$75. [I] band only — JLC3DP prices on the uploaded model&#x27;s volume, bounding box, material and finish.</p>
+<div class="note"><b>the order procedure</b>1. Settle geometry against the constraints that already exist — for anything<br>   living inside a globe, that includes the 4.000 in (101.6 mm) mount ID<br>   ([M operator, corrected 2026-08-02]; boards/orb_disc.py).<br>2. Pick a process with `select_process`; read the rejection reasons for the<br>   ones it drops, they are usually informative.<br>3. Export STEP if the part came from real CAD, STL if it came from<br>   `emit_stl_disc`. STL loses units — confirm mm on upload.<br>4. Upload at jlc3dp.com for an instant quote. The quote is the price; anything<br>   this module said was a band.<br>5. Their DFM report flags thin walls and trapped volumes. Read it: it is a<br>   second opinion from someone who owns the machine.<br>6. Order alongside a PCB run to share shipping — same account as JLCPCB.</div>
+<h2 class="sec">9 · Why believe any of this</h2>
+<p class="sub">Because every check demonstrably fails. The first cut of this surface shipped two real bugs, found on re-read and frozen as controls — each one below runs live at page build and must FAIL, forever.</p>
+<div class="gap"><h3>control · outdoor flag screened by nothing — FAILS, as it must</h3><p>SLA resin can make sunlit cable clip, on read rules: (UNREAD outdoor (9000R resin: UV stability NOT READ))</p></div>
+<div class="gap"><h3>control · two half-materials passing one part — FAILS, as it must</h3><p>CNC machining can make hot RF window, on read rules: (UNREAD service_temp (FR4: service temp NOT READ from the material page))</p></div>
+<div class="gap"><h3>control · a board intent against a printer — FAILS, as it must</h3><p>MJF nylon can make orb disc (demand side), on read rules: (UNANSWERED board; UNANSWERED current:5V pixel rail; UNANSWERED current:24V bus in; UNANSWERED current:white string; UNANSWERED assembled)</p></div>
+<div class="foot"><b>How this page is made:</b> generated by <code>tools/gen_fabdemo_page.py</code> from <code>moistlab/fabintent.py</code>, <code>fab3dp.py</code>, <code>fabpcb.py</code>, <code>fabfit.py</code>, <code>fabmc.py</code>, <code>fabjlc.py</code> — the same modules pytest holds, both directions, with deliberately broken controls. Drawings are kicad-cli plots of generated <code>.kicad_sch</code> / <code>.kicad_pcb</code> files (an independent reader that has already convicted three defects no geometric check could see). Vendor figures were read from jlc3dp.com / jlccnc.com / jlcpcb.com / jlcmc.com on 2026-08-02; prices are [I] bands; nothing modeled is presented as measured. If this page disagrees with the tree, the tree wins — regenerate.</div>
+</div></div>
+</body>
+</html>

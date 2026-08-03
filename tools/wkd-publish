@@ -1,0 +1,78 @@
+#!/bin/sh
+# wkd-publish — install a public key into the WKD directory served at
+# https://asiflogic.net/.well-known/openpgpkey/ and commit it.
+#
+# Usage:  wkd-publish <pubkey-file>     (armored or binary; public key only)
+#         wkd-publish --list            (show what is currently published)
+#
+# The fleet contract: every agent/box generates its own keypair LOCALLY and
+# only the public half ever travels. This script may be fed a key from any
+# machine (scp/ssh-pipe it here); it validates the UID domain, computes the
+# z-base-32 WKD hash, writes the binary key under hu/, and commits. It will
+# refuse a file containing secret-key material.
+#
+# Discovery from anywhere:  gpg --locate-external-key <name>@asiflogic.net
+
+set -eu
+
+SITE=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+WKD="$SITE/public/.well-known/openpgpkey"
+DOMAIN="asiflogic.net"
+
+if [ "${1:-}" = "--list" ]; then
+    for f in "$WKD"/hu/*; do
+        [ -e "$f" ] || { echo "nothing published"; exit 0; }
+        gpg --show-keys "$f" | sed -n 's/^uid */uid /p' | sed "s|$|  [$(basename "$f")]|"
+    done
+    exit 0
+fi
+
+KEYFILE=${1:?usage: wkd-publish <pubkey-file> | --list}
+[ -r "$KEYFILE" ] || { echo "cannot read $KEYFILE" >&2; exit 1; }
+
+# Work in a throwaway keyring so the box's own keyring is neither trusted
+# nor touched — the site repo is the source of truth, not any local ring.
+TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
+export GNUPGHOME="$TMP"
+chmod 700 "$TMP"
+
+if gpg --show-keys "$KEYFILE" 2>/dev/null | grep -q '^sec'; then
+    echo "REFUSING: $KEYFILE contains SECRET key material. Export with" >&2
+    echo "  gpg --no-armor --export <addr>   (not --export-secret-keys)" >&2
+    exit 1
+fi
+
+gpg -q --import "$KEYFILE" 2>/dev/null
+
+# Every @asiflogic.net UID on the key gets published; other domains refused.
+HASHES=$(gpg --list-keys --with-wkd-hash 2>/dev/null \
+         | grep -Eo "[a-z0-9]{32}@$DOMAIN" | cut -d@ -f1 | sort -u)
+ADDRS=$(gpg --list-keys --with-colons 2>/dev/null \
+        | awk -F: '$1=="uid" {print $10}' | grep -Eo '<[^>]+>' | tr -d '<>')
+
+[ -n "$HASHES" ] || { echo "REFUSING: no @$DOMAIN UID on this key (found: ${ADDRS:-none}). WKD only serves domains whose web root we control." >&2; exit 1; }
+
+mkdir -p "$WKD/hu"
+touch "$WKD/policy"
+for h in $HASHES; do
+    # Binary export, never armored — armored keys are the classic WKD failure.
+    gpg --no-armor --export > "$WKD/hu/$h"
+    echo "published: hu/$h  ($(gpg --list-keys --with-colons | awk -F: '$1=="fpr" {print $10; exit}'))"
+done
+
+cd "$SITE"
+git add public/.well-known/openpgpkey
+if git diff --cached --quiet; then
+    echo "no change — already published"
+else
+    git commit -q -m "wkd: publish $ADDRS"
+    git push -q
+    # SSH-only remote with a history of dying silently: verify the push landed.
+    if [ -n "$(git log origin/main..main --oneline)" ]; then
+        echo "WARNING: commit made but PUSH DID NOT LAND — push manually" >&2
+        exit 1
+    fi
+    echo "committed and pushed: $(git rev-parse --short HEAD)"
+fi
+echo "verify:  gpg --locate-external-key ${ADDRS%% *}"

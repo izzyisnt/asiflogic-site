@@ -1,218 +1,234 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Lion post orb lighting — drawing set · Asif Logic</title>
-  <meta name="description" content="Three-sheet drawing set for a battery-fed lamp post lighting system: 204.8 V pack stepped down once at the source, four addressable orb discs per post. Every load-bearing claim is a machine-checked proof with a deliberately broken control." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
-  <style>
-    :root{--bg:#070c0e;--surface:#0b1214;--ink:#eaf1ef;--ink2:#9fb2ad;--muted:#5e716d;--line:#182422;
-      --teal:#4fc4c4;--amber:#e6a23c;--live:#37c08a;--die:#e0645f;--talin:#b57fa0}
-    *{box-sizing:border-box}
-    @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-    body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
-    .wrap{max-width:860px;margin:0 auto;padding:30px 20px 70px}
-    .nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em;margin-bottom:24px}
-    .nav a{color:var(--muted);text-decoration:none} .nav a.on{color:var(--teal);font-weight:600} .nav a:hover{color:var(--ink2)}
-    .eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 12px}
-    h1{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;font-weight:600;text-wrap:balance}
-    h1 em{font-style:normal;color:var(--amber)}
-    .lead{font-size:19px;color:var(--ink2);margin:0 0 28px;max-width:62ch;text-wrap:pretty}
-
-    .stamp{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 44px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
-    .stamp span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink2);background:var(--surface)}
-    .stamp b{color:var(--teal);font-weight:600}
-
-    .sheet{margin:0 0 46px}
-    .sheet-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:18px}
-    .sheet-no{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.1em;color:var(--amber);font-weight:600;white-space:nowrap}
-    .sheet-head h2{margin:0;font-size:18px;font-weight:650;letter-spacing:-.01em}
-    .draw{border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:14px;overflow-x:auto}
-    .draw svg{display:block;min-width:520px;width:100%;height:auto}
-    .cap{margin:14px 0 0;font-size:14.5px;color:var(--ink2);max-width:66ch}
-    .cap b{color:var(--ink)}
-
-    .flag{margin:16px 0 0;border:1px solid #3a2422;border-left:3px solid var(--die);border-radius:10px;background:#130f0f;padding:13px 16px;font-size:14px;color:var(--ink2)}
-    .flag b{color:var(--die);font-weight:650;letter-spacing:.04em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
-    .flag.ok{border-color:#1d3a2e;border-left-color:var(--live);background:#0c1512}
-    .flag.ok b{color:var(--live)}
-
-    .prov{font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
-    .m{color:var(--live)} .i{color:var(--amber)} .x{color:var(--die)}
-
-    .foot{color:var(--muted);font-size:12.5px;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;max-width:70ch;margin-top:40px}
-    .foot b{color:var(--ink2)}
-
-    /* drawing primitives, in the site palette */
-    .s{stroke:var(--ink2);fill:none;stroke-width:1.4}
-    .thin{stroke:var(--muted);fill:none;stroke-width:1}
-    .dash{stroke:var(--muted);fill:none;stroke-width:1;stroke-dasharray:4 3}
-    .hv{stroke:var(--die);fill:none;stroke-width:2}
-    .box{fill:#0d1719;stroke:var(--ink2);stroke-width:1.4}
-    .lbl{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;fill:var(--ink)}
-    .sub{font-family:ui-monospace,Menlo,monospace;font-size:9px;fill:var(--muted)}
-    .red{font-family:ui-monospace,Menlo,monospace;font-size:10.5px;fill:var(--die);font-weight:600}
-    .globe{fill:#20211a;stroke:var(--amber);stroke-width:1.4}
-    .pix{fill:var(--teal)}
-    .wht{fill:var(--amber)}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lion post orb lighting — KiCad drawing set · Asif Logic</title>
+<meta name="description" content="Four KiCad schematic sheets, a placed 70 mm round board with 3D renders, the mechanical stack and the colour-temperature options for a battery-fed lamp post lighting system — generated from the board objects and checked by KiCad ERC." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌬</text></svg>" />
+<style>
+:root{--bg:#070c0e;--surface:#0b1214;--ink:#eaf1ef;--ink2:#9fb2ad;--muted:#5e716d;
+  --line:#182422;--teal:#4fc4c4;--amber:#e6a23c;--live:#37c08a;--die:#e0645f;--paper:#f7f5ef}
+*{box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:30px 20px 70px}
+.col{max-width:860px}
+.nav{font-family:ui-monospace,Menlo,monospace;font-size:12px;letter-spacing:.02em;margin-bottom:24px}
+.nav a{color:var(--muted);text-decoration:none}
+.nav a.on{color:var(--teal);font-weight:600}
+.nav a:hover{color:var(--ink2)}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--amber);margin:0 0 12px}
+h1{font-size:clamp(28px,5.5vw,42px);line-height:1.08;letter-spacing:-.015em;margin:0 0 14px;font-weight:600;text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber)}
+.lead{font-size:19px;color:var(--ink2);margin:0 0 26px;max-width:62ch;text-wrap:pretty}
+.stamp{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;font-family:ui-monospace,Menlo,monospace;font-size:12px}
+.stamp span{border:1px solid var(--line);border-radius:999px;padding:5px 12px;color:var(--ink2);background:var(--surface)}
+.stamp b{color:var(--teal);font-weight:600}
+.stamp .zero b{color:var(--live)}
+.dl{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 40px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px}
+.dl a{color:var(--teal);text-decoration:none;border:1px solid var(--line);border-radius:8px;padding:7px 13px;background:var(--surface)}
+.dl a:hover{border-color:var(--teal)}
+.dl a span{color:var(--muted)}
+.sheet{margin:0 0 54px}
+.sheet-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:16px}
+.sheet-no{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;letter-spacing:.1em;color:var(--amber);font-weight:600;white-space:nowrap}
+.sheet-head h2{margin:0;font-size:18px;font-weight:650;letter-spacing:-.01em}
+.draw{border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:10px;overflow-x:auto}
+.draw img{display:block;width:100%;min-width:900px;height:auto}
+.drawfoot{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+.drawfoot a{color:var(--teal);text-decoration:none}
+.cap{margin:14px 0 0;font-size:14.5px;color:var(--ink2);max-width:66ch;text-wrap:pretty}
+.cap b{color:var(--ink)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin:0 0 8px}
+.gallery figure{margin:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:10px}
+.gallery figure.paper{background:var(--paper)}
+.gallery img{display:block;width:100%;height:auto;border-radius:8px}
+.gallery figcaption{margin-top:8px;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--muted)}
+h2.sec{font-size:22px;margin:54px 0 6px;letter-spacing:-.01em}
+.sub{color:var(--ink2);max-width:68ch;margin:0 0 20px}
+.gap{border:1px solid #3a2422;border-left:3px solid var(--die);border-radius:10px;background:#130f0f;padding:14px 16px;margin:0 0 12px;max-width:80ch}
+.gap h3{margin:0 0 5px;font-size:14px;color:var(--die);font-family:ui-monospace,Menlo,monospace;font-weight:650}
+.gap p{margin:0;font-size:14px;color:var(--ink2)}
+.gap .where{color:var(--muted);font-weight:400}
+table{border-collapse:collapse;width:100%;max-width:900px;font-size:13.5px;margin-bottom:8px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase}
+td.ok{color:var(--live);font-family:ui-monospace,Menlo,monospace;white-space:nowrap}
+td.no{color:var(--die);font-family:ui-monospace,Menlo,monospace;white-space:nowrap}
+td.nm,td.num{font-family:ui-monospace,Menlo,monospace;color:var(--ink2);white-space:nowrap}
+tr.chosen td{background:#0c1512}
+tr.chosen td.nm{color:var(--live)}
+.note{border:1px solid #1d3a2e;border-left:3px solid var(--live);border-radius:10px;background:#0c1512;padding:14px 16px;margin:18px 0 0;font-size:14px;color:var(--ink2);max-width:80ch}
+.note b{color:var(--live);font-weight:650;letter-spacing:.04em;font-size:12px;text-transform:uppercase;display:block;margin-bottom:4px}
+.note.open{border-color:#3a3422;border-left-color:var(--amber);background:#14110c}
+.note.open b{color:var(--amber)}
+.foot{color:var(--muted);font-size:12.5px;line-height:1.6;border-top:1px solid var(--line);padding-top:18px;max-width:74ch;margin-top:48px}
+.foot b{color:var(--ink2)}
+.foot code{font-family:ui-monospace,Menlo,monospace;color:var(--ink2)}
+</style>
 </head>
 <body>
 <div class="wrap">
-  <div class="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a class="on">lights</a> · <a href="/parts/">parts</a> · <a href="/inventory/">inventory</a></div>
-
-  <div class="eyebrow">Drawing set · rev B</div>
-  <h1>Two lion posts, eight orbs, <em>one battery</em>.</h1>
-  <p class="lead">A pair of cast lion lamp posts arrived with no sockets in them. Rather than fit bulbs, each of the eight diffuser spheres gets a circuit board: a ring of individually addressable pixels for effect, and a warm-white cluster for actual light that dims from a glow to full output under software control. Power comes off a 20 kWh battery pack — which is the part that makes this an engineering problem rather than a shopping trip.</p>
-
-  <div class="stamp">
-    <span><b>15</b> proofs passing</span>
-    <span><b>18</b> failing controls</span>
-    <span><b>1325</b> tests green</span>
-    <span><b>97 W</b> both posts, worst case</span>
-    <span>rev <b>B</b> · design review</span>
-  </div>
-
-  <section class="sheet">
-    <div class="sheet-head"><span class="sheet-no">SHEET 1 / 3</span><h2>Power — convert once, at the pack</h2></div>
-    <div class="draw"><svg viewBox="0 0 640 235" role="img" aria-label="One-line power diagram from the battery pack through a fuse and converter to two lamp posts">
-      <rect x="8" y="18" width="292" height="152" rx="8" class="dash"/>
-      <text x="18" y="36" class="red">HIGH VOLTAGE — 160–233.6 VDC · exists on this plate only</text>
-      <rect x="22" y="58" width="90" height="72" rx="4" class="box"/>
-      <text x="36" y="86" class="lbl">KOHLER</text>
-      <text x="36" y="100" class="lbl">20 kWh LFP</text>
-      <text x="36" y="115" class="sub">64s · 204.8 V</text>
-      <line x1="112" y1="94" x2="150" y2="94" class="hv"/>
-      <line x1="150" y1="94" x2="178" y2="94" class="s"/>
-      <rect x="152" y="87" width="24" height="14" rx="2" class="box"/>
-      <text x="138" y="78" class="lbl">F_HV 2 A</text>
-      <text x="132" y="122" class="sub">DC-rated cartridge</text>
-      <line x1="178" y1="94" x2="202" y2="94" class="hv"/>
-      <rect x="202" y="64" width="90" height="62" rx="4" class="box"/>
-      <text x="212" y="86" class="lbl">LRS-150F-24</text>
-      <text x="212" y="101" class="sub">120–370 VDC in</text>
-      <text x="212" y="115" class="sub">24 V · 6.5 A out</text>
-      <line x1="292" y1="94" x2="332" y2="94" class="s"/>
-      <text x="300" y="86" class="lbl">24 V</text>
-      <line x1="332" y1="58" x2="332" y2="130" class="s"/>
-      <rect x="332" y="51" width="24" height="14" rx="2" class="box"/>
-      <rect x="332" y="123" width="24" height="14" rx="2" class="box"/>
-      <text x="322" y="42" class="sub">F_P1 5 A</text>
-      <text x="322" y="152" class="sub">F_P2 5 A</text>
-      <line x1="356" y1="58" x2="472" y2="58" class="s"/>
-      <line x1="356" y1="130" x2="472" y2="130" class="s"/>
-      <text x="372" y="50" class="sub">buried 14 AWG</text>
-      <text x="372" y="123" class="sub">buried 14 AWG</text>
-      <rect x="472" y="36" width="118" height="44" rx="4" class="box"/>
-      <text x="484" y="55" class="lbl">POST 1</text>
-      <text x="484" y="70" class="sub">4 orbs + controller</text>
-      <rect x="472" y="108" width="118" height="44" rx="4" class="box"/>
-      <text x="484" y="127" class="lbl">POST 2</text>
-      <text x="484" y="142" class="sub">4 orbs + controller</text>
-      <text x="18" y="196" class="sub">Both posts flat out: 97.1 W = 4.05 A at 24 V — 62 % of the converter, passes derated.</text>
-      <text x="18" y="212" class="sub">Nothing buried or in-post carries more than 24 V.</text>
-    </svg></div>
-    <p class="cap">The pack runs at <b>204.8 volts</b>. Feeding that to garden lighting would be both a parts problem — a check against the real bus voltage convicted five of six components outright — and a safety one, since a fault at that voltage sustains an arc. So the voltage is stepped down <b>once, at the battery</b>, by a single converter, and everything from there out is low-voltage. The fuse ahead of it is rated to break DC at that voltage; the common automotive blade fuse is not, and would open into an arc while looking like protection. Its <b>current</b> rating was also wrong, and stayed wrong until a check was written for it: the first figure was a guess of 4&nbsp;A, six times the real draw and well above the point where a fuse still protects anything. It is 2&nbsp;A now.</p>
-  </section>
-
-  <section class="sheet">
-    <div class="sheet-head"><span class="sheet-no">SHEET 2 / 3</span><h2>The post — four spheres, one brain</h2></div>
-    <div class="draw"><svg viewBox="0 0 640 320" role="img" aria-label="Lamp post elevation showing four globes, base electronics, and radar coverage">
-      <line x1="30" y1="288" x2="610" y2="288" class="s"/>
-      <line x1="330" y1="288" x2="330" y2="92" class="s" style="stroke-width:5"/>
-      <line x1="330" y1="122" x2="252" y2="102" class="s"/>
-      <line x1="330" y1="122" x2="408" y2="102" class="s"/>
-      <line x1="330" y1="152" x2="282" y2="170" class="thin"/>
-      <circle cx="330" cy="66" r="23" class="globe"/>
-      <circle cx="252" cy="82" r="19" class="globe"/>
-      <circle cx="408" cy="82" r="19" class="globe"/>
-      <circle cx="282" cy="150" r="17" class="globe"/>
-      <circle cx="330" cy="66" r="8" class="wht" opacity=".5"/>
-      <circle cx="252" cy="82" r="7" class="pix" opacity=".5"/>
-      <circle cx="408" cy="82" r="7" class="wht" opacity=".5"/>
-      <circle cx="282" cy="150" r="6" class="pix" opacity=".5"/>
-      <text x="440" y="62" class="lbl">4 × polyethylene sphere</text>
-      <text x="440" y="77" class="sub">one orb disc inside each</text>
-      <text x="440" y="91" class="sub">warm white + colour, independent</text>
-      <line x1="337" y1="248" x2="337" y2="104" class="dash"/>
-      <text x="346" y="196" class="sub">riser carries 4 wires:</text>
-      <text x="346" y="209" class="sub">24 V · GND · data · white dim</text>
-      <text x="346" y="222" class="sub">discs chain sphere to sphere</text>
-      <rect x="282" y="248" width="96" height="40" rx="4" class="box"/>
-      <text x="291" y="264" class="sub">controller</text>
-      <text x="291" y="278" class="sub">in the base</text>
-      <rect x="52" y="206" width="164" height="82" rx="6" class="box"/>
-      <text x="64" y="225" class="lbl">BASE CONTROLLER</text>
-      <text x="64" y="241" class="sub">ESP32 running WLED</text>
-      <text x="64" y="255" class="sub">mmWave presence radar</text>
-      <text x="64" y="269" class="sub">5 V data buffer</text>
-      <text x="64" y="283" class="sub">24 → 5 V supply</text>
-      <line x1="216" y1="250" x2="282" y2="262" class="thin"/>
-      <path d="M 378 270 L 486 236 L 486 286 Z" class="dash"/>
-      <text x="452" y="304" class="sub">approach detection</text>
-      <text x="240" y="308" class="sub">cast aluminium lion post</text>
-    </svg></div>
-    <p class="cap">Each post carries its own small computer. It drives the four spheres as four independent zones, so the everyday look can be a warm gas-lamp flicker while any sphere is free to do something else. The posts talk to each other over Wi-Fi and stay in step. A radar module — which sees people through weather that defeats the usual motion sensors — lifts the post from a dim idle to full output as you approach. That fade is real dimming, not a switch: the white cluster runs from a driver with a control input, so the post can sit at a few percent all night and come up to full only when someone is there.</p>
-    <div class="flag ok"><b>Resolved in rev B — the failure no electrical check could see</b>
-      The post is a metal casting, which is a poor place to put two radios: radar does not see through aluminium at all, and Wi-Fi is badly attenuated. Every electrical check on the base plate passed while the radar sat in that cage detecting nothing. The fix is a polyethylene window let into the base with the radar behind it, and a controller with an external antenna at the same aperture; the fallback is to move the radar into the lowest sphere, which is already plastic. The requirement is now a check of its own, and mounting the radar tidily inside the casting is kept as a case that must fail.</div>
-  </section>
-
-  <section class="sheet">
-    <div class="sheet-head"><span class="sheet-no">SHEET 3 / 3</span><h2>The orb disc — one per sphere</h2></div>
-    <div class="draw"><svg viewBox="0 0 640 300" role="img" aria-label="Round circuit board: sixteen addressable pixels around the rim, warm-white cluster at the centre">
-      <circle cx="196" cy="146" r="114" class="box"/>
-      <circle cx="196" cy="146" r="92" class="thin" opacity=".5"/>
-      <g class="pix">
-        <circle cx="288" cy="146" r="5.5"/><circle cx="281" cy="181" r="5.5"/>
-        <circle cx="261" cy="211" r="5.5"/><circle cx="231" cy="231" r="5.5"/>
-        <circle cx="196" cy="238" r="5.5"/><circle cx="161" cy="231" r="5.5"/>
-        <circle cx="131" cy="211" r="5.5"/><circle cx="111" cy="181" r="5.5"/>
-        <circle cx="104" cy="146" r="5.5"/><circle cx="111" cy="111" r="5.5"/>
-        <circle cx="131" cy="81" r="5.5"/><circle cx="161" cy="61" r="5.5"/>
-        <circle cx="196" cy="54" r="5.5"/><circle cx="231" cy="61" r="5.5"/>
-        <circle cx="261" cy="81" r="5.5"/><circle cx="281" cy="111" r="5.5"/>
-      </g>
-      <circle cx="196" cy="146" r="27" class="thin"/>
-      <g class="wht">
-        <circle cx="184" cy="134" r="4.5"/><circle cx="208" cy="134" r="4.5"/>
-        <circle cx="172" cy="146" r="4.5"/><circle cx="196" cy="146" r="4.5"/>
-        <circle cx="220" cy="146" r="4.5"/><circle cx="184" cy="158" r="4.5"/>
-        <circle cx="208" cy="158" r="4.5"/><circle cx="196" cy="122" r="4.5"/>
-        <circle cx="196" cy="170" r="4.5"/><circle cx="172" cy="122" r="4.5"/>
-      </g>
-      <rect x="146" y="190" width="36" height="15" rx="2" class="box"/>
-      <rect x="212" y="190" width="36" height="15" rx="2" class="box"/>
-      <text x="150" y="201" class="sub">U1</text>
-      <text x="216" y="201" class="sub">U2</text>
-      <line x1="288" y1="146" x2="368" y2="72" class="thin"/>
-      <text x="376" y="68" class="lbl">16 addressable RGBW pixels</text>
-      <text x="376" y="83" class="sub">each pixel carries its own driver —</text>
-      <text x="376" y="96" class="sub">the ring needs no external one</text>
-      <line x1="223" y1="146" x2="368" y2="132" class="thin"/>
-      <text x="376" y="128" class="lbl">10 warm-white 2700 K</text>
-      <text x="376" y="143" class="sub">on a constant-current driver, so</text>
-      <text x="376" y="156" class="sub">brightness never tracks the battery</text>
-      <line x1="248" y1="198" x2="368" y2="192" class="thin"/>
-      <text x="376" y="188" class="lbl">both supplies ride the disc</text>
-      <text x="376" y="203" class="sub">5 V is made here, at the sphere —</text>
-      <text x="376" y="216" class="sub">only 24 V travels between boards</text>
-      <line x1="82" y1="146" x2="42" y2="146" class="s"/>
-      <text x="16" y="134" class="sub">4-wire pigtail</text>
-      <line x1="82" y1="272" x2="310" y2="272" class="thin"/>
-      <line x1="82" y1="266" x2="82" y2="278" class="thin"/>
-      <line x1="310" y1="266" x2="310" y2="278" class="thin"/>
-      <text x="168" y="289" class="lbl">⌀ 70 mm</text>
-    </svg></div>
-    <p class="cap">One board per sphere, carrying both channels. The rim does colour; the centre does light. The two are separately supplied on the same disc, which is the point of the layout: <b>five volts does not travel</b>, so it is generated at each sphere rather than sent up the post. Its diameter is not a styling choice: the globe's opening measures 3.165 in, so the board is 70 mm and goes through with about 5 mm to spare on each side. It was drawn at 80 mm until that opening was measured, which would have left two tenths of a millimetre and eight boards that do not fit. The white channel is adjustable across the whole range: its driver takes a control signal on the fourth wire, shared by every disc in a post, so brightness is set in software rather than fixed by a resistor — which is the practical reason that driver is not optional. Feeding all four rings from a single supply in the base — the obvious economy — loses a fifth of the rail before the first pixel and is kept in the codebase as a test that must fail.</p>
-  </section>
-
-  <p class="foot">
-    <b>How to read this.</b> Every number above comes from a design held in code, where each load-bearing claim is a check that must pass on the real design <b>and</b> fail on a deliberately broken version of it — a wrongly-rated part, a fuse that cannot break its bus, a shortcut that looks like a simplification. Eighteen such controls are kept alive alongside fifteen proofs.
-    <br><br>
-    <span class="prov">Provenance: <span class="m">[M]</span> read from a primary source · <span class="i">[I]</span> inferred or vendor copy · <span class="x">[X]</span> assumed, unmeasured.</span>
-    Component ratings here are <span class="i">[I]</span> pending a datasheet transcription pass, and the battery's charge setpoint is <span class="x">[X]</span> until measured. Both gate ordering. Rev B · August 2026 · design review, not released for build.
-  </p>
+<div class="nav"><a href="/">Asif Logic</a> · <a href="/overview/">how it works</a> · <a class="on">lights</a> · <a href="/parts/">parts</a> · <a href="/inventory/">inventory</a></div>
+<div class="col">
+<div class="eyebrow">Drawing set · rev D · KiCad 9</div>
+<h1>Two lion posts, eight orbs, <em>one battery</em>.</h1>
+<p class="lead">A pair of cast lion lamp posts arrived with no sockets in them. Rather than fit bulbs, each of the eight diffuser spheres gets a circuit board: a ring of individually addressable pixels for effect, and a warm-white cluster for actual light. Power comes off a 20&nbsp;kWh battery pack — which is the part that makes this an engineering problem rather than a shopping trip. Below: four KiCad schematic sheets, the board itself as a placed 70&nbsp;mm disc, the mechanical stack that has to fit inside a globe, and the one design decision still open.</p>
+<div class="stamp">
+<span><b>39</b> drawing proofs</span>
+<span><b>10</b> layout proofs</span>
+<span><b>5</b> mechanical proofs</span>
+<span><b>18</b> design proofs</span>
+<span class="zero"><b>0</b> KiCad ERC errors</span>
+<span><b>1</b> declared gaps</span>
+<span><b>97 W</b> both posts, worst case</span>
 </div>
+</div>
+<div class="dl">
+<a href="orb-0-system.kicad_sch" download>sheet 1 / 4 orb-0-system.kicad_sch <span>22 kB</span></a>
+<a href="orb-1-pack-takeoff.kicad_sch" download>sheet 2 / 4 orb-1-pack-takeoff.kicad_sch <span>25 kB</span></a>
+<a href="orb-2-post-base.kicad_sch" download>sheet 3 / 4 orb-2-post-base.kicad_sch <span>70 kB</span></a>
+<a href="orb-3-orb-disc.kicad_sch" download>sheet 4 / 4 orb-3-orb-disc.kicad_sch <span>74 kB</span></a>
+<a href="orb-disc.kicad_pcb" download>board orb-disc.kicad_pcb <span>163 kB</span></a>
+</div>
+<section class="sheet">
+<div class="sheet-head"><span class="sheet-no">SHEET 1 / 4</span><h2>The system</h2></div>
+<div class="draw"><img loading="lazy" src="orb-0-system.svg" alt="KiCad schematic sheet: The system" /></div>
+<div class="drawfoot"><span>block diagram · 29 wire segments · A3 · plotted by kicad-cli · ERC clean</span><span><a href="orb-0-system.svg">open full size</a> · <a href="orb-0-system.kicad_sch" download>open in KiCad</a></span></div>
+<p class="cap">One pack, one conversion, two posts, eight orbs. The block diagram is
+     the only sheet that shows what runs <em>between</em> the boards — the
+     lethal side, the buried 24&nbsp;V pairs, and the seven-conductor riser up
+     each post. Its counts are not typed on it: they are recovered from the
+     power arithmetic in the module, so a diagram claiming three discs a post
+     cannot coexist with a converter sized for four.</p>
+</section>
+<section class="sheet">
+<div class="sheet-head"><span class="sheet-no">SHEET 2 / 4</span><h2>Power — convert once, at the pack</h2></div>
+<div class="draw"><img loading="lazy" src="orb-1-pack-takeoff.svg" alt="KiCad schematic sheet: Power — convert once, at the pack" /></div>
+<div class="drawfoot"><span>6 parts · 35 wire segments · A3 · plotted by kicad-cli · ERC clean</span><span><a href="orb-1-pack-takeoff.svg">open full size</a> · <a href="orb-1-pack-takeoff.kicad_sch" download>open in KiCad</a></span></div>
+<p class="cap">The pack runs at <b>204.8 volts</b>. Feeding that to garden lighting
+     would be both a parts problem — a check against the real bus voltage
+     convicted five of six components outright — and a safety one, since a
+     fault at that voltage sustains an arc. So the voltage is stepped down
+     <b>once, at the battery</b>, and everything from there out is
+     low-voltage. The fuse ahead of it is rated to break DC at that voltage;
+     the common automotive blade fuse is not, and would open into an arc while
+     looking like protection. Its <b>current</b> rating was wrong too, and
+     stayed wrong until a check was written for it: a guess of 4&nbsp;A, six
+     times the real draw. It is 2&nbsp;A now.</p>
+</section>
+<section class="sheet">
+<div class="sheet-head"><span class="sheet-no">SHEET 3 / 4</span><h2>The post — four spheres, one brain</h2></div>
+<div class="draw"><img loading="lazy" src="orb-2-post-base.svg" alt="KiCad schematic sheet: The post — four spheres, one brain" /></div>
+<div class="drawfoot"><span>17 parts · 114 wire segments · A3 · plotted by kicad-cli · ERC clean</span><span><a href="orb-2-post-base.svg">open full size</a> · <a href="orb-2-post-base.kicad_sch" download>open in KiCad</a></span></div>
+<p class="cap">One controller per post drives four discs as four segments, plus a
+     shared dim line for the white channel. The buffer between them is not
+     decoration: the pixels want <b>3.50&nbsp;V</b> to read a logic one
+     and the ESP32 puts out 3.3, which is the gap every tutorial photo ignores
+     and every flickering install rediscovers. A 24&nbsp;GHz radar wakes the
+     post on approach — through a polyethylene window, because the post is
+     cast aluminium and metal is a boundary condition, not a lossy
+     dielectric.</p>
+</section>
+<section class="sheet">
+<div class="sheet-head"><span class="sheet-no">SHEET 4 / 4</span><h2>The orb disc — one per sphere</h2></div>
+<div class="draw"><img loading="lazy" src="orb-3-orb-disc.svg" alt="KiCad schematic sheet: The orb disc — one per sphere" /></div>
+<div class="drawfoot"><span>25 parts · 148 wire segments · A3 · plotted by kicad-cli · ERC clean</span><span><a href="orb-3-orb-disc.svg">open full size</a> · <a href="orb-3-orb-disc.kicad_sch" download>open in KiCad</a></span></div>
+<p class="cap">Each sphere gets a 70&nbsp;mm board: a ring of
+     16&nbsp;addressable pixels for effect, and a warm-white cluster on a
+     <b>constant-current</b> driver for actual light. Current, not voltage,
+     because a resistor ballast on a battery bus dims and brightens with the
+     state of charge. The 5&nbsp;V rail is made <b>on each disc</b> rather
+     than in the base: a base-fed 5&nbsp;V loses a fifth of itself in the
+     riser before the first frame.</p>
+</section>
+<div class="col"><h2 class="sec">The board, as an object</h2>
+<p class="sub">A schematic has no shape, so it cannot answer the first question anyone asks about this thing: <em>is it actually round, and does it actually fit?</em> Here is the placed board — 70&nbsp;mm diameter, 16 pixels on a R28&nbsp;mm ring, ten warm-white emitters inside them, three M3 holes on a R31.8&nbsp;mm bolt circle. Placement and outline only: there are no tracks and no copper pours on it, and the page says so rather than letting an unrouted board look finished.</p></div>
+<div class="gallery">
+<figure><img loading="lazy" src="orb-disc-3d-top.png" alt="3D render · optical face — pixel ring, white cluster" /><figcaption>3D render · optical face — pixel ring, white cluster</figcaption></figure>
+<figure><img loading="lazy" src="orb-disc-3d-bottom.png" alt="3D render · support face — drivers, terminals, bulk cap" /><figcaption>3D render · support face — drivers, terminals, bulk cap</figcaption></figure>
+<figure><img loading="lazy" src="orb-disc-3d-iso.png" alt="3D render · 25° isometric" /><figcaption>3D render · 25° isometric</figcaption></figure>
+</div>
+<div class="gallery">
+<figure class="paper"><img loading="lazy" src="orb-disc-front.svg" alt="fab plot · front copper, silk, edge" /><figcaption>fab plot · front copper, silk, edge</figcaption></figure>
+<figure class="paper"><img loading="lazy" src="orb-disc-back.svg" alt="fab plot · back copper (mirrored)" /><figcaption>fab plot · back copper (mirrored)</figcaption></figure>
+</div>
+<div class="col">
+<div class="note"><b>what placing it found</b>The support parts <b>do not fit on the front</b>. With the pixel ring at R28&nbsp;mm and the white cluster inside it, the free annulus between them is about 8&nbsp;mm wide; the bulk capacitor is 9&nbsp;mm across and the screw terminal 8.4&nbsp;mm deep. So the front is the optical face and everything else is on the back — arithmetic, not preference. M3 mounting holes do not fit on the pixel radius either; they sit on the angular midpoints between pixels, the only place on this disc where a 4&nbsp;mm hole clears both the emitters and the routed edge, with 0.50&nbsp;mm to spare.</div>
+<div class="note open"><b>no component bodies in the render</b>KiCad's 3D model loader is a plugin at a compiled-in <code>/usr/lib</code> path, and this build box has KiCad unpacked into a user prefix without root. The models are present; the loader is not, so the renders show board, silkscreen and pads with no parts standing on them. Nothing about the outline, the ring or the placement depends on it.</div>
+</div>
+<div class="col"><h2 class="sec">Mechanical — it has to go in a globe</h2>
+<p class="sub">The disc lives inside a printed core that sits in the globe's throat, and every dimension in that stack is decided by one measured number: the globe's bore, taken off the real part at <b>3.165&nbsp;in = 80.39&nbsp;mm</b>. Everything else is sized against it, and the margins below are what is left after the process tolerances are stacked — not nominal clearances.</p>
+<table><tr><th>dimension</th><th>value</th><th>where it comes from</th></tr>
+<tr><td>globe bore (measured)</td><td class="num">80.39 mm</td><td>[M operator, 2026-08-02] — the hole everything must pass through</td></tr>
+<tr><td>globe neck OD / base opening</td><td class="num">4 in / 4.385 in</td><td>[M operator] the fixture&#x27;s seat</td></tr>
+<tr><td>disc diameter</td><td class="num">70 mm</td><td>sized from the bore; was 80 mm before anyone measured — 0.2 mm a side through a rounded edge</td></tr>
+<tr><td>board</td><td class="num">1.6 mm, 2 layer, 1 oz</td><td>fabpcb.ORB_DISC_PCB</td></tr>
+<tr><td>bolt circle</td><td class="num">R31.8 mm, 3 x M3 clearance 4.0 mm</td><td>[X] chosen by the layout — the core&#x27;s bosses must follow it</td></tr>
+<tr><td>tallest component</td><td class="num">10.5 mm (C_IN)</td><td>measured off the layout; fabfit carried an 8.0 mm placeholder</td></tr>
+<tr><td>standoff + board + parts</td><td class="num">15.1 mm</td><td>against a 16 mm pocket, less the stack</td></tr>
+<tr><td>core pocket / wall</td><td class="num">72 mm / 2 mm</td><td>MJF nylon; wall against the process minimum</td></tr>
+</table>
+<table><tr><th>mechanical proof</th><th>what is left after tolerances</th><th></th></tr>
+<tr><td>globe core&#x27;s pocket clears orb disc after tolerances</td><td class="num">0.50 mm/side (needs 0.40)</td><td class="ok">pass</td></tr>
+<tr><td>screws pass through the board into the enclosure&#x27;s bosses</td><td class="num">0.45 mm (needs 0.40)</td><td class="ok">pass</td></tr>
+<tr><td>the pocket is deep enough for standoffs, board and parts</td><td class="num">15.54 mm (needs 15.10)</td><td class="ok">pass</td></tr>
+<tr><td>globe core&#x27;s wall is makeable by MJF nylon</td><td class="num">2.00 mm (needs 1.76)</td><td class="ok">pass</td></tr>
+<tr><td>the assembled board-in-enclosure passes the aperture</td><td class="num">2.05 mm/side (needs 2.00)</td><td class="ok">pass</td></tr>
+</table>
+<div class="note"><b>the height budget was a guess until now</b>The mechanical model was checked against an assumed 8.0&nbsp;mm tallest part because nothing had been placed. The board has a 10.5&nbsp;mm one. The pocket still clears it — by 0.44&nbsp;mm instead of the 3&nbsp;mm everyone thought. That is the whole argument for drawing the object: the number now comes off the drawing, and a shorter capacitor can buy the margin back.</div>
+</div>
+<div class="col"><h2 class="sec">The white light — three options, one open decision</h2>
+<p class="sub">The module specified "2700&nbsp;K high-CRI" and stopped, which is a design decision wearing the clothes of a part number. It is really a choice between three, and the thing that decides it is not cost or optics — it is that the riser has 7 conductors (+24V, GND, DATA, W_PWM_A, W_PWM_B, SDA, SCL) and a second white channel needs a fifth.</p>
+<table><tr><th>option</th><th>colour</th><th>dim lines / conductors</th><th>extra cost, all 8</th><th>fits the riser</th></tr>
+<tr><td class="nm">2700 K high-CRI, one channel</td><td class="num">2700 K</td><td class="num">1 / 4</td><td class="num">$0.00</td><td class="ok">yes</td></tr>
+<tr><td class="nm">2200 K high-CRI, one channel</td><td class="num">2200 K</td><td class="num">1 / 4</td><td class="num">$0.00</td><td class="ok">yes</td></tr>
+<tr class="chosen"><td class="nm">2200 K + 3000 K, two channels (tunable) · <b>in force</b></td><td class="num">2200–3000 K</td><td class="num">2 / 5</td><td class="num">$3.44</td><td class="ok">yes</td></tr>
+</table>
+<p class="cap"><b>2700 K high-CRI, one channel</b> — What the module specified before this pass: the domestic warm-white default. It is what an incandescent A19 reads as, so it is the figure nobody argues with and nobody chose. Superseded.</p>
+<p class="cap"><b>2200 K high-CRI, one channel</b> — The 2026-08-01 recommendation: warmer than 2700 K, closer to the gas lamp these cast posts are imitating, and further from the short wavelengths that pull insects. Same part count, same cost, same riser — it is a bin choice, not a design change. Now the WARM END of the tunable range rather than a fixed point.</p>
+<p class="cap"><b>2200 K + 3000 K, two channels (tunable)</b> — The cluster is ALREADY two parallel strings of five. Make one string 2200 K and the other 3000 K, give each its own AL8860, and the blend tunes across that range — no extra LEDs, no change to the disc outline, about $3.44 of driver parts across all eight discs [I, 2026-08-01 pricing pass]. It also buys dim-to-warm, which is what makes a lamp read as a flame rather than as an LED being turned down. IN FORCE: the riser carries five conductors and the connectors are five-position, so the second dim line has somewhere to go.</p>
+<div class="note open"><b>open decision</b>2200&nbsp;K was recommended on 2026-08-01 — warmer, closer to the gas lamp these cast posts imitate, and further from the wavelengths that pull insects — and this module still says 2700&nbsp;K. Same parts, same cost, same riser: it is a bin choice waiting on the operator, not an engineering blocker. Tunable white is a different matter: it needs a 5-position terminal, or a dim line carried inside the pixel protocol.</div>
+</div>
+<div class="col">
+<h2 class="sec">What drawing it found</h2>
+<p class="sub">Drawing a bill of materials is a different check from adding one up. These are things the schematic pass convicted that no existing proof was looking at. They are not quietly fixed — inventing parts to make a picture look finished is the failure this whole repo exists to prevent — so each one is drawn on its sheet as a dashed <b>NOT ON BOM</b> block and held open by a proof.</p>
+<div class="gap">
+<h3>F1 — F1 is the same fuse as sheet 2&#x27;s F_P1/F_P2, counted twice <span class="where">· sheet 3 · post base</span></h3>
+<p>The base&#x27;s own note puts F1&#x27;s holder &#x27;at the Kohler bus takeoff&#x27; — which is where F_P1 and F_P2 already are. Two boards describe one fuse per post; the BOM buys three. Drawn inside a dashed AT THE PACK box rather than silently dropped, because the fix is a BOM reconciliation between two boards, not a part.</p>
+</div>
+<h2 class="sec">How all of it is checked</h2>
+<p class="sub">Twice, by two readers that share no code. This repo's own checks run on the sheet and board objects; KiCad's ERC reads the finished files cold and knows nothing about how they were made. Each check ships a deliberately broken control and a test that it fails on it — a check that cannot fail is not a check.</p>
+<table><tr><th>proof</th><th>what it holds</th><th></th></tr>
+<tr><td class="nm">system_counts</td><td>the diagram&#x27;s post and disc counts are the power model&#x27;s</td><td class="ok">pass</td></tr>
+<tr><td class="nm">no_loose_ends</td><td>every wire endpoint lands on a pin, a label or another wire</td><td class="ok">pass</td></tr>
+<tr><td class="nm">on_grid</td><td>every pin and wire endpoint is on the 1.27 mm grid</td><td class="ok">pass</td></tr>
+<tr><td class="nm">tees_split</td><td>no wire ends in the middle of another wire</td><td class="ok">pass</td></tr>
+<tr><td class="nm">junctions</td><td>every wire tee carries a junction dot</td><td class="ok">pass</td></tr>
+<tr><td class="nm">rails_separate</td><td>no two named rails are electrically joined</td><td class="ok">pass</td></tr>
+<tr><td class="nm">on_paper</td><td>every pin and wire sits inside the A3 border</td><td class="ok">pass</td></tr>
+<tr><td class="nm">covers_bom</td><td>the sheet draws exactly the board&#x27;s BOM, no more and no less</td><td class="ok">pass</td></tr>
+<tr><td class="nm">well_formed</td><td>every pin is on at most one net and every net is real</td><td class="ok">pass</td></tr>
+<tr><td class="nm">sheet_matches</td><td>the drawing induces exactly the declared netlist</td><td class="ok">pass</td></tr>
+<tr><td class="nm">gaps_declared</td><td>every declared gap is drawn and every drawn gap is declared</td><td class="ok">pass</td></tr>
+<tr><td class="nm">pinouts_not_faked</td><td>no symbol prints pin numbers for an untranscribed pinout</td><td class="ok">pass</td></tr>
+<tr><td class="nm">outline</td><td>the drawn outline is the round 70 mm disc the spec claims</td><td class="ok">pass</td></tr>
+<tr><td class="nm">pixel_ring</td><td>16 pixels sit on one radius at even spacing</td><td class="ok">pass</td></tr>
+<tr><td class="nm">on_the_board</td><td>every courtyard stays inside the routed edge, with margin</td><td class="ok">pass</td></tr>
+<tr><td class="nm">no_overlap</td><td>no two courtyards overlap</td><td class="ok">pass</td></tr>
+<tr><td class="nm">counts</td><td>emitter counts come from the module&#x27;s topology</td><td class="ok">pass</td></tr>
+<tr><td class="nm">bolt_circle</td><td>the bolt circle clears the pixel ring and the board edge</td><td class="ok">pass</td></tr>
+<tr><td class="nm">height_budget</td><td>the pocket clears the layout&#x27;s actual tallest part</td><td class="ok">pass</td></tr>
+<tr><td class="nm">radii_derived</td><td>every placement radius is the solved output of its constraints</td><td class="ok">pass</td></tr>
+<tr><td class="nm">geometry_feasible</td><td>a 70 mm disc solves every placement constraint</td><td class="ok">pass</td></tr>
+<tr><td class="nm">tunable_2200_3000</td><td>2200 K + 3000 K, two channels (tunable) fits the 7-conductor riser</td><td class="ok">pass</td></tr>
+<tr><td class="nm">selection_matches_bom</td><td>the selected colour temperature is the one on the BOM line</td><td class="ok">pass</td></tr>
+</table>
+<div class="note"><b>the three that mattered</b>KiCad joins wires at shared endpoints only — a wire stopping in the middle of another is drawn touching it and is not connected to it, junction dot or no junction dot. The first pass plotted perfectly with the converter's output on a net by itself. Then ERC found a block symbol with two pins called <code>+24V</code>, where the riser wire had silently attached to the incoming pin instead of the outgoing one. Then it found two captions written as labels rather than notes, with identical text — which is one net, so post 1's feed was shorted to post 2's return through a caption. None of the three is visible in a plot. On the board, KiCad's DRC found the screw terminals' through-holes sitting on the pixel pads on the opposite face — because the overlap test written here compared same-side parts only, and a through-hole part is on both sides. DRC now reports nothing but <code>lib_footprint_issues</code>, which is the generated footprints not being library members.</div>
+<div class="foot">
+<b>Provenance.</b> Every electrical rating on these sheets is <b>[I]</b> — vendor web copy or folklore. No transcription pass has happened, and the sheets say so on their face. Pin numbers are hidden on every part whose package pinout has not been read; only the 74AHCT125 shows its numbers, because that pinout is universal. Footprints are generic package geometry, not traced from any specific part's drawing, and three 3D bodies in the renders are borrowed from near-neighbour packages. The globe bore and neck are <b>[M]</b>, measured off the real part. The bolt circle is <b>[X]</b>, chosen by the layout.<br /><br />
+<b>Generated.</b> This page, the four schematics, the board and every number on all of them come from <code>moistlab/boards/orb_disc.py</code>, <code>orb_sheets.py</code>, <code>orb_layout.py</code> and <code>orb_white.py</code> via <code>tools/gen_kicad.py</code>, <code>tools/gen_board.py</code> and <code>tools/gen_lights_page.py</code>. Nothing here is typed twice, so nothing here can disagree with the module. The page this replaced was hand-drawn SVG that had already spent a day quietly disagreeing with it.
+</div></div></div>
 </body>
 </html>

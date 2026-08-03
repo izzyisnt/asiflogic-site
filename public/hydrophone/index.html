@@ -24,9 +24,17 @@ code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88em;backgroun
 .note{border-left:3px solid var(--warn);padding:.1rem 0 .1rem .8rem;margin:1rem 0;color:var(--mut)}
 footer{margin-top:2.5rem;color:var(--mut);font-size:.82rem;border-top:1px solid var(--line);padding-top:.8rem}
 a{color:var(--acc)}
+
+    .sitenav{font-family:ui-monospace,Menlo,monospace;font-size:12px;
+      letter-spacing:.02em;margin:0 0 24px;line-height:1.9}
+    .sitenav a{color:inherit;text-decoration:none;opacity:.6}
+    .sitenav a:hover{opacity:1;text-decoration:underline}
+    .sitenav a.on{opacity:1;font-weight:600;text-decoration:underline}
+    .sitenav span{opacity:.35;padding:0 2px}
 </style>
 </head>
 <body><main>
+<div class="sitenav"><a href="/">Asif Logic</a><span>·</span><a href="/overview/">how it works</a><span>·</span><a href="/kill-switch/">Piezo1</a><span>·</span><a href="/ratchet/">the ratchet</a><span>·</span><a href="/tpm2/">Tpm2.1</a><span>·</span><a class="on" href="/hydrophone/">hydrophone</a><span>·</span><a href="/axis/">axis</a></div>
 <h1>The Needle Hydrophone</h1>
 <p class="sub">Thin needle for dark noodle. — design note, 2026-08-01</p>
 

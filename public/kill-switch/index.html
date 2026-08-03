@@ -36,9 +36,17 @@
       padding:24px;font-family:ui-monospace,Menlo,monospace}
     #err{position:fixed;left:22px;top:60px;max-width:70vw;color:#e0918f;font-size:13px;z-index:40;display:none;
       background:#140b0bcc;border:1px solid #3a1f1f;border-radius:10px;padding:12px 14px;font-family:ui-monospace,Menlo,monospace;line-height:1.5}
-  </style>
+  
+    .sitenav{font-family:ui-monospace,Menlo,monospace;font-size:12px;
+      letter-spacing:.02em;margin:0 0 24px;line-height:1.9}
+    .sitenav a{color:inherit;text-decoration:none;opacity:.6}
+    .sitenav a:hover{opacity:1;text-decoration:underline}
+    .sitenav a.on{opacity:1;font-weight:600;text-decoration:underline}
+    .sitenav span{opacity:.35;padding:0 2px}
+</style>
 </head>
 <body>
+<div class="sitenav"><a href="/">Asif Logic</a><span>·</span><a href="/overview/">how it works</a><span>·</span><a class="on" href="/kill-switch/">Piezo1</a><span>·</span><a href="/ratchet/">the ratchet</a><span>·</span><a href="/tpm2/">Tpm2.1</a><span>·</span><a href="/hydrophone/">hydrophone</a><span>·</span><a href="/axis/">axis</a></div>
   <canvas id="gl"></canvas>
   <div id="load">loading the real Piezo1 structure — 35,478 atoms (PDB 6B3R)…</div>
   <div id="top" class="hud">

@@ -1,0 +1,152 @@
+#!/usr/bin/env python3
+"""hkpd — the fleet keyserver's tailnet face (HKP, RFC-draft protocol).
+
+Consolidation, per operator policy 2026-08-03: the keyserver is freely and
+openly available to all trusted hosts, and ALL HOSTS ON THE TAILNET ARE
+TRUSTED. The trust boundary is the bind address (laptop4's Tailscale IP):
+reachability == membership == trust. Therefore a key received here is
+enrolled fully automatically — certified by the fleet root (ops@) and
+published to the public WKD directory — with no further ceremony.
+
+Any tailnet host, with stock gpg:
+    gpg --keyserver hkp://100.70.83.112 --send-keys <FPR>     # enroll
+    gpg --keyserver hkp://100.70.83.112 --recv-keys <FPR>     # fetch
+    gpg --keyserver hkp://100.70.83.112 --search-keys <addr>  # find
+
+Serves lookups from the jldos keyring (where the root lives, so served keys
+carry their certifications). Refuses secret-key material and keys with no
+@asiflogic.net identity. One request at a time, on purpose: gpg + git are
+the backends and neither wants concurrency.
+"""
+
+import subprocess
+import sys
+import tempfile
+import urllib.parse
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+
+BIND = ("100.70.83.112", 11371)   # laptop4 Tailscale IP — the trust boundary
+DOMAIN = "asiflogic.net"
+ROOT_KEY = "ops@" + DOMAIN
+WKD_PUBLISH = Path(__file__).resolve().parent / "wkd-publish"
+
+
+def gpg(*args, **kw):
+    return subprocess.run(["gpg", "--batch"] + list(args),
+                          capture_output=True, text=True, **kw)
+
+
+class HKP(BaseHTTPRequestHandler):
+    server_version = "asiflogic-hkpd/1"
+
+    def reply(self, code, body, ctype="text/plain"):
+        data = body if isinstance(body, bytes) else body.encode()
+        self.send_response(code)
+        self.send_header("Content-Type", ctype)
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+    # ---- fetch / search --------------------------------------------------
+    def do_GET(self):
+        url = urllib.parse.urlparse(self.path)
+        if url.path != "/pks/lookup":
+            return self.reply(404, "not found\n")
+        q = urllib.parse.parse_qs(url.query)
+        op = q.get("op", [""])[0]
+        search = q.get("search", [""])[0]
+        if not search:
+            return self.reply(400, "missing search\n")
+        if search.startswith("0x"):
+            search = search[2:]
+
+        if op == "get":
+            r = gpg("--armor", "--export", search)
+            if r.returncode or "BEGIN PGP PUBLIC KEY" not in r.stdout:
+                return self.reply(404, "key not found\n")
+            return self.reply(200, r.stdout, "application/pgp-keys")
+
+        if op == "index":
+            r = gpg("--with-colons", "--list-keys", search)
+            if r.returncode:
+                return self.reply(404, "info:1:0\n")
+            pubs, uids = [], {}
+            for line in r.stdout.splitlines():
+                f = line.split(":")
+                if f[0] == "pub":
+                    pubs.append([None, f[3], f[2], f[5], f[6]])
+                elif f[0] == "fpr" and pubs and pubs[-1][0] is None:
+                    pubs[-1][0] = f[9]
+                elif f[0] == "uid" and pubs:
+                    uids.setdefault(len(pubs) - 1, []).append((f[9], f[5]))
+            out = [f"info:1:{len(pubs)}"]
+            for i, (fpr, algo, length, created, expires) in enumerate(pubs):
+                out.append(f"pub:{fpr}:{algo}:{length}:{created}:{expires}:")
+                for uid, when in uids.get(i, []):
+                    out.append(f"uid:{urllib.parse.quote(uid)}:{when}::")
+            return self.reply(200, "\n".join(out) + "\n")
+
+        return self.reply(501, "op not implemented\n")
+
+    # ---- enroll ----------------------------------------------------------
+    def do_POST(self):
+        if urllib.parse.urlparse(self.path).path != "/pks/add":
+            return self.reply(404, "not found\n")
+        length = int(self.headers.get("Content-Length", 0))
+        if not 0 < length <= 1 << 20:
+            return self.reply(400, "bad length\n")
+        form = urllib.parse.parse_qs(self.rfile.read(length).decode())
+        keytext = form.get("keytext", [""])[0]
+        if "BEGIN PGP PUBLIC KEY" not in keytext:
+            return self.reply(400, "keytext must be an armored public key\n")
+
+        with tempfile.NamedTemporaryFile("w", suffix=".asc") as tf:
+            tf.write(keytext)
+            tf.flush()
+
+            shown = gpg("--show-keys", "--with-colons", tf.name).stdout
+            if any(l.startswith("sec:") for l in shown.splitlines()):
+                return self.reply(400, "REFUSED: secret key material\n")
+            fprs = [l.split(":")[9] for l in shown.splitlines()
+                    if l.startswith("fpr:")]
+            uids = [l.split(":")[9] for l in shown.splitlines()
+                    if l.startswith("uid:")]
+            if not any(("@" + DOMAIN) in u for u in uids):
+                return self.reply(400, f"REFUSED: no @{DOMAIN} identity\n")
+
+            gpg("--import", tf.name)
+
+        published = []
+        for fpr in dict.fromkeys(fprs):          # primary fprs, deduped
+            sign = gpg("--yes", "--pinentry-mode", "loopback",
+                       "--passphrase", "", "--default-key", ROOT_KEY,
+                       "--quick-sign-key", fpr)
+            if sign.returncode:
+                return self.reply(500, f"certification failed: {sign.stderr}\n")
+            with tempfile.NamedTemporaryFile(suffix=".pub") as out:
+                exp = subprocess.run(
+                    ["gpg", "--batch", "--no-armor", "--export", fpr],
+                    stdout=out, stderr=subprocess.PIPE)
+                out.flush()
+                pub = subprocess.run([str(WKD_PUBLISH), out.name],
+                                     capture_output=True, text=True)
+            if pub.returncode:
+                return self.reply(500, "publish failed:\n" + pub.stderr)
+            published.append(fpr)
+            print(f"enrolled {fpr} from {self.client_address[0]}",
+                  flush=True)
+        return self.reply(200, "enrolled + root-certified + published: "
+                          + " ".join(published) + "\n")
+
+    def log_message(self, fmt, *args):
+        print(f"{self.client_address[0]} {fmt % args}", flush=True)
+
+
+if __name__ == "__main__":
+    try:
+        srv = HTTPServer(BIND, HKP)
+    except OSError as e:
+        sys.exit(f"cannot bind {BIND}: {e}")
+    print(f"hkpd serving on {BIND[0]}:{BIND[1]}", flush=True)
+    srv.serve_forever()
